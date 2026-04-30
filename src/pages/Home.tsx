@@ -1,0 +1,351 @@
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles } from "lucide-react";
+import { PRODUCTS } from "../data/products";
+import { ProductCard } from "../components/ProductCard";
+
+export function Home() {
+  const trending = PRODUCTS.filter((p) => p.trending);
+  const bestsellers = PRODUCTS.filter((p) => p.bestseller).slice(0, 4);
+
+  return (
+    <>
+      {/* HERO */}
+      <section className="relative bg-nimar-gradient overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <svg className="absolute top-10 right-10 opacity-10" width="400" height="400" viewBox="0 0 200 200">
+            <path d="M150 30 C 80 40 50 90 40 160 C 110 150 140 100 150 30 Z" fill="#008F5A" />
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-12 lg:pt-20 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="inline-flex items-center gap-2 glass px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-brand mb-6">
+              <Sparkles size={12} /> Authentic from Khandwa, Madhya Pradesh
+            </div>
+            <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-neutral-900">
+              The Heart of <span className="text-emerald-brand italic">Nimar</span>,
+              <br /> Delivered Fresh.
+            </h1>
+            <p className="mt-6 text-lg text-neutral-600 max-w-lg leading-relaxed">
+              Hand-crafted snacks, certified organics and timeless gifting from the soil of Nimar — straight to
+              your doorstep with care.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                to="/shop"
+                className="inline-flex items-center gap-2 bg-emerald-brand text-white px-7 py-3.5 rounded-full font-semibold hover:bg-emerald-brand-dark transition group shadow-lg shadow-emerald-brand/30"
+              >
+                Shop Nimar's Best
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+              </Link>
+              <Link
+                to="/shop?cat=Gifting"
+                className="inline-flex items-center gap-2 bg-white border border-neutral-200 px-7 py-3.5 rounded-full font-semibold hover:border-emerald-brand transition"
+              >
+                Festive Hampers 🎁
+              </Link>
+            </div>
+
+            <div className="mt-10 flex items-center gap-6 text-sm">
+              <div className="flex -space-x-2">
+                {[
+                  "https://i.pravatar.cc/40?img=12",
+                  "https://i.pravatar.cc/40?img=32",
+                  "https://i.pravatar.cc/40?img=45",
+                  "https://i.pravatar.cc/40?img=8",
+                ].map((s) => (
+                  <img key={s} src={s} alt="" className="w-9 h-9 rounded-full border-2 border-white" />
+                ))}
+              </div>
+              <div>
+                <div className="flex items-center gap-1 text-amber-500">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                  <span className="text-neutral-700 font-semibold ml-1">4.9</span>
+                </div>
+                <div className="text-xs text-neutral-500">Loved by 12,000+ Nimari families</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Hero visual collage */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative h-[480px] lg:h-[560px]"
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute top-0 right-0 w-72 h-96 rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <img src={PRODUCTS[4].image} alt="" className="w-full h-full object-cover" />
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+              className="absolute bottom-10 left-0 w-60 h-72 rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <img src={PRODUCTS[0].image} alt="" className="w-full h-full object-cover" />
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, delay: 1 }}
+              className="absolute top-32 left-32 w-44 h-44 rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <img src={PRODUCTS[2].image} alt="" className="w-full h-full object-cover" />
+            </motion.div>
+
+            {/* Floating glass card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1 }}
+              className="absolute bottom-6 right-2 glass p-4 rounded-2xl shadow-xl w-56"
+            >
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-brand mb-1">
+                <Leaf size={14} /> 100% NIMARI
+              </div>
+              <div className="text-sm font-display font-semibold">Stone-ground spices, sun-dried in Khandwa.</div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Trust strip */}
+        <div className="border-t border-beige-soft bg-white/60 backdrop-blur">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 py-5 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+            {[
+              { icon: Truck, t: "Free shipping ₹499+", s: "Pan-India delivery" },
+              { icon: ShieldCheck, t: "Secure Razorpay", s: "UPI · Cards · Netbanking" },
+              { icon: Leaf, t: "100% Authentic", s: "Sourced from Khandwa farms" },
+              { icon: Award, t: "Award-winning", s: "MP Fest 2025 winners" },
+            ].map((it) => (
+              <div key={it.t} className="flex items-center gap-3 justify-center sm:justify-start">
+                <div className="w-10 h-10 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0">
+                  <it.icon size={18} />
+                </div>
+                <div className="text-left">
+                  <div className="text-sm font-semibold">{it.t}</div>
+                  <div className="text-xs text-neutral-500">{it.s}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CATEGORY GRID */}
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+        <SectionHeading
+          eyebrow="Explore"
+          title="Curated Categories"
+          subtitle="Each shelf, a story from Nimar's villages and bylanes."
+        />
+        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { name: "Snacks", emoji: "🌶️", cat: "Snacks", img: PRODUCTS[0].image },
+            { name: "Organics", emoji: "🌱", cat: "Organics", img: PRODUCTS[2].image },
+            { name: "Sweets", emoji: "🍬", cat: "Sweets", img: PRODUCTS[6].image },
+            { name: "Gifting", emoji: "🎁", cat: "Gifting", img: PRODUCTS[4].image },
+          ].map((c, i) => (
+            <motion.div
+              key={c.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Link
+                to={`/shop?cat=${c.cat}`}
+                className="block relative h-64 rounded-3xl overflow-hidden group"
+              >
+                <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 p-5 text-white">
+                  <div className="text-3xl mb-1">{c.emoji}</div>
+                  <div className="font-display font-bold text-2xl">{c.name}</div>
+                  <div className="flex items-center gap-1 text-xs mt-1 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition">
+                    Shop now <ArrowRight size={12} />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* TRENDING */}
+      <section className="bg-beige-warm py-20">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="flex items-end justify-between flex-wrap gap-4">
+            <SectionHeading eyebrow="🔥 Trending" title="Khandwa is Loving" subtitle="Fresh batches, flying off our shelves this week." />
+            <Link to="/shop" className="text-sm font-semibold text-emerald-brand hover:underline inline-flex items-center gap-1">
+              View all <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
+            {trending.map((p, i) => <ProductCard key={p.id} product={p} idx={i} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* STORY STRIP */}
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="relative h-[480px] rounded-3xl overflow-hidden"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
+            alt="Nimar farms"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-brand-dark/80 via-transparent" />
+          <div className="absolute bottom-6 left-6 right-6 glass-dark p-5 rounded-2xl text-white">
+            <div className="text-xs font-bold tracking-widest uppercase opacity-80">Our Roots</div>
+            <div className="font-display text-xl mt-1">300 acres of Nimari black soil. 50+ partner farmers.</div>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="text-emerald-brand font-semibold tracking-widest text-xs uppercase">Our Story</div>
+          <h2 className="font-display font-bold text-4xl lg:text-5xl mt-3 leading-tight">
+            From Nimari soil to your table — without shortcuts.
+          </h2>
+          <p className="mt-5 text-neutral-600 leading-relaxed">
+            Raman Greens KNW was born in 2018 in a small kitchen in Khandwa with one belief: the soul of Nimar
+            deserves a stage. We work directly with farmers across the Narmada belt to bring you snacks, organics
+            and gifting that taste exactly like home.
+          </p>
+          <ul className="mt-6 space-y-3">
+            {[
+              "Direct-from-farm sourcing across 12 villages",
+              "Stone-ground & cold-pressed processes",
+              "Zero artificial preservatives, ever",
+              "Empowering 200+ rural women through partnerships",
+            ].map((t) => (
+              <li key={t} className="flex items-start gap-3 text-sm">
+                <div className="w-5 h-5 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mt-0.5 shrink-0">
+                  <Leaf size={11} />
+                </div>
+                {t}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </section>
+
+      {/* BESTSELLERS */}
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
+        <SectionHeading eyebrow="⭐ Bestsellers" title="Regional Favourites" subtitle="What every Nimari household keeps in stock." />
+        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
+          {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} idx={i} />)}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="bg-beige-warm py-20">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <SectionHeading eyebrow="❤️ Reviews" title="A Letter from Our Customers" subtitle="" />
+          <div className="mt-10 grid md:grid-cols-3 gap-5">
+            {[
+              {
+                n: "Priya S.",
+                l: "Indore",
+                t: "The Nimari sev tastes EXACTLY like the one from my nani's house in Khandwa. Brought tears to my eyes.",
+              },
+              {
+                n: "Rahul J.",
+                l: "Mumbai",
+                t: "Their festive hamper was a hit at Diwali. Beautiful packaging, and every snack was flawless.",
+              },
+              {
+                n: "Anita V.",
+                l: "Bangalore",
+                t: "The cold-pressed groundnut oil is now a kitchen staple. Authentic, aromatic and chemical-free.",
+              },
+            ].map((r, i) => (
+              <motion.div
+                key={r.n}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white p-7 rounded-3xl border border-beige-soft"
+              >
+                <div className="flex text-amber-400 mb-3">
+                  {[...Array(5)].map((_, k) => <Star key={k} size={14} fill="currentColor" />)}
+                </div>
+                <p className="text-neutral-700 leading-relaxed italic">"{r.t}"</p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-brand text-white flex items-center justify-center font-bold">
+                    {r.n[0]}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-sm">{r.n}</div>
+                    <div className="text-xs text-neutral-500">{r.l}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEWSLETTER */}
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+        <div className="relative bg-gradient-to-br from-emerald-brand to-emerald-brand-dark rounded-3xl p-10 lg:p-16 text-white overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-emerald-brand-light/30 blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-amber-300/20 blur-3xl" />
+          <div className="relative grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <div className="text-xs font-bold tracking-widest uppercase opacity-80">Newsletter</div>
+              <h3 className="font-display font-bold text-3xl lg:text-4xl mt-2">
+                Get a taste of Nimar — every Sunday.
+              </h3>
+              <p className="mt-3 opacity-90 text-sm max-w-md">
+                Recipes, festival hampers and farmer stories. Plus 10% off your first order.
+              </p>
+            </div>
+            <form className="flex gap-2 bg-white/15 backdrop-blur p-2 rounded-full">
+              <input
+                type="email"
+                required
+                placeholder="your@email.com"
+                className="flex-1 bg-transparent px-4 py-3 placeholder:text-white/70 text-white focus:outline-none"
+              />
+              <button className="bg-white text-emerald-brand font-semibold px-5 py-2.5 rounded-full hover:bg-beige-soft transition">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+    >
+      <div className="text-emerald-brand font-semibold tracking-widest text-xs uppercase">{eyebrow}</div>
+      <h2 className="font-display font-bold text-3xl lg:text-5xl mt-2 max-w-2xl leading-tight">{title}</h2>
+      {subtitle && <p className="mt-3 text-neutral-500 max-w-lg">{subtitle}</p>}
+    </motion.div>
+  );
+}
