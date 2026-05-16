@@ -1,30 +1,58 @@
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, X } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
 
-export function Shop() {
-  const [params, setParams] = useSearchParams();
-  const initCat = (params.get("cat") as (typeof CATEGORIES)[number]) || "All";
-  const initQ = params.get("q") || "";
-  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>(initCat);
-  const [q, setQ] = useState(initQ);
+export function Shop({ preSelectedCategory }: { preSelectedCategory?: (typeof CATEGORIES)[number] }) {
+  const { category: urlCategory } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Determine initial category: URL param /shop/:category takes precedence, then ?cat=...
+  const initialCategory = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as (typeof CATEGORIES)[number];
+  const initialQuery = searchParams.get("q") || "";
+
+  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>(initialCategory);
+  const [q, setQ] = useState(initialQuery);
   const [sort, setSort] = useState("popular");
   const [priceMax, setPriceMax] = useState(2000);
   const [showFilters, setShowFilters] = useState(false);
 
+  // Sync state with URL or Prop changes
+  const urlCategoryKey = urlCategory || "";
+  const searchParamsKey = searchParams.toString();
+  const preSelectedCategoryKey = preSelectedCategory || "";
+
+  // Sync state with URL or Prop changes AND update search params
   useEffect(() => {
-    const next: Record<string, string> = {};
-    if (cat !== "All") next.cat = cat;
-    if (q) next.q = q;
-    setParams(next, { replace: true });
-  }, [cat, q, setParams]);
+    // 1. Sync URL -> State
+    const newCat = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as any;
+    const newQ = searchParams.get("q") || "";
+    
+    if (newCat !== cat) setCat(newCat);
+    if (newQ !== q) setQ(newQ);
+
+    // 2. Sync State -> URL (only for main shop route)
+    if (!preSelectedCategory) {
+      const next: Record<string, string> = {};
+      if (cat !== "All" && !urlCategory) next.cat = cat;
+      if (q) next.q = q;
+      
+      const currentQ = searchParams.get("q") || "";
+      const currentCat = searchParams.get("cat") || "";
+      
+      if (next.q !== currentQ || (next.cat || "") !== currentCat) {
+        setSearchParams(next, { replace: true });
+      }
+    }
+  }, [cat, q, urlCategory, searchParams, preSelectedCategory]);
 
   const filtered = useMemo(() => {
     let list = [...PRODUCTS];
-    if (cat !== "All") list = list.filter((p) => p.category === cat);
+    if (cat !== "All") {
+      list = list.filter((p) => p.category.toLowerCase() === cat.toLowerCase());
+    }
     if (q) {
       const ql = q.toLowerCase();
       list = list.filter(

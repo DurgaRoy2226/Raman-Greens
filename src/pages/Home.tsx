@@ -36,17 +36,17 @@ export function Home() {
               your doorstep with care.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 bg-emerald-brand text-white px-7 py-3.5 rounded-full font-semibold hover:bg-emerald-brand-dark transition group shadow-lg shadow-emerald-brand/30"
+                className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-brand-dark transition-all duration-300 group shadow-xl shadow-emerald-brand/30 hover:scale-105 active:scale-95"
               >
                 Shop Nimar's Best
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
               </Link>
               <Link
-                to="/shop?cat=Gifting"
-                className="inline-flex items-center gap-2 bg-white border border-neutral-200 px-7 py-3.5 rounded-full font-semibold hover:border-emerald-brand transition"
+                to="/gifting"
+                className="inline-flex items-center gap-2 bg-white border-2 border-beige-soft px-8 py-4 rounded-full font-bold hover:border-emerald-brand hover:text-emerald-brand transition-all duration-300 shadow-lg shadow-black/5 hover:scale-105 active:scale-95"
               >
                 Festive Hampers 🎁
               </Link>
@@ -141,13 +141,13 @@ export function Home() {
       </section>
 
       {/* CATEGORY GRID */}
-      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+      <section id="shop-categories" className="max-w-7xl mx-auto px-4 lg:px-8 py-24">
         <SectionHeading
           eyebrow="Explore"
           title="Curated Categories"
           subtitle="Each shelf, a story from Nimar's villages and bylanes."
         />
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { name: "Snacks", emoji: "🌶️", cat: "Snacks", img: PRODUCTS[0].image },
             { name: "Organics", emoji: "🌱", cat: "Organics", img: PRODUCTS[2].image },
@@ -160,18 +160,21 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -10 }}
             >
               <Link
-                to={`/shop?cat=${c.cat}`}
-                className="block relative h-64 rounded-3xl overflow-hidden group"
+                to={`/${c.cat.toLowerCase()}`}
+                className="group relative block h-80 rounded-[2.5rem] overflow-hidden shadow-xl shadow-emerald-brand/5 border border-white/20"
               >
-                <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-5 text-white">
-                  <div className="text-3xl mb-1">{c.emoji}</div>
-                  <div className="font-display font-bold text-2xl">{c.name}</div>
-                  <div className="flex items-center gap-1 text-xs mt-1 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition">
-                    Shop now <ArrowRight size={12} />
+                <div className="absolute inset-0 zoom-img-container">
+                  <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-emerald-brand-dark/90 transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 p-8 text-white w-full">
+                  <div className="text-4xl mb-3 transform group-hover:scale-125 transition-transform duration-500 origin-left">{c.emoji}</div>
+                  <div className="font-display font-bold text-3xl">{c.name}</div>
+                  <div className="flex items-center gap-2 text-sm mt-3 font-medium opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                    Explore collection <ArrowRight size={16} />
                   </div>
                 </div>
               </Link>
@@ -181,7 +184,7 @@ export function Home() {
       </section>
 
       {/* TRENDING */}
-      <section className="bg-beige-warm py-20">
+      <section id="trending" className="bg-beige-warm py-20">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-end justify-between flex-wrap gap-4">
             <SectionHeading eyebrow="🔥 Trending" title="Khandwa is Loving" subtitle="Fresh batches, flying off our shelves this week." />
@@ -196,7 +199,7 @@ export function Home() {
       </section>
 
       {/* STORY STRIP */}
-      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <section id="story" className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -247,7 +250,7 @@ export function Home() {
       </section>
 
       {/* BESTSELLERS */}
-      <section className="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
+      <section id="bestsellers" className="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
         <SectionHeading eyebrow="⭐ Bestsellers" title="Regional Favourites" subtitle="What every Nimari household keeps in stock." />
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
           {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} idx={i} />)}

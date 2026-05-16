@@ -55,7 +55,7 @@ const initialState: State = {
     },
   ],
   coupon: null,
-  user: { name: "Aarav Patil", email: "aarav@nimar.in" },
+  user: null,
 };
 
 function reducer(state: State, action: Action): State {
@@ -130,7 +130,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           .filter(Boolean);
         dispatch({
           type: "HYDRATE",
-          state: { cart, wishlist: parsed.wishlist || [], coupon: parsed.coupon || null },
+          state: { 
+            cart, 
+            wishlist: parsed.wishlist || [], 
+            coupon: parsed.coupon || null,
+            user: parsed.user || null,
+            orders: parsed.orders || state.orders
+          },
         });
       } catch {}
     }
@@ -144,9 +150,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         cart: state.cart.map((c) => ({ id: c.product.id, qty: c.qty })),
         wishlist: state.wishlist,
         coupon: state.coupon,
+        user: state.user,
+        orders: state.orders
       })
     );
-  }, [state.cart, state.wishlist, state.coupon]);
+  }, [state.cart, state.wishlist, state.coupon, state.user, state.orders]);
 
   return <StoreCtx.Provider value={{ state, dispatch }}>{children}</StoreCtx.Provider>;
 }
