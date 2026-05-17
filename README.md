@@ -1,4 +1,4 @@
-# 🌿 Raman Greens – MERN Stack E-commerce Application
+# 🌿 Raman Greens E-commerce Application
 
 ## 📌 Overview
 
