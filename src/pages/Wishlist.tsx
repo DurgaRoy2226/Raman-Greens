@@ -40,7 +40,7 @@ export function Wishlist() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-[32px] p-12 lg:p-20 text-center shadow-xl shadow-emerald-brand/5 border border-beige-soft max-w-2xl mx-auto"
+            className="bg-white  p-12 lg:p-20 text-center shadow-xl shadow-emerald-brand/5 border border-beige-soft max-w-2xl mx-auto"
           >
             <div className="text-6xl mb-6">✨</div>
             <h2 className="font-display font-bold text-2xl text-neutral-800">Your wishlist is empty</h2>
@@ -70,7 +70,7 @@ export function Wishlist() {
             <h2 className="font-display font-bold text-2xl text-neutral-800">You might also like</h2>
             <Link href="/shop" className="text-emerald-brand font-bold flex items-center gap-1 hover:gap-2 transition-all">
               View All <ArrowRight size={16} />
-            </>
+            </Link>
           </div>
           {/* We'll just show some products here, for now using a placeholder logic */}
           <p className="text-neutral-400 italic">Exploring Nimar's finest...</p>
