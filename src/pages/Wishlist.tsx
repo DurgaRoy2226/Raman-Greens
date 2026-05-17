@@ -1,6 +1,8 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useStore } from "../context/StoreContext";
 import { ProductCard } from "../components/ProductCard";
 import { PRODUCTS } from "../data/products";
@@ -46,7 +48,7 @@ export function Wishlist() {
               Explore our collection of authentic snacks, organics and hampers from the heart of Nimar.
             </p>
             <Link 
-              to="/shop"
+                   href="/shop"
               className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-emerald-brand/20 hover:scale-105 transition-all"
             >
               Start Shopping <ArrowRight size={18} />
@@ -66,9 +68,9 @@ export function Wishlist() {
         <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-24">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-display font-bold text-2xl text-neutral-800">You might also like</h2>
-            <Link to="/shop" className="text-emerald-brand font-bold flex items-center gap-1 hover:gap-2 transition-all">
+            <Link href="/shop" className="text-emerald-brand font-bold flex items-center gap-1 hover:gap-2 transition-all">
               View All <ArrowRight size={16} />
-            </Link>
+            </>
           </div>
           {/* We'll just show some products here, for now using a placeholder logic */}
           <p className="text-neutral-400 italic">Exploring Nimar's finest...</p>

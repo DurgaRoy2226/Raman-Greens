@@ -1,6 +1,8 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Leaf, ShieldCheck, Award, Users, Zap, Wind, Thermometer, Settings2, CheckCircle2, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -111,7 +113,7 @@ export function About() {
             </p>
             <div className="mt-10 flex flex-wrap gap-4 justify-center">
               <Link
-                to="/shop"
+                href="/shop"
                 className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-brand-dark shadow-xl shadow-emerald-brand/25 hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 Shop Our Products <ArrowRight size={18} />
@@ -332,13 +334,13 @@ export function About() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
             <Link
-              to="/shop"
+              href="/shop"
               className="inline-flex items-center gap-2 bg-white text-emerald-brand px-8 py-4 rounded-full font-bold hover:bg-beige-warm shadow-xl hover:scale-105 active:scale-95 transition-all duration-300"
             >
               Shop Now <ArrowRight size={18} />
             </Link>
             <Link
-              to="/dashboard"
+              href="/dashboard"
               className="inline-flex items-center gap-2 bg-white/15 backdrop-blur border border-white/30 text-white px-8 py-4 rounded-full font-bold hover:bg-white/25 transition-all duration-300"
             >
               My Account

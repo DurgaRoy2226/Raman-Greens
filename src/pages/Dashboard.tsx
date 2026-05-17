@@ -1,9 +1,12 @@
+"use client";
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, MapPin, User, Heart, LogOut, Truck, Check, Clock, ChevronRight, Plus, ExternalLink, ShieldCheck } from "lucide-react";
 import { useStore } from "../context/StoreContext";
 import { PRODUCTS } from "../data/products";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const TABS = [
   { k: "orders", l: "My Orders", icon: Package },
@@ -15,14 +18,14 @@ const TABS = [
 export function Dashboard() {
   const { state, dispatch } = useStore();
   const [tab, setTab] = useState("orders");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const wishProducts = PRODUCTS.filter((p) => state.wishlist.includes(p.id));
   const user = state.user || { name: "Guest User", email: "guest@ramangreens.com" };
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate("/");
+    router.push("/");
   };
 
   return (

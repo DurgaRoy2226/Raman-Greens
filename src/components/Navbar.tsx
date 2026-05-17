@@ -1,4 +1,7 @@
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { ShoppingBag, Search, User, Menu, X, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,8 +22,8 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,23 +33,23 @@ export function Navbar() {
   }, []);
 
   // Close mobile menu on route change
-  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   const cartCount     = state.cart.reduce((s, c) => s + c.qty, 0);
   const wishlistCount = (state.wishlist || []).length;
 
   const isActive = (to: string, exact: boolean) => {
-    if (to === "/") return location.pathname === "/";
-    if (to.startsWith("/#")) return location.pathname === "/" && location.hash === to.slice(1);
-    if (exact) return location.pathname === to;
-    return location.pathname.startsWith(to.split("?")[0]);
+    if (to === "/") return pathname === "/";
+    if (to.startsWith("/#")) return pathname === "/" && window.location.hash === to.slice(1);
+    if (exact) return pathname === to;
+    return pathname.startsWith(to.split("?")[0]);
   };
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, to: string) => {
     if (!to.includes("#")) return;
     const [path, hash] = to.split("#");
     const targetHash = "#" + hash;
-    if (location.pathname !== (path || "/")) { setOpen(false); return; }
+    if (pathname !== (path || "/")) { setOpen(false); return; }
     e.preventDefault();
     const el = document.querySelector(targetHash);
     if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", targetHash); }
@@ -85,7 +88,7 @@ export function Navbar() {
         <nav className="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between gap-6">
 
           {/* Logo */}
-          <Link to="/" className="shrink-0 hover-scale transition-transform" aria-label="Raman Greens home">
+          <Link href="/" className="shrink-0 hover-scale transition-transform" aria-label="Raman Greens home">
             <Logo />
           </Link>
 
@@ -95,8 +98,8 @@ export function Navbar() {
               const active = isActive(l.to, l.exact);
               return (
                 <li key={l.label}>
-                  <NavLink
-                    to={l.to}
+                  <Link
+                    href={l.to}
                     onClick={(e) => handleLinkClick(e as any, l.to)}
                     className={`relative px-4 py-2 rounded-xl text-[13px] font-semibold transition-all duration-300 group inline-flex items-center ${
                       active
@@ -116,7 +119,7 @@ export function Navbar() {
                         <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-emerald-brand rounded-full transition-all duration-300 group-hover:w-full" />
                       )}
                     </span>
-                  </NavLink>
+                  </Link>
                 </li>
               );
             })}
@@ -137,10 +140,10 @@ export function Navbar() {
 
             {/* Wishlist — desktop + tablet */}
             <Link
-              to="/wishlist"
+              href="/wishlist"
               id="navbar-wishlist-btn"
               className={`relative p-2.5 rounded-full transition-all duration-200 hover:scale-110 active:scale-95 hidden sm:flex items-center justify-center ${
-                location.pathname === "/wishlist"
+                pathname === "/wishlist"
                   ? "text-emerald-brand bg-emerald-brand/8"
                   : "text-neutral-700 hover:bg-rose-50 hover:text-rose-500"
               }`}
@@ -149,7 +152,7 @@ export function Navbar() {
               <Heart
                 size={19}
                 className={`transition-all duration-300 ${
-                  location.pathname === "/wishlist" ? "fill-emerald-brand" : "group-hover:fill-rose-200"
+                  pathname === "/wishlist" ? "fill-emerald-brand" : "group-hover:fill-rose-200"
                 }`}
               />
               <AnimatePresence>
@@ -169,10 +172,10 @@ export function Navbar() {
 
             {/* Account — desktop */}
             <Link
-              to="/dashboard"
+              href="/dashboard"
               id="navbar-account-btn"
               className={`p-2.5 rounded-full transition-all duration-200 hover:scale-110 active:scale-95 hidden sm:flex items-center justify-center ${
-                location.pathname === "/dashboard"
+                pathname === "/dashboard"
                   ? "text-emerald-brand bg-emerald-brand/8"
                   : "text-neutral-700 hover:bg-beige-warm"
               }`}
@@ -183,10 +186,10 @@ export function Navbar() {
 
             {/* Cart */}
             <Link
-              to="/cart"
+              href="/cart"
               id="navbar-cart-btn"
               className={`relative p-2.5 rounded-full transition-all duration-200 hover:scale-110 active:scale-95 flex items-center justify-center ${
-                location.pathname === "/cart"
+                pathname === "/cart"
                   ? "text-emerald-brand bg-emerald-brand/8"
                   : "text-neutral-700 hover:bg-beige-warm"
               }`}
@@ -233,7 +236,7 @@ export function Navbar() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    if (query) navigate(`/shop?q=${encodeURIComponent(query)}`);
+                    if (query) router.push(`/shop?q=${encodeURIComponent(query)}`);
                     setSearchOpen(false);
                     setQuery("");
                   }}
@@ -254,7 +257,7 @@ export function Navbar() {
                       <li key={p.id}>
                         <button
                           onClick={() => {
-                            navigate(`/product/${p.id}`);
+                            router.push(`/product/${p.id}`);
                             setSearchOpen(false);
                             setQuery("");
                           }}
@@ -298,9 +301,9 @@ export function Navbar() {
                 {NAV_LINKS.map((l) => {
                   const active = isActive(l.to, l.exact);
                   return (
-                    <NavLink
+                    <Link
                       key={l.label}
-                      to={l.to}
+                      href={l.to}
                       onClick={(e) => { handleLinkClick(e as any, l.to); setOpen(false); }}
                       className={`flex items-center gap-3 px-5 py-4 rounded-2xl text-base font-bold transition-all duration-300 ${
                         active
@@ -310,13 +313,13 @@ export function Navbar() {
                     >
                       {l.label}
                       {active && <span className="ml-auto w-2 h-2 rounded-full bg-emerald-brand animate-pulse" />}
-                    </NavLink>
+                    </Link>
                   );
                 })}
 
                 {/* Wishlist shortcut (mobile) */}
                 <Link
-                  to="/wishlist"
+                  href="/wishlist"
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-between px-5 py-4 rounded-2xl bg-rose-50 text-rose-500 font-bold hover:bg-rose-100 transition-colors"
                 >
@@ -333,7 +336,7 @@ export function Navbar() {
 
                 {/* Cart shortcut (mobile) */}
                 <Link
-                  to="/cart"
+                  href="/cart"
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-between px-5 py-4 rounded-2xl bg-emerald-brand text-white font-bold shadow-lg shadow-emerald-brand/20 hover:scale-[1.02] transition-transform active:scale-95"
                 >

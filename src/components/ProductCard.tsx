@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Star, Plus } from "lucide-react";
 import type { Product } from "../data/products";
@@ -37,7 +39,7 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
       whileHover={{ y: -8 }}
       className="group relative bg-white rounded-[2rem] overflow-hidden border border-beige-soft hover:shadow-[0_20px_50px_-12px_rgba(0,143,90,0.15)] transition-all duration-500"
     >
-      <Link to={`/product/${product.id}`} className="block">
+      <Link href={`/product/${product.id}`} className="block">
         <div className="relative aspect-[4/5] overflow-hidden bg-beige-warm">
           <motion.img
             src={product.image}
@@ -83,7 +85,7 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
         <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-brand font-bold mb-2">
           {product.category}
         </div>
-        <Link to={`/product/${product.id}`}>
+        <Link href={`/product/${product.id}`}>
           <h3 className="font-display font-semibold text-lg leading-tight line-clamp-2 hover:text-emerald-brand transition-colors duration-300">
             {product.name}
           </h3>

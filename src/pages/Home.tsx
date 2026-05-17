@@ -1,5 +1,7 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
@@ -38,14 +40,14 @@ export function Home() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                to="/shop"
+                href="/shop"
                 className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-brand-dark transition-all duration-300 group shadow-xl shadow-emerald-brand/30 hover:scale-105 active:scale-95"
               >
                 Shop Nimar's Best
                 <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
               </Link>
               <Link
-                to="/gifting"
+                href="/gifting"
                 className="inline-flex items-center gap-2 bg-white border-2 border-beige-soft px-8 py-4 rounded-full font-bold hover:border-emerald-brand hover:text-emerald-brand transition-all duration-300 shadow-lg shadow-black/5 hover:scale-105 active:scale-95"
               >
                 Festive Hampers 🎁
@@ -163,7 +165,7 @@ export function Home() {
               whileHover={{ y: -10 }}
             >
               <Link
-                to={`/${c.cat.toLowerCase()}`}
+                href={`/${c.cat.toLowerCase()}`}
                 className="group relative block h-80 rounded-[2.5rem] overflow-hidden shadow-xl shadow-emerald-brand/5 border border-white/20"
               >
                 <div className="absolute inset-0 zoom-img-container">
@@ -188,7 +190,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-end justify-between flex-wrap gap-4">
             <SectionHeading eyebrow="🔥 Trending" title="Khandwa is Loving" subtitle="Fresh batches, flying off our shelves this week." />
-            <Link to="/shop" className="text-sm font-semibold text-emerald-brand hover:underline inline-flex items-center gap-1">
+            <Link href="/shop" className="text-sm font-semibold text-emerald-brand hover:underline inline-flex items-center gap-1">
               View all <ArrowRight size={14} />
             </Link>
           </div>

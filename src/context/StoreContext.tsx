@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
 import { PRODUCTS, type Product } from "../data/products";
 

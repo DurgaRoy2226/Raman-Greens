@@ -1,14 +1,18 @@
+"use client";
+
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useRouter, useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, X } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
 
 export function Shop({ preSelectedCategory }: { preSelectedCategory?: (typeof CATEGORIES)[number] }) {
-  const { category: urlCategory } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  
+  const params = useParams();
+  const urlCategory = params?.category as string | undefined;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   // Determine initial category: URL param /shop/:category takes precedence, then ?cat=...
   const initialCategory = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as (typeof CATEGORIES)[number];
   const initialQuery = searchParams.get("q") || "";
@@ -19,34 +23,32 @@ export function Shop({ preSelectedCategory }: { preSelectedCategory?: (typeof CA
   const [priceMax, setPriceMax] = useState(2000);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Sync state with URL or Prop changes
-  const urlCategoryKey = urlCategory || "";
-  const searchParamsKey = searchParams.toString();
-  const preSelectedCategoryKey = preSelectedCategory || "";
-
-  // Sync state with URL or Prop changes AND update search params
+  // Sync state with URL changes
   useEffect(() => {
-    // 1. Sync URL -> State
     const newCat = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as any;
     const newQ = searchParams.get("q") || "";
-    
+
     if (newCat !== cat) setCat(newCat);
     if (newQ !== q) setQ(newQ);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlCategory, searchParams.toString(), preSelectedCategory]);
 
-    // 2. Sync State -> URL (only for main shop route)
+  // Sync cat/q changes -> URL (only for main shop route)
+  useEffect(() => {
     if (!preSelectedCategory) {
-      const next: Record<string, string> = {};
-      if (cat !== "All" && !urlCategory) next.cat = cat;
-      if (q) next.q = q;
-      
+      const next = new URLSearchParams();
+      if (cat !== "All" && !urlCategory) next.set("cat", cat);
+      if (q) next.set("q", q);
+
       const currentQ = searchParams.get("q") || "";
       const currentCat = searchParams.get("cat") || "";
-      
-      if (next.q !== currentQ || (next.cat || "") !== currentCat) {
-        setSearchParams(next, { replace: true });
+
+      if (next.get("q") !== currentQ || (next.get("cat") || "") !== currentCat) {
+        router.replace(`/shop${next.toString() ? `?${next.toString()}` : ""}`, { scroll: false });
       }
     }
-  }, [cat, q, urlCategory, searchParams, preSelectedCategory]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cat, q]);
 
   const filtered = useMemo(() => {
     let list = [...PRODUCTS];
