@@ -44,10 +44,10 @@ export function Navbar() {
         <div className="flex whitespace-nowrap animate-marquee gap-12 px-4">
           {Array.from({ length: 2 }).map((_, k) => (
             <div key={k} className="flex gap-12 shrink-0">
-              <span>🌿 Free shipping on orders ₹499+</span>
-              <span>🎁 Use code <b>NIMAR10</b> for 10% off</span>
-              <span>📦 Same-day dispatch in Khandwa</span>
-              <span>🌶️ New arrivals: Nimari Festive Hampers</span>
+              <span>Free shipping on orders ₹499+</span>
+              <span>Use code <b>NIMAR10</b> for 10% off</span>
+              <span>Same-day dispatch in Khandwa</span>
+              <span>New arrivals: Nimari Festive Hampers</span>
             </div>
           ))}
         </div>

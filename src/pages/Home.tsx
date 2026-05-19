@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
+import { CategorySlider } from "../components/CategorySlider";
+import { FeatureProducts } from "../components/FeatureProducts";
 import { useState, useEffect } from "react";
 
 const HERO_SLIDES = [
@@ -87,29 +89,31 @@ export function Home() {
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full">
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                  className="max-w-2xl text-white"
+                  transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+                  className="max-w-3xl text-white drop-shadow-2xl"
                 >
-                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold text-white mb-6 border border-white/30">
-                    <Sparkles size={12} className="text-amber-300" /> Authentic from Khandwa, Madhya Pradesh
+                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-xs font-semibold tracking-widest uppercase text-white mb-6 border border-white/20 shadow-lg">
+                    <Sparkles size={14} className="text-emerald-400" /> 100% Certified Organic
                   </div>
-                  <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-white">
-                    Fresh Fruits & <br/>
-                    <span className="text-emerald-400 italic">Vegetables</span>
+                  
+                  <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-[5.5rem] leading-[1.1] tracking-tight text-white mb-6">
+                    Fresh Organic <br/>
+                    <span className="text-emerald-400">Vegetables</span>
                   </h1>
-                  <p className="mt-6 text-xl text-white/90 max-w-lg leading-relaxed font-semibold tracking-wide uppercase">
+                  
+                  <p className="text-lg sm:text-xl text-white/95 max-w-xl leading-relaxed font-medium tracking-[0.2em] uppercase drop-shadow-md">
                     Natural • Organic • Farm Fresh
                   </p>
 
-                  <div className="mt-8 flex flex-wrap gap-4">
+                  <div className="mt-10 flex flex-wrap gap-4">
                     <Link
                       to="/shop"
-                      className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-semibold hover:bg-emerald-brand-dark transition shadow-lg shadow-emerald-brand/30"
+                      className="group relative inline-flex items-center gap-3 bg-emerald-brand text-white px-9 py-4 rounded-full text-sm font-bold tracking-wide uppercase overflow-hidden transition-all duration-300 hover:bg-emerald-brand-dark hover:shadow-[0_0_40px_rgb(0,143,90,0.4)]"
                     >
-                      Shop Now
-                      <ArrowRight size={18} />
+                      <span className="relative z-10">Shop Now</span>
+                      <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </motion.div>
@@ -155,67 +159,88 @@ export function Home() {
         </div>
       </section>
 
-      {/* Trust strip */}
-      <div className="bg-white border-b border-beige-soft relative z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+      {/* Feature Cards — Blinkit-style circular gradient ring icons */}
+      <section className="relative z-10 py-14 px-4 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4">
           {[
-            { icon: Truck, t: "Free shipping ₹499+", s: "Pan-India delivery" },
-            { icon: ShieldCheck, t: "Secure Razorpay", s: "UPI · Cards · Netbanking" },
-            { icon: Leaf, t: "100% Authentic", s: "Sourced from Khandwa farms" },
-            { icon: Award, t: "Award-winning", s: "MP Fest 2025 winners" },
-          ].map((it) => (
-            <div key={it.t} className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-12 h-12 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0">
-                <it.icon size={20} />
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-semibold text-neutral-900">{it.t}</div>
-                <div className="text-xs text-neutral-500 mt-0.5">{it.s}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* CATEGORY GRID */}
-      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
-        <SectionHeading
-          eyebrow="Explore"
-          title="Curated Categories"
-          subtitle="Each shelf, a story from Nimar's villages and bylanes."
-        />
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { name: "Snacks", emoji: "🌶️", cat: "Snacks", img: PRODUCTS[0].image },
-            { name: "Organics", emoji: "🌱", cat: "Organics", img: PRODUCTS[2].image },
-            { name: "Sweets", emoji: "🍬", cat: "Sweets", img: PRODUCTS[6].image },
-            { name: "Gifting", emoji: "🎁", cat: "Gifting", img: PRODUCTS[4].image },
-          ].map((c, i) => (
+            {
+              emoji: "🕐",
+              gradient: "from-yellow-400 to-orange-400",
+              ring: "rgba(251,191,36,0.25)",
+              t: "24/7 Support Services",
+              s: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit.",
+            },
+            {
+              emoji: "🌿",
+              gradient: "from-pink-400 to-purple-500",
+              ring: "rgba(236,72,153,0.2)",
+              t: "Organic Food Services",
+              s: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit.",
+            },
+            {
+              emoji: "🎁",
+              gradient: "from-red-400 to-pink-500",
+              ring: "rgba(239,68,68,0.2)",
+              t: "Offer & Discounts",
+              s: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit.",
+            },
+            {
+              emoji: "✨",
+              gradient: "from-teal-400 to-cyan-500",
+              ring: "rgba(20,184,166,0.2)",
+              t: "Curated Products",
+              s: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit.",
+            },
+          ].map((it, i) => (
             <motion.div
-              key={c.name}
-              initial={{ opacity: 0, y: 30 }}
+              key={it.t}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+              className="flex flex-col items-center text-center group"
             >
-              <Link
-                to={`/shop?cat=${c.cat}`}
-                className="block relative h-64 rounded-3xl overflow-hidden group"
-              >
-                <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-5 text-white">
-                  <div className="text-3xl mb-1">{c.emoji}</div>
-                  <div className="font-display font-bold text-2xl">{c.name}</div>
-                  <div className="flex items-center gap-1 text-xs mt-1 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition">
-                    Shop now <ArrowRight size={12} />
+              {/* Circular gradient ring icon */}
+              <div className="relative mb-5">
+                {/* Outer glow ring */}
+                <div
+                  className="absolute inset-0 rounded-full scale-110 blur-sm opacity-60"
+                  style={{ background: `radial-gradient(circle, ${it.ring} 0%, transparent 70%)` }}
+                />
+                {/* Dashed gradient border circle */}
+                <div
+                  className="relative w-20 h-20 rounded-full flex items-center justify-center"
+                  style={{
+                    background: `linear-gradient(white, white) padding-box,
+                                 linear-gradient(135deg, ${it.gradient.replace("from-","").replace(" to-","").split(" ")[0]}, ${it.gradient.split(" ")[2]}) border-box`,
+                    border: "3px dashed transparent",
+                    backgroundClip: "padding-box, border-box",
+                    backgroundOrigin: "padding-box, border-box",
+                  }}
+                >
+                  {/* Inner gradient circle */}
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${it.gradient} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-2xl leading-none">{it.emoji}</span>
                   </div>
                 </div>
-              </Link>
+              </div>
+
+              <h3 className="text-[15px] font-bold text-neutral-900 mb-2 leading-snug">
+                {it.t}
+              </h3>
+              <p className="text-xs text-neutral-400 leading-relaxed max-w-[180px]">
+                {it.s}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
+
+      {/* CATEGORY SLIDER */}
+      <CategorySlider />
+
+      {/* FEATURE PRODUCTS */}
+      <FeatureProducts />
 
       {/* TRENDING */}
       <section className="bg-beige-warm py-20">
