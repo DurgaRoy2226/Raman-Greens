@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Package, Users, TrendingUp, IndianRupee, Edit, Trash2, Plus, Lock } from "lucide-react";

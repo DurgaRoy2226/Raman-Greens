@@ -1,5 +1,3 @@
-"use client";
-
 import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
 import { PRODUCTS, type Product } from "../data/products";
 
@@ -56,7 +54,7 @@ const initialState: State = {
     },
   ],
   coupon: null,
-  user: null,
+  user: { name: "Aarav Patil", email: "aarav@nimar.in" },
 };
 
 function reducer(state: State, action: Action): State {
@@ -134,37 +132,8 @@ function init(initialState: State): State {
   return initialState;
 }
 
-<<<<<<< HEAD
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState, init);
-=======
-  // Hydrate from localStorage
-  useEffect(() => {
-    const raw = localStorage.getItem("rg-knw-store");
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw);
-        // re-attach product objects for cart
-        const cart: CartItem[] = (parsed.cart || [])
-          .map((c: { id: string; qty: number }) => {
-            const p = PRODUCTS.find((x) => x.id === c.id);
-            return p ? { product: p, qty: c.qty } : null;
-          })
-          .filter(Boolean);
-        dispatch({
-          type: "HYDRATE",
-          state: { 
-            cart, 
-            wishlist: parsed.wishlist || [], 
-            coupon: parsed.coupon || null,
-            user: parsed.user || null,
-            orders: parsed.orders || state.orders
-          },
-        });
-      } catch {}
-    }
-  }, []);
->>>>>>> 752e61b34fc3dfa17f2d0b5db6457739b5bcef7c
 
   // Persist
   useEffect(() => {
@@ -174,11 +143,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         cart: state.cart.map((c) => ({ id: c.product.id, qty: c.qty })),
         wishlist: state.wishlist,
         coupon: state.coupon,
-        user: state.user,
-        orders: state.orders
       })
     );
-  }, [state.cart, state.wishlist, state.coupon, state.user, state.orders]);
+  }, [state.cart, state.wishlist, state.coupon]);
 
   return <StoreCtx.Provider value={{ state, dispatch }}>{children}</StoreCtx.Provider>;
 }

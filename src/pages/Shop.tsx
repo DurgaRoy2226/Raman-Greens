@@ -1,60 +1,30 @@
-"use client";
-
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams, useRouter, useParams } from "next/navigation";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, X } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
 
-export function Shop({ preSelectedCategory }: { preSelectedCategory?: (typeof CATEGORIES)[number] }) {
-  const params = useParams();
-  const urlCategory = params?.category as string | undefined;
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  // Determine initial category: URL param /shop/:category takes precedence, then ?cat=...
-  const initialCategory = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as (typeof CATEGORIES)[number];
-  const initialQuery = searchParams.get("q") || "";
-
-  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>(initialCategory);
-  const [q, setQ] = useState(initialQuery);
+export function Shop() {
+  const [params, setParams] = useSearchParams();
+  const initCat = (params.get("cat") as (typeof CATEGORIES)[number]) || "All";
+  const initQ = params.get("q") || "";
+  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>(initCat);
+  const [q, setQ] = useState(initQ);
   const [sort, setSort] = useState("popular");
   const [priceMax, setPriceMax] = useState(2000);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Sync state with URL changes
   useEffect(() => {
-    const newCat = preSelectedCategory || (urlCategory || searchParams.get("cat") || "All") as any;
-    const newQ = searchParams.get("q") || "";
-
-    if (newCat !== cat) setCat(newCat);
-    if (newQ !== q) setQ(newQ);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlCategory, searchParams.toString(), preSelectedCategory]);
-
-  // Sync cat/q changes -> URL (only for main shop route)
-  useEffect(() => {
-    if (!preSelectedCategory) {
-      const next = new URLSearchParams();
-      if (cat !== "All" && !urlCategory) next.set("cat", cat);
-      if (q) next.set("q", q);
-
-      const currentQ = searchParams.get("q") || "";
-      const currentCat = searchParams.get("cat") || "";
-
-      if (next.get("q") !== currentQ || (next.get("cat") || "") !== currentCat) {
-        router.replace(`/shop${next.toString() ? `?${next.toString()}` : ""}`, { scroll: false });
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cat, q]);
+    const next: Record<string, string> = {};
+    if (cat !== "All") next.cat = cat;
+    if (q) next.q = q;
+    setParams(next, { replace: true });
+  }, [cat, q, setParams]);
 
   const filtered = useMemo(() => {
     let list = [...PRODUCTS];
-    if (cat !== "All") {
-      list = list.filter((p) => p.category.toLowerCase() === cat.toLowerCase());
-    }
+    if (cat !== "All") list = list.filter((p) => p.category === cat);
     if (q) {
       const ql = q.toLowerCase();
       list = list.filter(

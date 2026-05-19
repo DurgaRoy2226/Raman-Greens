@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Mail, MapPin, Phone, Leaf } from "lucide-react";
 
@@ -44,20 +42,20 @@ export function Footer() {
         <div>
           <h4 className="font-display font-semibold text-white mb-4">Shop</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link className="hover:text-emerald-brand-light" href="/shop?cat=Snacks">Snacks</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/shop?cat=Organics">Organics</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/shop?cat=Sweets">Sweets</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/shop?cat=Spices">Spices</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/shop?cat=Gifting">Gifting</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/shop?cat=Snacks">Snacks</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/shop?cat=Organics">Organics</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/shop?cat=Sweets">Sweets</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/shop?cat=Spices">Spices</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/shop?cat=Gifting">Gifting</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="font-display font-semibold text-white mb-4">Company</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link className="hover:text-emerald-brand-light" href="/dashboard">My Account</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/cart">Cart</Link></li>
-            <li><Link className="hover:text-emerald-brand-light" href="/admin">Admin</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/dashboard">My Account</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/cart">Cart</Link></li>
+            <li><Link className="hover:text-emerald-brand-light" to="/admin">Admin</Link></li>
             <li><a className="hover:text-emerald-brand-light" href="#">About Nimar</a></li>
             <li><a className="hover:text-emerald-brand-light" href="#">Sustainability</a></li>
           </ul>

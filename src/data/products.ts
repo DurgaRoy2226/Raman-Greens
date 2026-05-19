@@ -31,7 +31,7 @@ export const PRODUCTS: Product[] = [
     oldPrice: 220,
     rating: 4.8,
     reviews: 342,
-    image: img("photo-1626132647523-66f5bf380027"),
+    image: img("photo-1599490659213-e2b9527bd087"),
     gallery: [
       img("photo-1599490659213-e2b9527bd087"),
       img("photo-1606491956689-2ea866880c84"),
@@ -84,8 +84,8 @@ export const PRODUCTS: Product[] = [
     oldPrice: 280,
     rating: 4.9,
     reviews: 412,
-    image: img("photo-1585994794613-ad9139a4ade5"),
-    gallery: [img("photo-1585994794613-ad9139a4ade5"), img("photo-1599599810694-b5b37304c041")],
+    image: img("photo-1604908176997-125f25cc6f3d"),
+    gallery: [img("photo-1604908176997-125f25cc6f3d"), img("photo-1599909533776-aaae46a09a8b")],
     description: "Sun-dried, unpolished toor dal grown by certified organic farmers across Nimar's fertile black-soil belt.",
     benefits: ["100% organic", "Unpolished", "No pesticides", "Nimari heirloom variety"],
     nutrition: [
@@ -149,8 +149,8 @@ export const PRODUCTS: Product[] = [
     price: 140,
     rating: 4.6,
     reviews: 174,
-    image: img("photo-1608198399988-341f9729926b"),
-    gallery: [img("photo-1608198399988-341f9729926b")],
+    image: img("photo-1610450949065-1f2841536c8c"),
+    gallery: [img("photo-1610450949065-1f2841536c8c")],
     description: "Chemical-free sugarcane jaggery from Nimar's farms. Rich, mineral-packed and naturally sweet.",
     benefits: ["No sulphur", "Iron-rich", "Traditional method"],
     nutrition: [
@@ -190,8 +190,8 @@ export const PRODUCTS: Product[] = [
     price: 220,
     rating: 4.9,
     reviews: 305,
-    image: img("photo-1596040033229-a9821ebd058d"),
-    gallery: [img("photo-1596040033229-a9821ebd058d")],
+    image: img("photo-1599909533776-aaae46a09a8b"),
+    gallery: [img("photo-1599909533776-aaae46a09a8b")],
     description: "Sun-dried Nimari red chillies, stone-ground to a fiery, fragrant powder. Khandwa's signature spice.",
     benefits: ["Stone-ground", "No artificial colour", "Sun-dried"],
     nutrition: [

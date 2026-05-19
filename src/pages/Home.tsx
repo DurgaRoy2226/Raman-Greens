@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
-=======
-"use client";
-
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles } from "lucide-react";
->>>>>>> 752e61b34fc3dfa17f2d0b5db6457739b5bcef7c
 import { PRODUCTS } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
 import { useState, useEffect } from "react";
@@ -91,7 +83,6 @@ export function Home() {
               <div className="absolute inset-0 bg-black/60" />
             </motion.div>
 
-<<<<<<< HEAD
             {/* Content */}
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full">
@@ -111,23 +102,6 @@ export function Home() {
                   <p className="mt-6 text-xl text-white/90 max-w-lg leading-relaxed font-semibold tracking-wide uppercase">
                     Natural • Organic • Farm Fresh
                   </p>
-=======
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/shop"
-                className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-brand-dark transition-all duration-300 group shadow-xl shadow-emerald-brand/30 hover:scale-105 active:scale-95"
-              >
-                Shop Nimar's Best
-                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
-              </Link>
-              <Link
-                href="/gifting"
-                className="inline-flex items-center gap-2 bg-white border-2 border-beige-soft px-8 py-4 rounded-full font-bold hover:border-emerald-brand hover:text-emerald-brand transition-all duration-300 shadow-lg shadow-black/5 hover:scale-105 active:scale-95"
-              >
-                Festive Hampers 🎁
-              </Link>
-            </div>
->>>>>>> 752e61b34fc3dfa17f2d0b5db6457739b5bcef7c
 
                   <div className="mt-8 flex flex-wrap gap-4">
                     <Link
@@ -204,13 +178,13 @@ export function Home() {
       </div>
 
       {/* CATEGORY GRID */}
-      <section id="shop-categories" className="max-w-7xl mx-auto px-4 lg:px-8 py-24">
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
         <SectionHeading
           eyebrow="Explore"
           title="Curated Categories"
           subtitle="Each shelf, a story from Nimar's villages and bylanes."
         />
-        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { name: "Snacks", emoji: "🌶️", cat: "Snacks", img: PRODUCTS[0].image },
             { name: "Organics", emoji: "🌱", cat: "Organics", img: PRODUCTS[2].image },
@@ -223,21 +197,18 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -10 }}
             >
               <Link
-                href={`/${c.cat.toLowerCase()}`}
-                className="group relative block h-80 rounded-[2.5rem] overflow-hidden shadow-xl shadow-emerald-brand/5 border border-white/20"
+                to={`/shop?cat=${c.cat}`}
+                className="block relative h-64 rounded-3xl overflow-hidden group"
               >
-                <div className="absolute inset-0 zoom-img-container">
-                  <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-emerald-brand-dark/90 transition-all duration-500" />
-                <div className="absolute bottom-0 left-0 p-8 text-white w-full">
-                  <div className="text-4xl mb-3 transform group-hover:scale-125 transition-transform duration-500 origin-left">{c.emoji}</div>
-                  <div className="font-display font-bold text-3xl">{c.name}</div>
-                  <div className="flex items-center gap-2 text-sm mt-3 font-medium opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                    Explore collection <ArrowRight size={16} />
+                <img src={c.img} alt={c.name} className="w-full h-full object-cover zoom-img" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 p-5 text-white">
+                  <div className="text-3xl mb-1">{c.emoji}</div>
+                  <div className="font-display font-bold text-2xl">{c.name}</div>
+                  <div className="flex items-center gap-1 text-xs mt-1 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition">
+                    Shop now <ArrowRight size={12} />
                   </div>
                 </div>
               </Link>
@@ -247,11 +218,11 @@ export function Home() {
       </section>
 
       {/* TRENDING */}
-      <section id="trending" className="bg-beige-warm py-20">
+      <section className="bg-beige-warm py-20">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-end justify-between flex-wrap gap-4">
             <SectionHeading eyebrow="🔥 Trending" title="Khandwa is Loving" subtitle="Fresh batches, flying off our shelves this week." />
-            <Link href="/shop" className="text-sm font-semibold text-emerald-brand hover:underline inline-flex items-center gap-1">
+            <Link to="/shop" className="text-sm font-semibold text-emerald-brand hover:underline inline-flex items-center gap-1">
               View all <ArrowRight size={14} />
             </Link>
           </div>
@@ -262,7 +233,7 @@ export function Home() {
       </section>
 
       {/* STORY STRIP */}
-      <section id="story" className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -313,7 +284,7 @@ export function Home() {
       </section>
 
       {/* BESTSELLERS */}
-      <section id="bestsellers" className="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
+      <section className="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
         <SectionHeading eyebrow="⭐ Bestsellers" title="Regional Favourites" subtitle="What every Nimari household keeps in stock." />
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
           {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} idx={i} />)}
