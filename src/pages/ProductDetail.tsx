@@ -1,5 +1,9 @@
+"use client";
+
 import { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Star, Minus, Plus, Heart, ShoppingBag, Truck, ShieldCheck, Leaf, ChevronRight } from "lucide-react";
 import { PRODUCTS } from "../data/products";
@@ -7,8 +11,9 @@ import { useStore } from "../context/StoreContext";
 import { ProductCard } from "../components/ProductCard";
 
 export function ProductDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
+  const id = params?.id as string;
+  const router = useRouter();
   const product = PRODUCTS.find((p) => p.id === id);
   const { state, dispatch } = useStore();
   const [imgIdx, setImgIdx] = useState(0);
@@ -20,7 +25,7 @@ export function ProductDetail() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
         <h2 className="font-display text-3xl">Product not found</h2>
-        <Link to="/shop" className="text-emerald-brand underline mt-4 inline-block">Back to shop</Link>
+        <Link href="/shop" className="text-emerald-brand underline mt-4 inline-block">Back to shop</Link>
       </div>
     );
   }
@@ -32,11 +37,11 @@ export function ProductDetail() {
     <div className="bg-white">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-6 text-xs text-neutral-500 flex items-center gap-1">
-        <Link to="/" className="hover:text-emerald-brand">Home</Link>
+        <Link href="/" className="hover:text-emerald-brand">Home</Link>
         <ChevronRight size={12} />
-        <Link to="/shop" className="hover:text-emerald-brand">Shop</Link>
+        <Link href="/shop" className="hover:text-emerald-brand">Shop</Link>
         <ChevronRight size={12} />
-        <Link to={`/shop?cat=${product.category}`} className="hover:text-emerald-brand">{product.category}</Link>
+        <Link href={`/shop?cat=${product.category}`} className="hover:text-emerald-brand">{product.category}</Link>
         <ChevronRight size={12} />
         <span className="text-neutral-800 font-medium truncate">{product.name}</span>
       </div>
@@ -154,7 +159,7 @@ export function ProductDetail() {
           <button
             onClick={() => {
               dispatch({ type: "ADD_TO_CART", product, qty });
-              navigate("/checkout");
+              router.push("/checkout");
             }}
             className="mt-3 w-full border-2 border-emerald-brand text-emerald-brand font-semibold py-3 rounded-full hover:bg-emerald-brand hover:text-white transition"
           >

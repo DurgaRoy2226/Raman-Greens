@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, MapPin, CreditCard, ShieldCheck, Lock } from "lucide-react";
 import { useStore, COUPONS } from "../context/StoreContext";
@@ -12,7 +15,7 @@ const STEPS = [
 
 export function Checkout() {
   const { state, dispatch } = useStore();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [done, setDone] = useState(false);
 
@@ -35,7 +38,7 @@ export function Checkout() {
     return (
       <div className="max-w-xl mx-auto py-32 text-center px-4">
         <h2 className="font-display font-bold text-3xl">Your cart is empty</h2>
-        <Link to="/shop" className="mt-4 inline-block text-emerald-brand underline">Go shopping</Link>
+        <Link href="/shop" className="mt-4 inline-block text-emerald-brand underline">Go shopping</Link>
       </div>
     );
   }
@@ -73,10 +76,10 @@ export function Checkout() {
           <p className="text-neutral-500 mt-2">Thank you, {addr.name.split(" ")[0]}. A piece of Nimar is on its way 🌿</p>
           <p className="text-emerald-brand font-semibold mt-1">via Razorpay · {pay.toUpperCase()}</p>
           <div className="mt-6 flex justify-center gap-3">
-            <button onClick={() => navigate("/dashboard")} className="bg-emerald-brand text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-brand-dark">
+            <button onClick={() => router.push("/dashboard")} className="bg-emerald-brand text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-brand-dark">
               Track Order
             </button>
-            <Link to="/shop" className="border border-neutral-200 px-6 py-3 rounded-full font-semibold hover:border-emerald-brand">
+            <Link href="/shop" className="border border-neutral-200 px-6 py-3 rounded-full font-semibold hover:border-emerald-brand">
               Keep Shopping
             </Link>
           </div>

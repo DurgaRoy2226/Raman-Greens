@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Minus, Plus, Trash2, Tag, ShoppingBag, ArrowRight } from "lucide-react";
 import { useStore, COUPONS } from "../context/StoreContext";
@@ -33,7 +35,7 @@ export function Cart() {
         <h2 className="font-display font-bold text-3xl mt-6">Your cart awaits Nimari treats</h2>
         <p className="text-neutral-500 mt-2">Discover hand-crafted snacks, organics & gifts from Khandwa.</p>
         <Link
-          to="/shop"
+          href="/shop"
           className="mt-6 inline-flex items-center gap-2 bg-emerald-brand text-white px-7 py-3.5 rounded-full font-semibold hover:bg-emerald-brand-dark"
         >
           <ShoppingBag size={16} /> Explore the shop
@@ -61,11 +63,11 @@ export function Cart() {
                   exit={{ opacity: 0, x: -50 }}
                   className="bg-white p-4 rounded-2xl flex gap-4 items-center"
                 >
-                  <Link to={`/product/${item.product.id}`} className="shrink-0">
+                  <Link href={`/product/${item.product.id}`} className="shrink-0">
                     <img src={item.product.image} alt="" className="w-20 h-20 lg:w-24 lg:h-24 rounded-xl object-cover" />
                   </Link>
                   <div className="flex-1 min-w-0">
-                    <Link to={`/product/${item.product.id}`} className="font-display font-semibold hover:text-emerald-brand line-clamp-1">
+                    <Link href={`/product/${item.product.id}`} className="font-display font-semibold hover:text-emerald-brand line-clamp-1">
                       {item.product.name}
                     </Link>
                     <div className="text-xs text-neutral-500 mt-0.5">{item.product.category} · {item.product.weight}</div>
@@ -133,12 +135,12 @@ export function Cart() {
             </div>
 
             <Link
-              to="/checkout"
+              href="/checkout"
               className="mt-5 w-full bg-emerald-brand text-white py-3.5 rounded-full font-semibold hover:bg-emerald-brand-dark transition flex items-center justify-center gap-2"
             >
               Proceed to Checkout <ArrowRight size={16} />
             </Link>
-            <Link to="/shop" className="block text-center text-sm text-neutral-500 mt-3 hover:text-emerald-brand">
+            <Link href="/shop" className="block text-center text-sm text-neutral-500 mt-3 hover:text-emerald-brand">
               ← Continue shopping
             </Link>
           </div>

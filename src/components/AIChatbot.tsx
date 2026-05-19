@@ -1,9 +1,11 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { PRODUCTS, type Product } from "../data/products";
 import { useStore } from "../context/StoreContext";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 type Msg = { role: "user" | "ai"; text: string; products?: Product[] };
 
@@ -174,7 +176,7 @@ export function AIChatbot() {
                         {m.products.map((p) => (
                           <Link
                             key={p.id}
-                            to={`/product/${p.id}`}
+                            href={`/product/${p.id}`}
                             onClick={() => setOpen(false)}
                             className="flex items-center gap-3 bg-white p-2 rounded-xl border border-beige-soft hover:border-emerald-brand transition shadow-sm"
                           >
