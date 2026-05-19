@@ -25,11 +25,8 @@ export function Navbar() {
 
   const links = [
     { to: "/", label: "Home" },
-    { to: "/shop", label: "Shop" },
-    { to: "/shop?cat=Snacks", label: "Snacks" },
-    { to: "/shop?cat=Organics", label: "Organics" },
-    { to: "/shop?cat=Gifting", label: "Gifting" },
-    { to: "/dashboard", label: "Account" },
+    { to: "/about", label: "About Us" },
+    { to: "/shop", label: "Product" },
   ];
 
   const suggestions = query
@@ -57,46 +54,115 @@ export function Navbar() {
       </div>
 
       <header
-        className={`sticky top-0 z-40 transition-all ${
-          scrolled ? "glass shadow-sm" : "bg-white"
+        className={`sticky top-0 z-40 transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-18 py-3 flex items-center justify-between gap-6">
-          <Link to="/"><Logo /></Link>
+        <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between gap-6">
+          <Link to="/" className="flex-shrink-0"><Logo /></Link>
 
-          <ul className="hidden lg:flex items-center gap-7 text-sm font-medium">
-            {links.map((l) => (
-              <li key={l.label}>
-                <NavLink
-                  to={l.to}
-                  className={({ isActive }) =>
-                    `relative py-1 transition-colors hover:text-emerald-brand ${
-                      isActive ? "text-emerald-brand" : "text-neutral-700"
-                    }`
-                  }
-                >
-                  {l.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          {/* Desktop Navigation & Actions */}
+          <div className="hidden lg:flex items-center flex-1 justify-end gap-8">
+            <ul className="flex items-center gap-8 text-base font-medium">
+              {links.map((l) => (
+                <li key={l.label}>
+                  <NavLink
+                    to={l.to}
+                    className={({ isActive }) =>
+                      `relative py-2 transition-all duration-300 hover:text-emerald-brand group ${
+                        isActive ? "text-emerald-brand font-semibold" : "text-neutral-700"
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {l.label}
+                        <span className={`absolute left-0 bottom-0 h-0.5 bg-emerald-brand transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
 
-          <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2 pl-8 border-l border-neutral-200">
+              <button
+                onClick={() => setSearchOpen((v) => !v)}
+                className="p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors"
+                aria-label="Search"
+              >
+                <Search size={20} />
+              </button>
+              
+              <Link to="/wishlist" className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors" aria-label="Wishlist">
+                <Heart size={20} />
+                <AnimatePresence>
+                  {state.wishlist.length > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -top-1 -right-1 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
+                    >
+                      {state.wishlist.length}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+              
+              <Link to="/cart" className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors">
+                <ShoppingBag size={20} />
+                <AnimatePresence>
+                  {cartCount > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -top-1 -right-1 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
+                    >
+                      {cartCount}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+              
+              {/* Stylish Account Button */}
+              <Link
+                to="/dashboard"
+                className="ml-4 flex items-center gap-2 bg-emerald-brand text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md font-medium text-sm"
+              >
+                <User size={18} />
+                <span>Account</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="flex items-center gap-1 lg:hidden">
             <button
               onClick={() => setSearchOpen((v) => !v)}
-              className="p-2.5 rounded-full hover:bg-beige-soft transition"
+              className="p-2 rounded-full hover:bg-beige-soft transition"
               aria-label="Search"
             >
-              <Search size={18} />
+              <Search size={20} />
             </button>
-            <Link to="/dashboard" className="p-2.5 rounded-full hover:bg-beige-soft transition hidden sm:inline-block">
-              <Heart size={18} />
+            <Link to="/wishlist" className="relative p-2 rounded-full hover:bg-beige-soft transition" aria-label="Wishlist">
+              <Heart size={20} />
+              <AnimatePresence>
+                {state.wishlist.length > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-0.5 -right-0.5 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1"
+                  >
+                    {state.wishlist.length}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </Link>
-            <Link to="/dashboard" className="p-2.5 rounded-full hover:bg-beige-soft transition hidden sm:inline-block">
-              <User size={18} />
-            </Link>
-            <Link to="/cart" className="relative p-2.5 rounded-full hover:bg-beige-soft transition">
-              <ShoppingBag size={18} />
+            <Link to="/cart" className="relative p-2 rounded-full hover:bg-beige-soft transition">
+              <ShoppingBag size={20} />
               <AnimatePresence>
                 {cartCount > 0 && (
                   <motion.span
@@ -111,11 +177,11 @@ export function Navbar() {
               </AnimatePresence>
             </Link>
             <button
-              className="lg:hidden p-2.5 rounded-full hover:bg-beige-soft transition"
+              className="p-2.5 rounded-full hover:bg-beige-soft transition"
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
-              {open ? <X size={18} /> : <Menu size={18} />}
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
@@ -195,6 +261,15 @@ export function Navbar() {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="block px-3 py-2 rounded-lg hover:bg-beige-warm text-sm font-medium"
+                  >
+                    Account
+                  </Link>
+                </li>
                 <li>
                   <Link
                     to="/admin"

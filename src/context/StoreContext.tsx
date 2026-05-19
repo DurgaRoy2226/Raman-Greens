@@ -30,8 +30,7 @@ type Action =
   | { type: "PLACE_ORDER"; order: Order }
   | { type: "UPDATE_ORDER_STATUS"; id: string; status: Order["status"] }
   | { type: "LOGIN"; user: { name: string; email: string } }
-  | { type: "LOGOUT" }
-  | { type: "HYDRATE"; state: Partial<State> };
+  | { type: "LOGOUT" };
 
 const initialState: State = {
   cart: [],
@@ -103,8 +102,6 @@ function reducer(state: State, action: Action): State {
       return { ...state, user: action.user };
     case "LOGOUT":
       return { ...state, user: null };
-    case "HYDRATE":
-      return { ...state, ...action.state };
     default:
       return state;
   }
@@ -112,29 +109,31 @@ function reducer(state: State, action: Action): State {
 
 const StoreCtx = createContext<{ state: State; dispatch: React.Dispatch<Action> } | null>(null);
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+function init(initialState: State): State {
+  if (typeof window === "undefined") return initialState;
+  const raw = localStorage.getItem("rg-knw-store");
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      const cart: CartItem[] = (parsed.cart || [])
+        .map((c: { id: string; qty: number }) => {
+          const p = PRODUCTS.find((x) => x.id === c.id);
+          return p ? { product: p, qty: c.qty } : null;
+        })
+        .filter(Boolean);
+      return {
+        ...initialState,
+        cart,
+        wishlist: parsed.wishlist || [],
+        coupon: parsed.coupon || null,
+      };
+    } catch {}
+  }
+  return initialState;
+}
 
-  // Hydrate from localStorage
-  useEffect(() => {
-    const raw = localStorage.getItem("rg-knw-store");
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw);
-        // re-attach product objects for cart
-        const cart: CartItem[] = (parsed.cart || [])
-          .map((c: { id: string; qty: number }) => {
-            const p = PRODUCTS.find((x) => x.id === c.id);
-            return p ? { product: p, qty: c.qty } : null;
-          })
-          .filter(Boolean);
-        dispatch({
-          type: "HYDRATE",
-          state: { cart, wishlist: parsed.wishlist || [], coupon: parsed.coupon || null },
-        });
-      } catch {}
-    }
-  }, []);
+export function StoreProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
   // Persist
   useEffect(() => {

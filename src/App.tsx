@@ -11,6 +11,9 @@ import { Cart } from "./pages/Cart";
 import { Checkout } from "./pages/Checkout";
 import { Dashboard } from "./pages/Dashboard";
 import { Admin } from "./pages/Admin";
+import { About } from "./pages/About";
+import { Wishlist } from "./pages/Wishlist";
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +32,8 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />

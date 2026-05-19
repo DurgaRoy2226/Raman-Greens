@@ -1,144 +1,181 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles } from "lucide-react";
+import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
+import { useState, useEffect } from "react";
+
+const HERO_SLIDES = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1920&q=80",
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=1920&q=80",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=1920&q=80",
+  },
+  {
+    id: 4,
+    image: "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=1920&q=80",
+  },
+  {
+    id: 5,
+    image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1920&q=80",
+  },
+  {
+    id: 6,
+    image: "https://images.unsplash.com/photo-1596422846543-74c692e1ee81?auto=format&fit=crop&w=1920&q=80",
+  }
+];
 
 export function Home() {
   const trending = PRODUCTS.filter((p) => p.trending);
   const bestsellers = PRODUCTS.filter((p) => p.bestseller).slice(0, 4);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+
   return (
     <>
-      {/* HERO */}
-      <section className="relative bg-nimar-gradient overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <svg className="absolute top-10 right-10 opacity-10" width="400" height="400" viewBox="0 0 200 200">
-            <path d="M150 30 C 80 40 50 90 40 160 C 110 150 140 100 150 30 Z" fill="#008F5A" />
-          </svg>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-12 lg:pt-20 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center relative">
+      {/* HERO SLIDER */}
+      <section 
+        className="relative h-[100vh] min-h-[600px] w-full overflow-hidden group"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            key={currentSlide}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
           >
-            <div className="inline-flex items-center gap-2 glass px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-brand mb-6">
-              <Sparkles size={12} /> Authentic from Khandwa, Madhya Pradesh
-            </div>
-            <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-neutral-900">
-              The Heart of <span className="text-emerald-brand italic">Nimar</span>,
-              <br /> Delivered Fresh.
-            </h1>
-            <p className="mt-6 text-lg text-neutral-600 max-w-lg leading-relaxed">
-              Hand-crafted snacks, certified organics and timeless gifting from the soil of Nimar — straight to
-              your doorstep with care.
-            </p>
+            {/* Background Image with slight scale animation */}
+            <motion.div 
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 6, ease: "easeOut" }}
+              className="absolute inset-0"
+            >
+              <img 
+                src={HERO_SLIDES[currentSlide].image} 
+                alt="Fresh Fruits and Vegetables"
+                className="w-full h-full object-cover"
+              />
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-black/60" />
+            </motion.div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/shop"
-                className="inline-flex items-center gap-2 bg-emerald-brand text-white px-7 py-3.5 rounded-full font-semibold hover:bg-emerald-brand-dark transition group shadow-lg shadow-emerald-brand/30"
-              >
-                Shop Nimar's Best
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-              </Link>
-              <Link
-                to="/shop?cat=Gifting"
-                className="inline-flex items-center gap-2 bg-white border border-neutral-200 px-7 py-3.5 rounded-full font-semibold hover:border-emerald-brand transition"
-              >
-                Festive Hampers 🎁
-              </Link>
-            </div>
+            {/* Content */}
+            <div className="absolute inset-0 flex items-center">
+              <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  className="max-w-2xl text-white"
+                >
+                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold text-white mb-6 border border-white/30">
+                    <Sparkles size={12} className="text-amber-300" /> Authentic from Khandwa, Madhya Pradesh
+                  </div>
+                  <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-white">
+                    Fresh Fruits & <br/>
+                    <span className="text-emerald-400 italic">Vegetables</span>
+                  </h1>
+                  <p className="mt-6 text-xl text-white/90 max-w-lg leading-relaxed font-semibold tracking-wide uppercase">
+                    Natural • Organic • Farm Fresh
+                  </p>
 
-            <div className="mt-10 flex items-center gap-6 text-sm">
-              <div className="flex -space-x-2">
-                {[
-                  "https://i.pravatar.cc/40?img=12",
-                  "https://i.pravatar.cc/40?img=32",
-                  "https://i.pravatar.cc/40?img=45",
-                  "https://i.pravatar.cc/40?img=8",
-                ].map((s) => (
-                  <img key={s} src={s} alt="" className="w-9 h-9 rounded-full border-2 border-white" />
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-1 text-amber-500">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
-                  <span className="text-neutral-700 font-semibold ml-1">4.9</span>
-                </div>
-                <div className="text-xs text-neutral-500">Loved by 12,000+ Nimari families</div>
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    <Link
+                      to="/shop"
+                      className="inline-flex items-center gap-2 bg-emerald-brand text-white px-8 py-4 rounded-full font-semibold hover:bg-emerald-brand-dark transition shadow-lg shadow-emerald-brand/30"
+                    >
+                      Shop Now
+                      <ArrowRight size={18} />
+                    </Link>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>
+        </AnimatePresence>
 
-          {/* Hero visual collage */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-[480px] lg:h-[560px]"
+        {/* Navigation Arrows */}
+        <div className="absolute inset-y-0 left-4 lg:left-8 flex items-center opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <button 
+            onClick={prevSlide}
+            className="w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/40 transition"
+            aria-label="Previous slide"
           >
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute top-0 right-0 w-72 h-96 rounded-3xl overflow-hidden shadow-2xl"
-            >
-              <img src={PRODUCTS[4].image} alt="" className="w-full h-full object-cover" />
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-              className="absolute bottom-10 left-0 w-60 h-72 rounded-3xl overflow-hidden shadow-2xl"
-            >
-              <img src={PRODUCTS[0].image} alt="" className="w-full h-full object-cover" />
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, delay: 1 }}
-              className="absolute top-32 left-32 w-44 h-44 rounded-3xl overflow-hidden shadow-2xl"
-            >
-              <img src={PRODUCTS[2].image} alt="" className="w-full h-full object-cover" />
-            </motion.div>
-
-            {/* Floating glass card */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1 }}
-              className="absolute bottom-6 right-2 glass p-4 rounded-2xl shadow-xl w-56"
-            >
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-brand mb-1">
-                <Leaf size={14} /> 100% NIMARI
-              </div>
-              <div className="text-sm font-display font-semibold">Stone-ground spices, sun-dried in Khandwa.</div>
-            </motion.div>
-          </motion.div>
+            <ChevronLeft size={24} />
+          </button>
+        </div>
+        <div className="absolute inset-y-0 right-4 lg:right-8 flex items-center opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <button 
+            onClick={nextSlide}
+            className="w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/40 transition"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
 
-        {/* Trust strip */}
-        <div className="border-t border-beige-soft bg-white/60 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-4 lg:px-8 py-5 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-            {[
-              { icon: Truck, t: "Free shipping ₹499+", s: "Pan-India delivery" },
-              { icon: ShieldCheck, t: "Secure Razorpay", s: "UPI · Cards · Netbanking" },
-              { icon: Leaf, t: "100% Authentic", s: "Sourced from Khandwa farms" },
-              { icon: Award, t: "Award-winning", s: "MP Fest 2025 winners" },
-            ].map((it) => (
-              <div key={it.t} className="flex items-center gap-3 justify-center sm:justify-start">
-                <div className="w-10 h-10 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0">
-                  <it.icon size={18} />
-                </div>
-                <div className="text-left">
-                  <div className="text-sm font-semibold">{it.t}</div>
-                  <div className="text-xs text-neutral-500">{it.s}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Indicators */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
+          {HERO_SLIDES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`transition-all duration-300 rounded-full ${
+                currentSlide === idx 
+                  ? "w-10 h-2 bg-emerald-brand" 
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </section>
+
+      {/* Trust strip */}
+      <div className="bg-white border-b border-beige-soft relative z-10 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+          {[
+            { icon: Truck, t: "Free shipping ₹499+", s: "Pan-India delivery" },
+            { icon: ShieldCheck, t: "Secure Razorpay", s: "UPI · Cards · Netbanking" },
+            { icon: Leaf, t: "100% Authentic", s: "Sourced from Khandwa farms" },
+            { icon: Award, t: "Award-winning", s: "MP Fest 2025 winners" },
+          ].map((it) => (
+            <div key={it.t} className="flex items-center gap-3 justify-center sm:justify-start">
+              <div className="w-12 h-12 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0">
+                <it.icon size={20} />
+              </div>
+              <div className="text-left">
+                <div className="text-sm font-semibold text-neutral-900">{it.t}</div>
+                <div className="text-xs text-neutral-500 mt-0.5">{it.s}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* CATEGORY GRID */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
