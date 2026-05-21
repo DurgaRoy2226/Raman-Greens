@@ -27,6 +27,7 @@ export function Navbar() {
     { to: "/", label: "Home" },
     { to: "/about", label: "About Us" },
     { to: "/shop", label: "Product" },
+    { to: "/contact", label: "Contact Us" },
   ];
 
   const suggestions = query

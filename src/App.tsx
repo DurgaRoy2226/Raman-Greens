@@ -12,6 +12,7 @@ import { Checkout } from "./pages/Checkout";
 import { Dashboard } from "./pages/Dashboard";
 import { Admin } from "./pages/Admin";
 import { About } from "./pages/About";
+import { Contact } from "./pages/Contact";
 import { Wishlist } from "./pages/Wishlist";
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ function AppLayout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
