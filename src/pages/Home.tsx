@@ -1,11 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Leaf, Truck, ShieldCheck, Award, Star, Sparkles, ChevronLeft, ChevronRight, MapPin, Users, Map, Heart, Activity } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
 import { CategorySlider } from "../components/CategorySlider";
-import { FeatureProducts } from "../components/FeatureProducts";
 import { useState, useEffect } from "react";
+
+const floatCardVariants = (delay: number) => ({
+  animate: {
+    y: [0, -8, 0],
+    transition: {
+      duration: 4.5,
+      repeat: Infinity,
+      ease: "easeInOut" as const,
+      delay: delay,
+    }
+  }
+});
 
 const HERO_SLIDES = [
   {
@@ -239,9 +250,6 @@ export function Home() {
       {/* CATEGORY SLIDER */}
       <CategorySlider />
 
-      {/* FEATURE PRODUCTS */}
-      <FeatureProducts />
-
       {/* TRENDING */}
       <section className="bg-beige-warm py-20">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
@@ -257,55 +265,199 @@ export function Home() {
         </div>
       </section>
 
-      {/* STORY STRIP */}
-      <section className="max-w-7xl mx-auto px-4 lg:px-8 py-24 grid lg:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="relative h-[480px] rounded-3xl overflow-hidden"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
-            alt="Nimar farms"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-emerald-brand-dark/80 via-transparent" />
-          <div className="absolute bottom-6 left-6 right-6 glass-dark p-5 rounded-2xl text-white">
-            <div className="text-xs font-bold tracking-widest uppercase opacity-80">Our Roots</div>
-            <div className="font-display text-xl mt-1">300 acres of Nimari black soil. 50+ partner farmers.</div>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
-          <div className="text-emerald-brand font-semibold tracking-widest text-xs uppercase">Our Story</div>
-          <h2 className="font-display font-bold text-4xl lg:text-5xl mt-3 leading-tight">
-            From Nimari soil to your table — without shortcuts.
-          </h2>
-          <p className="mt-5 text-neutral-600 leading-relaxed">
-            Raman Greens KNW was born in 2018 in a small kitchen in Khandwa with one belief: the soul of Nimar
-            deserves a stage. We work directly with farmers across the Narmada belt to bring you snacks, organics
-            and gifting that taste exactly like home.
-          </p>
-          <ul className="mt-6 space-y-3">
-            {[
-              "Direct-from-farm sourcing across 12 villages",
-              "Stone-ground & cold-pressed processes",
-              "Zero artificial preservatives, ever",
-              "Empowering 200+ rural women through partnerships",
-            ].map((t) => (
-              <li key={t} className="flex items-start gap-3 text-sm">
-                <div className="w-5 h-5 rounded-full bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mt-0.5 shrink-0">
-                  <Leaf size={11} />
+      {/* STORY STRIP REDESIGNED */}
+      <section className="relative overflow-hidden py-28 lg:py-36 bg-gradient-to-br from-emerald-brand/5 via-white/80 to-emerald-brand/10">
+        {/* Background glow / blur circles */}
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-emerald-brand/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-beige-soft/40 rounded-full blur-[120px] pointer-events-none" />
+
+        {/* Top Wave Divider */}
+        <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-[0] z-20">
+          <svg className="relative block w-full h-[40px] md:h-[60px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,12.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1095,48.33,1200,90.2V0Z" fill="#F5F0E8"></path>
+          </svg>
+        </div>
+
+        {/* Bottom Wave Divider */}
+        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-[0] z-20">
+          <svg className="relative block w-full h-[40px] md:h-[60px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V120H1200V0c-105,41.87-210.51,65.2-303.15,34.41-34.6-11.5-68.3-23.34-104.45-29.34C721.3,-6.8,652.27,0.08,583,18.05,512.34,36.43,438.64,77.67,364.8,42.79c-70.47-4.19-136.44-32.13-206.8-37.5C103.59,1.12,47.79,11.09,0,33.29Z" fill="#FFFFFF"></path>
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Image & Floating Stats (5 cols on lg) */}
+            <div className="lg:col-span-5 relative mt-8 lg:mt-0 px-4">
+              {/* Soft visual shadow ring */}
+              <div className="absolute -inset-4 bg-emerald-brand/5 rounded-[2.5rem] blur-xl" />
+
+              {/* Main Image Card */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white/60 group z-10"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
+                  alt="Nimar farms"
+                  className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-brand-dark/40 via-transparent opacity-60" />
+              </motion.div>
+
+              {/* Floating Stat 1: 300+ Acres */}
+              <motion.div
+                variants={floatCardVariants(0)}
+                animate="animate"
+                className="absolute -top-6 -left-6 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/40 flex items-center gap-3 group/stat hover:bg-white transition-colors duration-300 pointer-events-auto z-20"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center group-hover/stat:scale-110 transition-transform duration-300">
+                  <Map size={18} />
                 </div>
-                {t}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
+                <div>
+                  <div className="text-sm font-bold text-neutral-800 leading-none">300+ Acres</div>
+                  <div className="text-[10px] text-neutral-500 mt-1 font-medium">Nimari Black Soil</div>
+                </div>
+              </motion.div>
+
+              {/* Floating Stat 2: 50+ Farmers */}
+              <motion.div
+                variants={floatCardVariants(1.2)}
+                animate="animate"
+                className="absolute top-1/4 -right-6 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/40 flex items-center gap-3 group/stat hover:bg-white transition-colors duration-300 pointer-events-auto z-20"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center group-hover/stat:scale-110 transition-transform duration-300">
+                  <Users size={18} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-neutral-800 leading-none">50+ Farmers</div>
+                  <div className="text-[10px] text-neutral-500 mt-1 font-medium">Partner Families</div>
+                </div>
+              </motion.div>
+
+              {/* Floating Stat 3: 12 Villages */}
+              <motion.div
+                variants={floatCardVariants(0.6)}
+                animate="animate"
+                className="absolute bottom-1/4 -left-6 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/40 flex items-center gap-3 group/stat hover:bg-white transition-colors duration-300 pointer-events-auto z-20"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center group-hover/stat:scale-110 transition-transform duration-300">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-neutral-800 leading-none">12 Villages</div>
+                  <div className="text-[10px] text-neutral-500 mt-1 font-medium">Narmada Belt Sourcing</div>
+                </div>
+              </motion.div>
+
+              {/* Floating Stat 4: 200+ Women Empowered */}
+              <motion.div
+                variants={floatCardVariants(1.8)}
+                animate="animate"
+                className="absolute -bottom-6 -right-6 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/40 flex items-center gap-3 group/stat hover:bg-white transition-colors duration-300 pointer-events-auto z-20"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center group-hover/stat:scale-110 transition-transform duration-300">
+                  <Heart size={18} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-neutral-800 leading-none">200+ Women</div>
+                  <div className="text-[10px] text-neutral-500 mt-1 font-medium">Empowered in Nimar</div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Story Details Card (7 cols on lg) */}
+            <div className="lg:col-span-7">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="glass p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-white/50 backdrop-blur-md"
+              >
+                <div className="inline-flex items-center gap-2 bg-emerald-brand/10 border border-emerald-brand/20 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-emerald-brand mb-6">
+                  <Leaf size={12} className="animate-pulse" /> Our Story & Heritage
+                </div>
+                
+                <h2 className="font-display font-extrabold text-4xl lg:text-5xl text-neutral-800 leading-tight mb-6">
+                  From Nimari soil to your table — <span className="text-emerald-brand">without shortcuts</span>.
+                </h2>
+                
+                <p className="text-neutral-600 leading-relaxed mb-8 text-sm md:text-base font-sans">
+                  Raman Greens KNW was born in 2018 in a small kitchen in Khandwa with one belief: the soul of Nimar
+                  deserves a stage. We work directly with farmers across the Narmada belt to bring you snacks, organics
+                  and gifting that taste exactly like home.
+                </p>
+
+                {/* 2x2 Grid of Bullet details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                  {[
+                    {
+                      icon: MapPin,
+                      title: "Direct Farm Sourcing",
+                      desc: "Sourced directly from partner farms across 12 villages in Nimar.",
+                      color: "from-emerald-400/20 to-emerald-500/20 text-emerald-brand"
+                    },
+                    {
+                      icon: Activity,
+                      title: "Artisanal Processing",
+                      desc: "Traditional stone-ground and cold-pressed methods.",
+                      color: "from-amber-400/20 to-amber-500/20 text-amber-600"
+                    },
+                    {
+                      icon: ShieldCheck,
+                      title: "100% Preservative Free",
+                      desc: "No artificial colors, preservatives, or chemical additives.",
+                      color: "from-blue-400/20 to-blue-500/20 text-blue-600"
+                    },
+                    {
+                      icon: Heart,
+                      title: "Women Empowerment",
+                      desc: "Providing employment to over 200+ rural women.",
+                      color: "from-pink-400/20 to-pink-500/20 text-pink-600"
+                    }
+                  ].map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <motion.div
+                        key={item.title}
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.05, duration: 0.4 }}
+                        className="flex gap-4 group/item"
+                      >
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shrink-0 shadow-sm group-hover/item:scale-110 group-hover/item:rotate-3 transition-all duration-300`}>
+                          <Icon size={20} />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-neutral-800 text-sm md:text-base leading-snug group-hover/item:text-emerald-brand transition-colors duration-200">{item.title}</h4>
+                          <p className="text-neutral-500 text-xs md:text-sm mt-1 leading-relaxed">{item.desc}</p>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Premium CTA Button */}
+                <div className="flex">
+                  <Link
+                    to="/shop"
+                    className="group relative inline-flex items-center gap-3 bg-emerald-brand text-white px-8 py-3.5 rounded-full text-sm font-bold tracking-wide uppercase overflow-hidden shadow-lg shadow-emerald-brand/20 hover:shadow-xl hover:shadow-emerald-brand/35 hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <span className="relative z-10">Explore Products</span>
+                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+
+          </div>
+        </div>
       </section>
 
       {/* BESTSELLERS */}
