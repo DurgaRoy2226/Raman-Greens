@@ -18,7 +18,7 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <Logo />
+            <Logo height="h-14 md:h-16" />
             <p className="mt-5 text-sm leading-relaxed text-neutral-500 max-w-[260px]">
               Born in the soil of Nimar, Khandwa. Fresh, organic and authentic
               Nimari flavours — handcrafted with love.
