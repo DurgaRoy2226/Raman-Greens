@@ -1,9 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { PRODUCTS, type Product } from "../../data/products";
 import {
   Search, Plus, Edit, Trash2, Eye, ChevronLeft, ChevronRight,
-  Star, SlidersHorizontal, X, Upload, Filter
+  Star, SlidersHorizontal, X, Upload, Filter, AlertCircle
 } from "lucide-react";
+import { fetchProducts, addProduct, updateProduct, deleteProduct } from "../../utils/api";
 
 const CATEGORIES = ["All", ...Array.from(new Set(PRODUCTS.map(p => p.category)))];
 const PAGE_SIZE = 6;
@@ -18,7 +19,8 @@ const EMPTY: ModalProduct = {
 };
 
 export function ProductsView({ dm }: { dm: boolean }) {
-  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch]   = useState("");
   const [catFilter, setCat]   = useState("All");
   const [stockFilter, setStock] = useState("All");
@@ -30,6 +32,30 @@ export function ProductsView({ dm }: { dm: boolean }) {
   const [modal, setModal]     = useState<null | "add" | "edit" | "view">(null);
   const [form, setForm]       = useState<ModalProduct>(EMPTY);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  // File upload state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Load products from API
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      setLoading(true);
+      try {
+        const data = await fetchProducts();
+        if (active) setProducts(data);
+      } catch (err) {
+        console.error("Failed to load products", err);
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+    load();
+    return () => { active = false; };
+  }, []);
 
   // ── Filtering & Sorting ──────────────────────────────────────────────────
   const filtered = useMemo(() => {
@@ -56,10 +82,19 @@ export function ProductsView({ dm }: { dm: boolean }) {
     : stock < 25    ? { label:"Low Stock",    cls:"bg-amber-100 text-amber-700"  }
     :                 { label:"In Stock",     cls:"bg-emerald-100 text-emerald-700" };
 
-  const openAdd  = () => { setForm(EMPTY); setModal("add"); };
+  const openAdd  = () => {
+    setForm(EMPTY);
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setUploadError(null);
+    setModal("add");
+  };
   const openEdit = (p: Product) => {
     setForm({ id:p.id, name:p.name, description:p.description, price:p.price,
               category:p.category, stock:p.stock, image:p.image, rating:p.rating });
+    setSelectedFile(null);
+    setPreviewUrl(p.image);
+    setUploadError(null);
     setModal("edit");
   };
   const openView = (p: Product) => {
@@ -68,24 +103,85 @@ export function ProductsView({ dm }: { dm: boolean }) {
     setModal("view");
   };
 
-  const saveProduct = () => {
-    if (!form.name || form.price === "" || form.stock === "") return;
-    const updated: Product = {
-      ...(products.find(p => p.id === form.id) ?? PRODUCTS[0]),
-      id: form.id || `p${Date.now()}`,
-      name: form.name, description: form.description,
-      price: Number(form.price), category: form.category as Product["category"],
-      stock: Number(form.stock), image: form.image || "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400",
-      rating: form.rating,
-    };
-    if (modal === "edit") setProducts(prev => prev.map(p => p.id === updated.id ? updated : p));
-    else setProducts(prev => [updated, ...prev]);
-    setModal(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setUploadError(null);
+    if (!file) return;
+
+    // Validation: Accept only image formats (.jpg, .jpeg, .png, .webp)
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    const allowedExts = [".jpeg", ".jpg", ".png", ".webp"];
+    const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+    
+    if (!allowedTypes.includes(file.type) || !allowedExts.includes(ext)) {
+      setUploadError("Only image formats (.jpg, .jpeg, .png, .webp) are allowed!");
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    // Validation: Max size 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("Image size exceeds the 5MB limit!");
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const confirmDelete = () => {
-    if (deleteId) setProducts(prev => prev.filter(p => p.id !== deleteId));
-    setDeleteId(null);
+  const saveProduct = async () => {
+    if (!form.name || form.price === "" || form.stock === "") return;
+    
+    setIsSaving(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      if (form.id) {
+        formData.append("id", form.id);
+      }
+      formData.append("name", form.name);
+      formData.append("description", form.description);
+      formData.append("price", String(form.price));
+      formData.append("stock", String(form.stock));
+      formData.append("category", form.category);
+
+      if (selectedFile) {
+        formData.append("imageFile", selectedFile);
+      } else if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      let saved: Product;
+      if (modal === "edit") {
+        saved = await updateProduct(form.id, formData);
+        setProducts(prev => prev.map(p => p.id === saved.id ? saved : p));
+      } else {
+        saved = await addProduct(formData);
+        setProducts(prev => [saved, ...prev]);
+      }
+      setModal(null);
+    } catch (err: any) {
+      console.error("Error saving product", err);
+      setUploadError(err.message || "Failed to save product. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteProduct(deleteId);
+      setProducts(prev => prev.filter(p => p.id !== deleteId));
+    } catch (err) {
+      console.error("Error deleting product", err);
+    } finally {
+      setDeleteId(null);
+    }
   };
 
   // ── Styles ───────────────────────────────────────────────────────────────
@@ -164,7 +260,14 @@ export function ProductsView({ dm }: { dm: boolean }) {
               </tr>
             </thead>
             <tbody>
-              {pageData.length === 0 ? (
+              {loading ? (
+                <tr><td colSpan={7} className={`text-center py-16 ${sub}`}>
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="font-semibold text-sm">Loading products...</p>
+                  </div>
+                </td></tr>
+              ) : pageData.length === 0 ? (
                 <tr><td colSpan={7} className={`text-center py-16 ${sub}`}>
                   <div className="flex flex-col items-center gap-2">
                     <SlidersHorizontal size={32} className="opacity-30"/>
@@ -276,18 +379,83 @@ export function ProductsView({ dm }: { dm: boolean }) {
               <button onClick={()=>setModal(null)} className={`p-2 rounded-xl ${dm?"hover:bg-gray-700":"hover:bg-gray-100"} transition`}><X size={18}/></button>
             </div>
             <div className="p-6 space-y-4">
-              {/* Image preview */}
-              <div className={`relative w-full h-36 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer
-                ${dm?"border-gray-600 bg-gray-700":"border-gray-200 bg-gray-50"} overflow-hidden`}>
-                {form.image
-                  ? <img src={form.image} alt="" className="w-full h-full object-cover"/>
-                  : <><Upload size={24} className={sub}/><p className={`text-xs mt-2 ${sub}`}>Paste image URL below</p></>}
-              </div>
+              {/* Image Upload Area */}
               <div>
-                <label className={`text-xs font-semibold ${sub} mb-1.5 block`}>Image URL</label>
-                <input value={form.image} onChange={e=>setForm({...form,image:e.target.value})}
-                  placeholder="https://..." className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:ring-2 focus:ring-emerald-400/40 ${inp}`}/>
+                <label className={`text-xs font-semibold ${sub} mb-1.5 block`}>Product Image *</label>
+                
+                {/* Visual selector / preview box */}
+                <div 
+                  onClick={() => document.getElementById("device-image-input")?.click()}
+                  className={`group relative w-full h-40 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all duration-200
+                    ${uploadError ? "border-red-400 bg-red-50/10" : dm ? "border-gray-600 bg-gray-750 hover:border-emerald-500" : "border-gray-200 bg-gray-50 hover:border-emerald-500"} overflow-hidden`}>
+                  
+                  {previewUrl ? (
+                    <>
+                      <img src={previewUrl} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                      <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                        <p className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/40 px-3.5 py-2 rounded-xl backdrop-blur-sm border border-white/10">
+                          <Upload size={14}/> Change Image
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center p-4 text-center">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2.5 transition-colors
+                        ${dm ? "bg-gray-700 text-emerald-400 group-hover:bg-gray-650" : "bg-emerald-50 text-emerald-500 group-hover:bg-emerald-100"}`}>
+                        <Upload size={20}/>
+                      </div>
+                      <p className={`text-xs font-bold ${text}`}>Upload an image from device</p>
+                      <p className={`text-[10px] mt-1 ${sub}`}>Accepts PNG, JPG, JPEG, WEBP · Max 5MB</p>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Hidden File Input */}
+                <input 
+                  type="file" 
+                  id="device-image-input" 
+                  accept="image/png, image/jpeg, image/jpg, image/webp" 
+                  onChange={handleFileChange} 
+                  className="hidden"
+                />
               </div>
+
+              {/* URL Input (Optional alternative) */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className={`text-xs font-semibold ${sub}`}>Or Paste Image URL</label>
+                  {previewUrl && (
+                    <button 
+                      type="button" 
+                      onClick={() => { setSelectedFile(null); setPreviewUrl(null); setForm({...form, image: ""}); }}
+                      className="text-[10px] font-bold text-red-500 hover:text-red-600 transition">
+                      Clear Image
+                    </button>
+                  )}
+                </div>
+                <input 
+                  type="text"
+                  value={selectedFile ? "" : form.image} 
+                  disabled={!!selectedFile}
+                  onChange={e => {
+                    setForm({...form, image: e.target.value});
+                    setPreviewUrl(e.target.value || null);
+                    setUploadError(null);
+                  }}
+                  placeholder={selectedFile ? "Using file uploaded from device..." : "https://example.com/image.jpg"} 
+                  className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition focus:ring-2 focus:ring-emerald-400/40 
+                    ${selectedFile ? "opacity-50 cursor-not-allowed bg-gray-150" : inp}`}
+                />
+              </div>
+
+              {/* Validation/Upload Errors */}
+              {uploadError && (
+                <div className="flex items-start gap-2 p-3.5 bg-red-50 text-red-600 border border-red-100 rounded-xl text-xs font-medium">
+                  <AlertCircle size={15} className="shrink-0 mt-0.5"/>
+                  <span>{uploadError}</span>
+                </div>
+              )}
+
               <div>
                 <label className={`text-xs font-semibold ${sub} mb-1.5 block`}>Product Name *</label>
                 <input value={form.name} onChange={e=>setForm({...form,name:e.target.value})}
@@ -320,13 +488,14 @@ export function ProductsView({ dm }: { dm: boolean }) {
               </div>
             </div>
             <div className={`flex gap-3 px-6 py-4 border-t ${dm?"border-gray-700":"border-gray-100"}`}>
-              <button onClick={()=>setModal(null)}
-                className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition ${dm?"border-gray-600 text-gray-300 hover:bg-gray-700":"border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
+              <button onClick={()=>setModal(null)} disabled={isSaving}
+                className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition disabled:opacity-50 ${dm?"border-gray-600 text-gray-300 hover:bg-gray-700":"border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
                 Cancel
               </button>
-              <button onClick={saveProduct}
-                className="flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition shadow-sm">
-                {modal==="add"?"Add Product":"Save Changes"}
+              <button onClick={saveProduct} disabled={isSaving}
+                className="flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/70 text-white text-sm font-semibold transition shadow-sm flex items-center justify-center gap-2">
+                {isSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                {isSaving ? "Saving..." : modal==="add"?"Add Product":"Save Changes"}
               </button>
             </div>
           </div>
