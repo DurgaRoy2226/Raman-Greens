@@ -7,11 +7,9 @@
     "oldPrice": 220,
     "rating": 4.8,
     "reviews": 342,
-    "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?auto=format&fit=crop&w=900&q=80",
+    "image": "/uploads/product-1779362616198-942918652.jpg",
     "gallery": [
-      "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
+      "/uploads/product-1779362616198-942918652.jpg"
     ],
     "description": "Hand-rolled gram flour sev seasoned with the fiery red chillies of Nimar. A tea-time legend from the bylanes of Khandwa.",
     "benefits": [
