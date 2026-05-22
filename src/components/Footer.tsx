@@ -10,7 +10,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="bg-offWhite border-t border-neutral-100 mt-24">
+    <footer className="bg-offWhite border-t border-neutral-100">
 
       {/* Main grid */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16">

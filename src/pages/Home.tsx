@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, ShieldCheck, Star, Sparkles, ChevronLeft, ChevronRight, Activity, Heart, MapPin } from "lucide-react";
+import { ArrowRight, Leaf, ShieldCheck, Star, Sparkles, ChevronLeft, ChevronRight, Activity, Heart, MapPin, Truck, Package, CreditCard, Award, Headphones } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { ShopByCategory } from "../components/ShopByCategory";
 import { RegionalFavourites } from "../components/RegionalFavourites";
@@ -72,17 +72,14 @@ export function Home() {
 
             {/* Content */}
             <div className="absolute inset-0 flex items-center">
-              <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+              <div className="max-w-[1300px] mx-auto px-6 lg:px-12 w-full">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-                  className="max-w-3xl text-white"
+                  className="max-w-3xl text-white pr-12"
                 >
-                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white mb-8 border border-white/20 shadow-sm">
-                    <Sparkles size={14} className="text-emerald-400" /> 100% Certified Organic
-                  </div>
-                  
+                  <span className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4"><Sparkles size={14} /> 100% Certified Organic</span>
                   <h1 className="font-serif font-medium text-5xl sm:text-6xl lg:text-[6rem] leading-[1.05] tracking-tight text-white mb-8 drop-shadow-sm">
                     Pure Taste of <br/>
                     <span className="text-emerald-400 italic">Nimar Valley</span>
@@ -145,49 +142,62 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-      <section className="mt-12 py-12 px-6 lg:px-12 max-w-[1400px] mx-auto bg-white text-neutral-900">
-        <div className="text-center mb-12 flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-block"
-          >
-            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
-              Our Promise
-            </span>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
-              Why Raman Greens?
-            </h2>
-            <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {[
-            { icon: Leaf, title: "100% Organic", desc: "Certified organic produce sourced directly from farmers." },
-            { icon: ShieldCheck, title: "No Preservatives", desc: "Pure, natural ingredients with zero chemical additives." },
-            { icon: Activity, title: "Cold Pressed", desc: "Traditional extraction methods retaining full nutrients." },
-            { icon: Heart, title: "Women Empowered", desc: "Supporting rural women across the Narmada belt." }
-          ].map((feature, i) => {
-            const Icon = feature.icon;
-            return (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="flex flex-col items-center text-center group"
-              >
-                <div className="w-20 h-20 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-emerald-700 flex items-center justify-center mb-6 group-hover:bg-emerald-700 group-hover:text-white transition-all duration-500 group-hover:-translate-y-2">
-                  <Icon size={28} strokeWidth={1.5} />
-                </div>
-                <h3 className="font-serif font-medium text-xl text-neutral-900 mb-3">{feature.title}</h3>
-                <p className="text-sm text-neutral-500 leading-relaxed max-w-[220px] font-light">{feature.desc}</p>
-              </motion.div>
-            )
-          })}
+      <section className="relative mt-8 py-10 px-6 lg:px-12 w-full bg-[#F9FCF9] text-neutral-900 overflow-hidden">
+        {/* Faint leaf pattern background */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")' }} />
+        
+        <div className="max-w-[1400px] mx-auto relative z-10">
+          <div className="text-center mb-12 flex flex-col items-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="inline-block"
+            >
+              
+              <span className="inline-flex items-center gap-2 bg-black/5 backdrop-blur-md text-black px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4"><Sparkles size={14} /> Our Promise</span>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
+                Why Raman Greens?
+              </h2>
+              <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
+            </motion.div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {[
+              { icon: Leaf, subtitle: "SINCE 1983", title: "100% Organic", desc: "Certified organic produce sourced directly from farmers. Find out what it means to be fresh from source.", linkText: "Our Story >" },
+              { icon: ShieldCheck, subtitle: "PURE & NATURAL", title: "No Preservatives", desc: "Pure, natural ingredients with zero chemical additives, purposely blended for delicious taste.", linkText: "Shop Our Range >" },
+              { icon: Activity, subtitle: "TRADITIONAL", title: "Cold Pressed", desc: "Traditional extraction methods retaining full nutrients and ensuring the highest quality.", linkText: "Explore Process >" },
+              { icon: Heart, subtitle: "COMMUNITY", title: "Women Empowered", desc: "Supporting rural women across the Narmada belt to build sustainable livelihoods.", linkText: "Read More >" }
+            ].map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
+                  className="bg-white p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col items-center text-center group h-full transition-transform duration-500 hover:-translate-y-2 border border-black/5"
+                >
+                  <div className="relative mb-10 mt-4">
+                    <div className="absolute -top-2 -left-4 w-12 h-12 bg-[#8bc34a] rounded-full z-0 opacity-90 transition-transform duration-500 group-hover:scale-110" />
+                    <Icon size={48} strokeWidth={1} className="relative z-10 text-[#1a3626]" />
+                  </div>
+                  
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[#8bc34a] uppercase mb-2">
+                    {feature.subtitle}
+                  </span>
+                  
+                  <h3 className="font-serif font-bold text-2xl text-[#1a3626] mb-4">{feature.title}</h3>
+                  
+                  <p className="text-[13px] text-neutral-600 leading-relaxed font-medium flex-grow max-w-[240px]">
+                    {feature.desc}
+                  </p>
+                </motion.div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
@@ -195,7 +205,7 @@ export function Home() {
       <ShopByCategory />
 
       {/* STORY STRIP REDESIGNED (Clean & Minimal) */}
-      <section className="py-10 lg:py-14 bg-[#FAFAFA] relative overflow-hidden">
+      <section className="py-8 lg:py-10 bg-[#FAFAFA] relative overflow-hidden">
         {/* Soft Organic Background Blurs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[10%] w-[40%] h-[50%] bg-emerald-600/5 rounded-full blur-[140px]" />
@@ -227,11 +237,9 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-6">
-                Our Heritage
-              </span>
+                <span className="inline-flex items-center gap-2 bg-black/5 backdrop-blur-md text-black px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4"><Sparkles size={14} /> Our Heritage</span>
               
-              <h2 className="font-serif text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-8">
+              <h2 className="font-serif text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-8 pr-8">
                 From Nimari soil to your table, <span className="text-emerald-700 italic">without shortcuts.</span>
               </h2>
               
@@ -296,6 +304,7 @@ export function Home() {
             <span className="block text-emerald-300 font-bold tracking-[0.3em] uppercase text-[11px] mb-6">
               Farm to Table
             </span>
+            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">Explore Our Range</span>
             <h2 className="font-serif font-medium text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-10 drop-shadow-md">
               The Essence of Nimar
             </h2>
@@ -313,10 +322,10 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-      <section className="py-10 bg-[#FAFAFA] border-t border-neutral-100/50">
+      <section className="py-8 bg-[#FAFAFA] border-t border-neutral-100/50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           
-          <div className="text-center mb-12 flex flex-col items-center">
+          <div className="text-center mb-10 flex flex-col items-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -324,9 +333,7 @@ export function Home() {
               transition={{ duration: 0.6 }}
               className="inline-block"
             >
-              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
-                Testimonials
-              </span>
+              <span className="inline-flex items-center gap-2 bg-black/5 backdrop-blur-md text-black px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4"><Sparkles size={14} /> Testimonials</span>
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
                 Letters From Our Customers
               </h2>
@@ -379,40 +386,67 @@ export function Home() {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      <section className="bg-white py-10 px-6 lg:px-12">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="relative bg-emerald-800 rounded-[32px] p-10 lg:p-16 text-white overflow-hidden shadow-2xl">
-            <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
-            <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
+      {/* NEWSLETTER & FEATURES */}
+      <section className="bg-white border-b border-neutral-100">
+        {/* Newsletter Banner */}
+        <div className="relative py-12 lg:py-16 w-full overflow-hidden bg-[#f4f7f4]">
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")' }} />
+          
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
             
-            <div className="relative grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              <div>
-                <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-300 mb-4">
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 w-full lg:w-auto">
+              <div className="relative w-40 h-40 lg:w-48 lg:h-48 -ml-4 lg:-ml-12 flex-shrink-0">
+                <img src="/images/tea-cup.png" alt="Tea Cup" className="w-full h-full object-contain drop-shadow-2xl" />
+              </div>
+              <div className="text-center lg:text-left max-w-sm">
+                <h3 className="font-serif font-bold text-3xl lg:text-4xl text-[#1a3626] mb-3">
                   Join Our Community
-                </span>
-                <h3 className="font-serif font-medium text-4xl lg:text-5xl leading-tight mb-4">
-                  Get a taste of Nimar, every Sunday.
                 </h3>
-                <p className="text-emerald-100/80 font-light text-sm max-w-md leading-relaxed">
-                  Recipes, festival hampers and farmer stories. Plus 10% off your first order.
+                <p className="text-neutral-600 text-[13px] leading-relaxed">
+                  You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.
                 </p>
               </div>
-              
-              <div className="w-full">
-                <form className="flex gap-2 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/20 shadow-inner">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email address"
-                    className="flex-1 bg-transparent px-6 py-3 placeholder:text-white/50 text-white text-sm focus:outline-none"
-                  />
-                  <button className="bg-white text-emerald-950 font-bold tracking-wide uppercase text-[11px] px-8 py-3 rounded-full hover:bg-emerald-50 transition-colors shadow-md">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
             </div>
+
+            <div className="w-full max-w-lg lg:w-[500px]">
+              <form className="flex w-full bg-white rounded-sm overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-neutral-100">
+                <input
+                  type="email"
+                  required
+                  placeholder="Your email address"
+                  className="flex-1 bg-transparent px-6 py-4 text-neutral-800 text-sm focus:outline-none placeholder:text-neutral-400"
+                />
+                <button className="bg-[#8bc34a] hover:bg-[#7cb041] text-white font-bold tracking-wider uppercase text-xs px-8 py-4 transition-colors">
+                  SUBSCRIBE
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Features Row */}
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:divide-x divide-neutral-100">
+            {[
+              { icon: Truck, title: "FREE\nSHIPPING" },
+              { icon: Package, title: "100% HAND\nPACKED" },
+              { icon: CreditCard, title: "SECURED\nPAYMENT" },
+              { icon: Award, title: "QUALITY\nGUARANTEE" },
+              { icon: Headphones, title: "CUSTOMER\nSERVICE" }
+            ].map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <div key={i} className="flex flex-col items-center text-center px-4 md:first:pl-0 md:last:pr-0">
+                  <div className="text-[#8bc34a] mb-4">
+                    <Icon size={32} strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[10px] font-bold tracking-widest text-neutral-800 uppercase whitespace-pre-line leading-tight">
+                    {feature.title}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
