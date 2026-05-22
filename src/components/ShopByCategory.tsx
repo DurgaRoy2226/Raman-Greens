@@ -45,7 +45,7 @@ const BANNERS = [
     id: 1,
     title: "Bell Pepper\nOrange",
     discount: "-10% OFF",
-    bg: "bg-[#FDF7F2]", // softer, more elegant cream
+    bg: "bg-[#FDF7F2]",
     image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=500&q=80",
     path: "/shop?cat=Vegetables",
   },
@@ -53,7 +53,7 @@ const BANNERS = [
     id: 2,
     title: "Fruit Juice\nPackage",
     discount: "-20% OFF",
-    bg: "bg-[#F3F8F4]", // softer green
+    bg: "bg-[#F3F8F4]",
     image: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=500&q=80",
     path: "/shop?cat=Beverages",
   },
@@ -61,7 +61,7 @@ const BANNERS = [
     id: 3,
     title: "Full Fresh\nVegetable",
     discount: "-30% OFF",
-    bg: "bg-[#FCF5F7]", // softer pink
+    bg: "bg-[#FCF5F7]",
     image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80",
     path: "/shop?cat=Vegetables",
   },
@@ -69,7 +69,7 @@ const BANNERS = [
 
 export function ShopByCategory() {
   return (
-    <section className="py-28 bg-white w-full overflow-hidden">
+    <section className="py-12 bg-white w-full overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         
         {/* Elegant Heading */}

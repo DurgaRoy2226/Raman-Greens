@@ -41,7 +41,7 @@ export function Navbar() {
   return (
     <>
       {/* Top announcement */}
-      <div className="bg-emerald-brand text-white text-xs py-2 text-center overflow-hidden">
+      <section className="bg-darkGreen text-white text-xs py-1 text-center overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee gap-12 px-4">
           {Array.from({ length: 2 }).map((_, k) => (
             <div key={k} className="flex gap-12 shrink-0">
@@ -52,11 +52,11 @@ export function Navbar() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? "bg-white/70 backdrop-blur-lg shadow-sm border-b border-white/20" : "bg-white"
+          scrolled ? "bg-white/70 backdrop-blur-lg shadow-sm border-b border-grayBorder" : "bg-white"
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between gap-6">
@@ -70,15 +70,15 @@ export function Navbar() {
                   <NavLink
                     to={l.to}
                     className={({ isActive }) =>
-                      `relative py-2 transition-all duration-300 hover:text-emerald-brand group ${
-                        isActive ? "text-emerald-brand font-semibold" : "text-neutral-700"
+                      `relative py-2 transition-all duration-300 hover:text-darkGreen group ${
+                        isActive ? "text-darkGreen font-semibold" : "text-neutral-700"
                       }`
                     }
                   >
                     {({ isActive }) => (
                       <>
                         {l.label}
-                        <span className={`absolute left-0 bottom-0 h-0.5 bg-emerald-brand transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                        <span className={`absolute left-0 bottom-0 h-0.5 bg-darkGreen transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                       </>
                     )}
                   </NavLink>
@@ -89,13 +89,13 @@ export function Navbar() {
             <div className="flex items-center gap-2 pl-8 border-l border-neutral-200">
               <button
                 onClick={() => setSearchOpen((v) => !v)}
-                className="p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors"
+                className="p-2.5 rounded-full text-neutral-700 hover:text-darkGreen hover:bg-beige-soft transition-colors"
                 aria-label="Search"
               >
                 <Search size={20} />
               </button>
               
-              <Link to="/wishlist" className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors" aria-label="Wishlist">
+              <Link to="/wishlist" className="relative p-2.5 rounded-full text-neutral-700 hover:text-darkGreen hover:bg-beige-soft transition-colors" aria-label="Wishlist">
                 <Heart size={20} />
                 <AnimatePresence>
                   {state.wishlist.length > 0 && (
@@ -130,7 +130,7 @@ export function Navbar() {
               {/* Stylish Account Button */}
               <Link
                 to="/dashboard"
-                className="ml-4 flex items-center gap-2 bg-emerald-brand text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md font-medium text-sm"
+                className="ml-4 flex items-center gap-2 bg-darkGreen text-white px-5 py-2.5 rounded-full hover:bg-darkGreen-800 transition-all duration-300 shadow-sm hover:shadow-md font-medium text-sm"
               >
                 <User size={18} />
                 <span>Account</span>

@@ -145,7 +145,7 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-      <section className="py-28 px-6 lg:px-12 max-w-[1400px] mx-auto bg-[#FAFAFA]">
+      <section className="py-12 px-6 lg:px-12 max-w-[1400px] mx-auto bg-[#FAFAFA]">
         <div className="text-center mb-20 flex flex-col items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -195,7 +195,7 @@ export function Home() {
       <ShopByCategory />
 
       {/* STORY STRIP REDESIGNED (Clean & Minimal) */}
-      <section className="py-28 lg:py-36 bg-[#FAFAFA] relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-[#FAFAFA] relative overflow-hidden">
         {/* Soft Organic Background Blurs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[10%] w-[40%] h-[50%] bg-emerald-600/5 rounded-full blur-[140px]" />
@@ -313,7 +313,7 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-      <section className="py-28 bg-[#FAFAFA] border-t border-neutral-100/50">
+      <section className="py-12 bg-[#FAFAFA] border-t border-neutral-100/50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           
           <div className="text-center mb-20 flex flex-col items-center">
@@ -380,7 +380,7 @@ export function Home() {
       </section>
 
       {/* NEWSLETTER */}
-      <section className="bg-white py-28 px-6 lg:px-12">
+      <section className="bg-white py-12 px-6 lg:px-12">
         <div className="max-w-[1200px] mx-auto">
           <div className="relative bg-emerald-950 rounded-[32px] p-12 lg:p-20 text-white overflow-hidden shadow-2xl">
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />

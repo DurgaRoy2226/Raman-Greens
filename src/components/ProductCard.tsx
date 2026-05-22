@@ -30,14 +30,14 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
               e.preventDefault(); 
               dispatch({ type: "ADD_TO_CART", product }); 
             }}
-            className="translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 bg-white/95 backdrop-blur-md text-emerald-800 hover:bg-emerald-800 hover:text-white px-6 py-3 rounded-full font-medium text-sm shadow-xl flex items-center gap-2"
+            className="translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 bg-white/95 backdrop-blur-md text-emerald-800 hover:bg-emerald-800 hover:text-white px-4 py-2 rounded-full font-medium text-sm shadow-xl flex items-center gap-2"
           >
             <Plus size={16} /> Quick Add
           </button>
         </div>
 
         {/* Minimal Glass Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-2 items-start z-20 pointer-events-none">
+        <div className="absolute top-2 left-2 flex flex-col gap-2 items-start z-20 pointer-events-none">
           {product.oldPrice && (
             <span className="bg-white/80 backdrop-blur-md text-emerald-800 text-[9px] font-bold uppercase tracking-[0.15em] px-3 py-1.5 rounded-full shadow-sm border border-white/50">
               {Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
@@ -57,14 +57,14 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
           e.preventDefault();
           dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
         }}
-        className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md shadow-sm border border-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white z-20"
+        className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md shadow-sm border border-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white z-20"
         aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
       >
         <Heart size={15} strokeWidth={1.5} className={`transition-colors ${wished ? "fill-red-500 text-red-500" : "text-neutral-500 hover:text-red-500"}`} />
       </button>
 
       {/* Content - Breathable Spacing */}
-      <div className="p-6 flex flex-col flex-grow relative z-20 bg-white">
+      <div className="p-4 flex flex-col flex-grow relative z-20 bg-white">
         <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium mb-3">
           {product.category}
         </div>
