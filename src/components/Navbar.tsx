@@ -41,7 +41,7 @@ export function Navbar() {
   return (
     <>
       {/* Top announcement */}
-      <section className="bg-darkGreen text-white text-xs py-1 text-center overflow-hidden">
+      <section className="bg-emerald-600 text-white text-xs py-1 text-center overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee gap-12 px-4">
           {Array.from({ length: 2 }).map((_, k) => (
             <div key={k} className="flex gap-12 shrink-0">
@@ -70,15 +70,15 @@ export function Navbar() {
                   <NavLink
                     to={l.to}
                     className={({ isActive }) =>
-                      `relative py-2 transition-all duration-300 hover:text-darkGreen group ${
-                        isActive ? "text-darkGreen font-semibold" : "text-neutral-700"
+                      `relative py-2 transition-colors duration-300 hover:text-emerald-600 ${
+                        isActive ? "text-emerald-600 font-semibold" : "text-neutral-700"
                       }`
                     }
                   >
                     {({ isActive }) => (
                       <>
                         {l.label}
-                        <span className={`absolute left-0 bottom-0 h-0.5 bg-darkGreen transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                        <span className={`absolute left-0 bottom-0 h-0.5 bg-emerald-600 transition-width duration-300 ${isActive ? 'w-full' : 'w-0'}`}></span>
                       </>
                     )}
                   </NavLink>
@@ -103,7 +103,7 @@ export function Navbar() {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
-                      className="absolute -top-1 -right-1 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
+                      className="absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
                     >
                       {state.wishlist.length}
                     </motion.span>
@@ -111,7 +111,7 @@ export function Navbar() {
                 </AnimatePresence>
               </Link>
               
-              <Link to="/cart" className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-beige-soft transition-colors">
+              <Link to="/cart" className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-600 hover:bg-beige-soft transition-colors">
                 <ShoppingBag size={20} />
                 <AnimatePresence>
                   {cartCount > 0 && (
@@ -119,7 +119,7 @@ export function Navbar() {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
-                      className="absolute -top-1 -right-1 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
+                      className="absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1 shadow-sm"
                     >
                       {cartCount}
                     </motion.span>
@@ -130,7 +130,7 @@ export function Navbar() {
               {/* Stylish Account Button */}
               <Link
                 to="/dashboard"
-                className="ml-4 flex items-center gap-2 bg-darkGreen text-white px-5 py-2.5 rounded-full hover:bg-darkGreen-800 transition-all duration-300 shadow-sm hover:shadow-md font-medium text-sm"
+                className="ml-4 flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md font-medium text-sm"
               >
                 <User size={18} />
                 <span>Account</span>
@@ -155,7 +155,7 @@ export function Navbar() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute -top-0.5 -right-0.5 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1"
+                    className="absolute -top-0.5 -right-0.5 bg-emerald-600 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1"
                   >
                     {state.wishlist.length}
                   </motion.span>
@@ -170,7 +170,7 @@ export function Navbar() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute -top-0.5 -right-0.5 bg-emerald-brand text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1"
+                    className="absolute -top-0.5 -right-0.5 bg-emerald-600 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center font-bold px-1"
                   >
                     {cartCount}
                   </motion.span>
@@ -211,7 +211,7 @@ export function Navbar() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search for sev, organics, hampers…"
-                    className="w-full pl-12 pr-4 py-3 rounded-full border border-beige-soft bg-beige-warm focus:outline-none focus:border-emerald-brand"
+                    className="w-full pl-12 pr-4 py-3 rounded-full border border-beige-soft bg-beige-warm focus:outline-none focus:border-emerald-600"
                   />
                 </form>
                 {suggestions.length > 0 && (
@@ -275,7 +275,7 @@ export function Navbar() {
                   <Link
                     to="/admin"
                     onClick={() => setOpen(false)}
-                    className="block px-3 py-2 rounded-lg hover:bg-beige-warm text-sm font-medium text-emerald-brand"
+                    className="block px-3 py-2 rounded-lg hover:bg-beige-warm text-sm font-medium text-emerald-600"
                   >
                     Admin Panel
                   </Link>

@@ -80,12 +80,12 @@ export function Home() {
                   className="max-w-3xl text-white"
                 >
                   <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white mb-8 border border-white/20 shadow-sm">
-                    <Sparkles size={14} className="text-emerald-300" /> 100% Certified Organic
+                    <Sparkles size={14} className="text-emerald-400" /> 100% Certified Organic
                   </div>
                   
                   <h1 className="font-serif font-medium text-5xl sm:text-6xl lg:text-[6rem] leading-[1.05] tracking-tight text-white mb-8 drop-shadow-sm">
                     Pure Taste of <br/>
-                    <span className="text-emerald-300 italic">Nimar Valley</span>
+                    <span className="text-emerald-400 italic">Nimar Valley</span>
                   </h1>
                   
                   <p className="text-lg sm:text-xl text-white/90 max-w-xl leading-relaxed font-light tracking-wide mb-12">
@@ -145,8 +145,8 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-      <section className="py-12 px-6 lg:px-12 max-w-[1400px] mx-auto bg-[#FAFAFA]">
-        <div className="text-center mb-20 flex flex-col items-center">
+      <section className="mt-12 py-12 px-6 lg:px-12 max-w-[1400px] mx-auto bg-white text-neutral-900">
+        <div className="text-center mb-12 flex flex-col items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -154,16 +154,16 @@ export function Home() {
             transition={{ duration: 0.6 }}
             className="inline-block"
           >
-            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600/80 mb-4">
+            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
               Our Promise
             </span>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
               Why Raman Greens?
             </h2>
-            <div className="w-10 h-[2px] bg-emerald-600/30 mx-auto" />
+            <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
           </motion.div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {[
             { icon: Leaf, title: "100% Organic", desc: "Certified organic produce sourced directly from farmers." },
             { icon: ShieldCheck, title: "No Preservatives", desc: "Pure, natural ingredients with zero chemical additives." },
@@ -180,7 +180,7 @@ export function Home() {
                 transition={{ delay: i * 0.1, duration: 0.6 }}
                 className="flex flex-col items-center text-center group"
               >
-                <div className="w-20 h-20 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-emerald-700 flex items-center justify-center mb-8 group-hover:bg-emerald-800 group-hover:text-white transition-all duration-500 group-hover:-translate-y-2">
+                <div className="w-20 h-20 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-emerald-700 flex items-center justify-center mb-6 group-hover:bg-emerald-700 group-hover:text-white transition-all duration-500 group-hover:-translate-y-2">
                   <Icon size={28} strokeWidth={1.5} />
                 </div>
                 <h3 className="font-serif font-medium text-xl text-neutral-900 mb-3">{feature.title}</h3>
@@ -195,7 +195,7 @@ export function Home() {
       <ShopByCategory />
 
       {/* STORY STRIP REDESIGNED (Clean & Minimal) */}
-      <section className="py-12 lg:py-16 bg-[#FAFAFA] relative overflow-hidden">
+      <section className="py-10 lg:py-14 bg-[#FAFAFA] relative overflow-hidden">
         {/* Soft Organic Background Blurs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[10%] w-[40%] h-[50%] bg-emerald-600/5 rounded-full blur-[140px]" />
@@ -227,7 +227,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600/80 mb-6">
+              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-6">
                 Our Heritage
               </span>
               
@@ -266,7 +266,7 @@ export function Home() {
 
               <Link
                 to="/about"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-900 hover:bg-emerald-800 text-white rounded-full font-medium text-[12px] uppercase tracking-[0.15em] transition-colors duration-300 shadow-md group"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full font-medium text-[12px] uppercase tracking-[0.15em] transition-colors duration-300 shadow-md group"
               >
                 Read Our Story
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -313,10 +313,10 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-      <section className="py-12 bg-[#FAFAFA] border-t border-neutral-100/50">
+      <section className="py-10 bg-[#FAFAFA] border-t border-neutral-100/50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           
-          <div className="text-center mb-20 flex flex-col items-center">
+          <div className="text-center mb-12 flex flex-col items-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -324,13 +324,13 @@ export function Home() {
               transition={{ duration: 0.6 }}
               className="inline-block"
             >
-              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600/80 mb-4">
+              <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
                 Testimonials
               </span>
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
                 Letters From Our Customers
               </h2>
-              <div className="w-10 h-[2px] bg-emerald-600/30 mx-auto" />
+              <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
             </motion.div>
           </div>
 
@@ -365,7 +365,7 @@ export function Home() {
                 </div>
                 <p className="text-neutral-600 leading-relaxed font-light italic mb-8 flex-grow">"{r.t}"</p>
                 <div className="flex items-center gap-4 mt-auto">
-                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-800 flex items-center justify-center font-serif text-lg">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-serif text-lg">
                     {r.n[0]}
                   </div>
                   <div>
@@ -380,15 +380,15 @@ export function Home() {
       </section>
 
       {/* NEWSLETTER */}
-      <section className="bg-white py-12 px-6 lg:px-12">
+      <section className="bg-white py-10 px-6 lg:px-12">
         <div className="max-w-[1200px] mx-auto">
-          <div className="relative bg-emerald-950 rounded-[32px] p-12 lg:p-20 text-white overflow-hidden shadow-2xl">
+          <div className="relative bg-emerald-800 rounded-[32px] p-10 lg:p-16 text-white overflow-hidden shadow-2xl">
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
             <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
             
             <div className="relative grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div>
-                <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-400 mb-4">
+                <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-300 mb-4">
                   Join Our Community
                 </span>
                 <h3 className="font-serif font-medium text-4xl lg:text-5xl leading-tight mb-4">
