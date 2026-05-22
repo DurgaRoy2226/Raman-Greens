@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-emerald-brand: #008F5A;
+  --color-emerald-brand: #0c3b1b;
   --color-emerald-brand-dark: #006B43;
   --color-emerald-brand-light: #2BB07F;
   --color-beige-soft: #E8E1D9;
@@ -44,7 +44,7 @@ body {
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #F5F0E8; }
-::-webkit-scrollbar-thumb { background: #008F5A; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #0c3b1b; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #006B43; }
 
 /* Leaf gradient bg */
