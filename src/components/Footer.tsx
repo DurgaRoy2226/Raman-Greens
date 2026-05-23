@@ -19,7 +19,7 @@ export function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <Logo height="h-14 md:h-16" />
-            <p className="mt-5 text-sm leading-relaxed text-neutral-500 max-w-[260px]">
+            <p className="mt-5 text-base leading-relaxed text-neutral-500 max-w-[260px]">
               Born in the soil of Nimar, Khandwa. Fresh, organic and authentic
               Nimari flavours — handcrafted with love.
             </p>
@@ -43,7 +43,7 @@ export function Footer() {
 
           {/* Shop links */}
           <div>
-            <h4 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-5">
+            <h4 className="text-base font-bold text-neutral-900 uppercase tracking-widest mb-5">
               Shop
             </h4>
             <ul className="space-y-3">
@@ -57,7 +57,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
-                    className="text-sm text-neutral-500 hover:text-darkGreen transition-colors duration-200"
+                    className="text-base text-neutral-500 hover:text-darkGreen transition-colors duration-200"
                   >
                     {l.label}
                   </Link>
@@ -68,7 +68,7 @@ export function Footer() {
 
           {/* Company links */}
           <div>
-            <h4 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-5">
+            <h4 className="text-base font-bold text-neutral-900 uppercase tracking-widest mb-5">
               Company
             </h4>
             <ul className="space-y-3">
@@ -82,7 +82,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
-                    className="text-sm text-neutral-500 hover:text-darkGreen transition-colors duration-200"
+                    className="text-base text-neutral-500 hover:text-darkGreen transition-colors duration-200"
                   >
                     {l.label}
                   </Link>
@@ -93,23 +93,23 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-5">
+            <h4 className="text-base font-bold text-neutral-900 uppercase tracking-widest mb-5">
               Reach Us
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-darkGreen mt-0.5 shrink-0" />
-                <span className="text-sm text-neutral-500 leading-snug">
+                <span className="text-base text-neutral-500 leading-snug">
                   Padava Rd, Khandwa,<br />Madhya Pradesh 450001
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={15} className="text-darkGreen shrink-0" />
-                <span className="text-sm text-neutral-500">+91 98765 43210</span>
+                <span className="text-base text-neutral-500">+91 98765 43210</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={15} className="text-darkGreen shrink-0" />
-                <span className="text-sm text-neutral-500">hello@ramangreens-knw.in</span>
+                <span className="text-base text-neutral-500">hello@ramangreens-knw.in</span>
               </li>
             </ul>
           </div>
