@@ -14,6 +14,7 @@ import {
   Home,
   SlidersHorizontal,
   Sparkles,
+  ChevronDown,
 } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import type { Product } from "../data/products";
@@ -26,12 +27,65 @@ const PER_PAGE = 8;
 
 /* ─── Category colour map ───────────────────────────────────────────────────── */
 const CAT_STYLE: Record<string, { pill: string; badge: string }> = {
-  All:      { pill: "bg-emerald-50 text-emerald-700",    badge: "bg-emerald-100 text-emerald-700" },
-  Snacks:   { pill: "bg-orange-50  text-orange-700",     badge: "bg-orange-100  text-orange-700"  },
-  Organics: { pill: "bg-green-50   text-green-700",      badge: "bg-green-100   text-green-700"   },
-  Sweets:   { pill: "bg-pink-50    text-pink-700",       badge: "bg-pink-100    text-pink-700"    },
-  Spices:   { pill: "bg-red-50     text-red-700",        badge: "bg-red-100     text-red-700"     },
-  Gifting:  { pill: "bg-purple-50  text-purple-700",     badge: "bg-purple-100  text-purple-700"  },
+  All:                  { pill: "bg-emerald-50 text-emerald-700",  badge: "bg-emerald-100 text-emerald-700" },
+  Organics:             { pill: "bg-green-50   text-green-700",    badge: "bg-green-100   text-green-700"   },
+  Seeds:                { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
+  Spices:               { pill: "bg-red-50     text-red-700",      badge: "bg-red-100     text-red-700"     },
+  Fertilizers:          { pill: "bg-orange-50  text-orange-700",   badge: "bg-orange-100  text-orange-700"  },
+  Dairy:                { pill: "bg-blue-50    text-blue-700",     badge: "bg-blue-100    text-blue-700"    },
+  Vegetables:           { pill: "bg-emerald-50 text-emerald-700",  badge: "bg-emerald-100 text-emerald-700" },
+  Grains:               { pill: "bg-yellow-50  text-yellow-700",   badge: "bg-yellow-100  text-yellow-700"  },
+  Herbs:                { pill: "bg-teal-50    text-teal-700",     badge: "bg-teal-100    text-teal-700"    },
+  "Farming Products":   { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
+  // Fallback entries for any legacy product data still in DB
+  Snacks:               { pill: "bg-orange-50  text-orange-700",   badge: "bg-orange-100  text-orange-700"  },
+  Sweets:               { pill: "bg-pink-50    text-pink-700",     badge: "bg-pink-100    text-pink-700"    },
+  Gifting:              { pill: "bg-purple-50  text-purple-700",   badge: "bg-purple-100  text-purple-700"  },
+  Fruits:               { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
+};
+
+/* ─── Category image + label map for Premium Nav ────────────────────────────── */
+const CAT_INFO: Record<string, { label: string; image: string }> = {
+  All: {
+    label: "All Products",
+    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Organics: {
+    label: "Organics",
+    image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Seeds: {
+    label: "Seeds",
+    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Spices: {
+    label: "Spices",
+    image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Fertilizers: {
+    label: "Fertilizers",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Dairy: {
+    label: "Dairy",
+    image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Vegetables: {
+    label: "Vegetables",
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Grains: {
+    label: "Grains",
+    image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  Herbs: {
+    label: "Herbs",
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=120&h=120&q=80",
+  },
+  "Farming Products": {
+    label: "Farming Products",
+    image: "https://images.unsplash.com/photo-1592878904946-b3cd8ae243d8?auto=format&fit=crop&w=120&h=120&q=80",
+  },
 };
 
 /* ─── Star Rating ───────────────────────────────────────────────────────────── */
@@ -74,16 +128,16 @@ function PremiumCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.55, delay: (idx % 4) * 0.1, ease: "easeOut" }}
-      className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft
-                 hover:border-emerald-brand/30 hover:shadow-2xl hover:shadow-emerald-brand/12
-                 hover:-translate-y-1.5 transition-all duration-500 flex flex-col"
+      className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft/80
+                 hover:border-emerald-brand/35 hover:shadow-xl hover:shadow-emerald-brand/8
+                 hover:-translate-y-1.5 transition-all duration-300 ease-out flex flex-col"
     >
       {/* ── Image zone ── */}
       <div className="relative overflow-hidden bg-beige-warm" style={{ aspectRatio: "1 / 1" }}>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
         {/* gradient overlay */}
@@ -135,7 +189,7 @@ function PremiumCard({
             onClick={() => onQuickView(product)}
             className="flex items-center gap-1.5 bg-white text-neutral-800 text-xs font-semibold
                        px-4 py-2.5 rounded-full shadow-xl hover:bg-emerald-brand hover:text-white
-                       transition-all duration-200"
+                       hover:scale-105 transition-all duration-300 ease-out"
           >
             <Eye size={13} /> Quick View
           </button>
@@ -144,7 +198,7 @@ function PremiumCard({
             onClick={() => dispatch({ type: "ADD_TO_CART", product })}
             className="flex items-center gap-1.5 bg-emerald-brand text-white text-xs font-semibold
                        px-4 py-2.5 rounded-full shadow-xl hover:bg-emerald-brand-dark
-                       transition-all duration-200"
+                       hover:scale-105 transition-all duration-300 ease-out"
           >
             <ShoppingCart size={13} /> Add
           </button>
@@ -152,16 +206,16 @@ function PremiumCard({
       </div>
 
       {/* ── Body ── */}
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-5 flex flex-col flex-1">
         {/* category badge */}
         <span className={`self-start text-[10px] font-bold uppercase tracking-wider
-                          px-2.5 py-1 rounded-full mb-2 ${badge}`}>
+                          px-2.5 py-1 rounded-full mb-2.5 ${badge}`}>
           {product.category}
         </span>
 
         <Link to={`/product/${product.id}`}>
           <h3 className="font-display font-semibold text-neutral-900 text-[15px] leading-snug
-                         line-clamp-2 hover:text-emerald-brand transition-colors duration-200 mb-2">
+                         line-clamp-2 hover:text-emerald-brand transition-colors duration-300 mb-2.5">
             {product.name}
           </h3>
         </Link>
@@ -174,7 +228,7 @@ function PremiumCard({
         </div>
 
         {/* price row */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-beige-soft/80">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-soft/60">
           <div>
             <div className="flex items-baseline gap-1.5">
               <span className="font-display font-bold text-xl text-neutral-900">₹{product.price}</span>
@@ -404,7 +458,7 @@ export function Shop() {
 
   /* ── render ── */
   return (
-    <div className="min-h-screen" style={{ background: "#F5F0E8" }}>
+    <div className="min-h-screen w-full overflow-x-hidden" style={{ background: "#F5F0E8" }}>
 
       {/* ── Hero Banner ── */}
       <section className="relative overflow-hidden" style={{ height: "clamp(260px, 38vw, 440px)" }}>
@@ -478,12 +532,50 @@ export function Shop() {
       {/* ── Content ── */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
 
+        {/* ── Premium Logo Branding Section ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
+          className="bg-white rounded-3xl p-6 md:p-8 mb-8 border border-beige-soft/60 shadow-sm relative overflow-hidden flex flex-col items-center text-center"
+        >
+          {/* Subtle decorative leaf background */}
+          <div className="absolute inset-0 bg-leaf-pattern opacity-[0.03] pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col items-center">
+            {/* Logo frame with organic soft shadow and background */}
+            <div className="bg-beige-warm p-4 rounded-full shadow-inner border border-beige-soft/40 mb-4 hover:scale-105 transition-all duration-300">
+              <img
+                src="/images/logo.png"
+                alt="Raman Greens Logo"
+                className="h-16 md:h-20 w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.04)]"
+              />
+            </div>
+            
+            <h2 className="font-display font-bold text-2xl md:text-3xl text-emerald-brand tracking-wide mb-1">
+              Raman Greens
+            </h2>
+            
+            <div className="flex items-center gap-2 mb-3">
+              <span className="h-px w-6 bg-emerald-brand-light/20" />
+              <span className="text-[11px] font-bold text-emerald-brand-dark uppercase tracking-widest flex items-center gap-1">
+                Fresh Organic Products
+              </span>
+              <span className="h-px w-6 bg-emerald-brand-light/20" />
+            </div>
+            
+            <p className="text-xs text-neutral-500 max-w-md leading-relaxed">
+              Harvested with care from Nimar's fertile lands, bringing pure, unadulterated organic goodness straight to your home.
+            </p>
+          </div>
+        </motion.div>
+
         {/* Search + Sort */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.1 }}
-          className="flex flex-col sm:flex-row gap-3 mb-6"
+          className="flex flex-col sm:flex-row gap-4 mb-8"
         >
           {/* Search input */}
           <div className="relative flex-1">
@@ -496,8 +588,8 @@ export function Shop() {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search products, spices, snacks…"
               className="w-full pl-10 pr-4 py-3.5 bg-white rounded-2xl border border-beige-soft
-                         focus:border-emerald-brand focus:outline-none focus:ring-2
-                         focus:ring-emerald-brand/20 text-sm shadow-sm transition-all"
+                         hover:border-emerald-brand/40 focus:border-emerald-brand focus:outline-none focus:ring-2
+                         focus:ring-emerald-brand/20 text-sm shadow-sm transition-all duration-300"
             />
             {q && (
               <button
@@ -511,69 +603,80 @@ export function Shop() {
           </div>
 
           {/* Sort */}
-          <div className="relative">
+          <div className="relative min-w-[180px] w-full sm:w-auto">
             <SlidersHorizontal size={14}
                                className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
             <select
               id="product-sort"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="pl-10 pr-5 py-3.5 bg-white rounded-2xl border border-beige-soft
-                         focus:border-emerald-brand focus:outline-none shadow-sm
-                         text-sm font-medium text-neutral-700 cursor-pointer appearance-none"
+              className="w-full pl-10 pr-10 py-3.5 bg-white rounded-2xl border border-beige-soft
+                         hover:border-emerald-brand/40 focus:border-emerald-brand focus:outline-none shadow-sm
+                         text-sm font-medium text-neutral-700 cursor-pointer appearance-none transition-all duration-300"
             >
               <option value="popular">Sort: Popular</option>
               <option value="price-low">Price: Low → High</option>
               <option value="price-high">Price: High → Low</option>
               <option value="rating">Top Rated</option>
             </select>
+            <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
           </div>
         </motion.div>
 
-        {/* Category pills */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.2 }}
-          className="flex flex-wrap gap-2.5 mb-7"
-          role="group"
-          aria-label="Category filter"
-        >
-          {CATEGORIES.map((c, i) => {
-            const active = cat === c;
-            return (
-              <motion.button
-                key={c}
-                id={`filter-${c.toLowerCase()}`}
-                initial={{ opacity: 0, scale: 0.78 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 + i * 0.05 }}
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.94 }}
-                onClick={() => setCat(c)}
-                className={`relative px-5 py-2.5 rounded-full text-sm font-semibold
-                             border-2 transition-all duration-300
-                             ${active
-                               ? "bg-emerald-brand text-white border-emerald-brand shadow-lg"
-                               : "bg-white text-neutral-600 border-beige-soft hover:border-emerald-brand/40 hover:text-emerald-brand hover:bg-emerald-brand/5"}`}
-                style={active ? { boxShadow: "0 6px 20px rgba(0,143,90,0.35)" } : {}}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="activePill"
-                    className="absolute inset-0 rounded-full bg-emerald-brand -z-10"
-                    transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-                  />
-                )}
-                {c}
-              </motion.button>
-            );
-          })}
-        </motion.div>
+        {/* Category Pills Slider */}
+        <div className="w-full relative mb-10">
+          {/* Fading edge indicators for horizontal scroll on mobile */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#F5F0E8] to-transparent z-10 pointer-events-none md:hidden" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#F5F0E8] to-transparent z-10 pointer-events-none md:hidden" />
+          
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.2 }}
+            className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 -mx-4 md:px-0 md:mx-0 no-scrollbar"
+            role="group"
+            aria-label="Category filter"
+          >
+            {CATEGORIES.map((c, i) => {
+              const active = cat === c;
+              const info = CAT_INFO[c] || {
+                label: c,
+                image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=120&h=120&q=80"
+              };
+              
+              return (
+                <motion.button
+                  key={c}
+                  id={`filter-${c.toLowerCase()}`}
+                  initial={{ opacity: 0, scale: 0.88 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 + i * 0.04 }}
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setCat(c)}
+                  className={`relative flex items-center gap-3 px-5 py-3 rounded-2xl border cursor-pointer transition-all duration-300 shrink-0 shadow-sm
+                    ${active 
+                      ? "bg-emerald-brand text-white border-emerald-brand font-semibold" 
+                      : "bg-white text-neutral-600 border-beige-soft/60 hover:border-emerald-brand/40 hover:text-emerald-brand"}`}
+                  style={active ? { boxShadow: "0 6px 18px rgba(12,59,27,0.12)" } : {}}
+                >
+                  <div className={`w-8 h-8 rounded-full overflow-hidden border shrink-0 transition-all duration-300
+                    ${active 
+                      ? "border-white/80 scale-105" 
+                      : "border-beige-soft/40"}`}
+                  >
+                    <img src={info.image} alt={info.label} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-sm font-semibold tracking-wide">{info.label}</span>
+                </motion.button>
+              );
+            })}
+          </motion.div>
+        </div>
 
         {/* Result count */}
         <div id="products-grid-anchor"
-             className="flex items-center justify-between mb-5">
+             className="flex items-center justify-between mb-6 border-b border-beige-soft/60 pb-3">
           <p className="text-sm text-neutral-500">
             Showing{" "}
             <span className="font-semibold text-neutral-900">{filtered.length}</span>{" "}
@@ -639,57 +742,68 @@ export function Shop() {
 
         {/* ── Pagination ── */}
         {totalPages > 1 && (
-          <motion.nav
-            aria-label="Pagination"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex items-center justify-center gap-2 mt-12"
-          >
-            <button
-              id="pagination-prev"
-              onClick={() => handlePage(Math.max(1, page - 1))}
-              disabled={page === 1}
-              aria-label="Previous page"
-              className="w-11 h-11 rounded-full bg-white border-2 border-beige-soft
-                         flex items-center justify-center
-                         hover:border-emerald-brand hover:text-emerald-brand
-                         transition-all duration-200
-                         disabled:opacity-35 disabled:cursor-not-allowed"
+          <div className="flex flex-col items-center justify-center gap-4 mt-16 pb-2">
+            <motion.nav
+              aria-label="Pagination"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="flex flex-wrap justify-center items-center gap-2"
             >
-              <ChevronLeft size={17} />
-            </button>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
               <button
-                key={n}
-                id={`pagination-page-${n}`}
-                onClick={() => handlePage(n)}
-                aria-current={page === n ? "page" : undefined}
-                className={`w-11 h-11 rounded-full text-sm font-bold transition-all duration-200
-                             ${page === n
-                               ? "bg-emerald-brand text-white border-2 border-emerald-brand"
-                               : "bg-white border-2 border-beige-soft hover:border-emerald-brand hover:text-emerald-brand"}`}
-                style={page === n ? { boxShadow: "0 6px 20px rgba(0,143,90,0.35)" } : {}}
+                id="pagination-prev"
+                onClick={() => handlePage(Math.max(1, page - 1))}
+                disabled={page === 1}
+                aria-label="Previous page"
+                className="group flex items-center justify-center gap-1.5 px-4 h-11 rounded-xl bg-white border border-beige-soft
+                           text-xs font-semibold text-neutral-600 tracking-wide uppercase
+                           hover:border-emerald-brand/40 hover:text-emerald-brand hover:bg-emerald-brand/[0.02]
+                           active:scale-95 transition-all duration-300
+                           disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-neutral-600 disabled:hover:border-beige-soft disabled:active:scale-100"
               >
-                {n}
+                <ChevronLeft size={14} className="transition-transform group-hover:-translate-x-0.5" />
+                <span className="hidden sm:inline">Prev</span>
               </button>
-            ))}
 
-            <button
-              id="pagination-next"
-              onClick={() => handlePage(Math.min(totalPages, page + 1))}
-              disabled={page === totalPages}
-              aria-label="Next page"
-              className="w-11 h-11 rounded-full bg-white border-2 border-beige-soft
-                         flex items-center justify-center
-                         hover:border-emerald-brand hover:text-emerald-brand
-                         transition-all duration-200
-                         disabled:opacity-35 disabled:cursor-not-allowed"
-            >
-              <ChevronRight size={17} />
-            </button>
-          </motion.nav>
+              <div className="flex flex-wrap items-center justify-center gap-1.5">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => {
+                  const active = page === n;
+                  return (
+                    <button
+                      key={n}
+                      id={`pagination-page-${n}`}
+                      onClick={() => handlePage(n)}
+                      aria-current={active ? "page" : undefined}
+                      className={`w-11 h-11 rounded-xl text-sm font-bold flex items-center justify-center transition-all duration-300
+                                 ${active
+                                   ? "bg-emerald-50 text-emerald-brand border border-emerald-brand/20 shadow-sm shadow-emerald-brand/5 font-extrabold"
+                                   : "bg-white border border-beige-soft text-neutral-600 hover:border-emerald-brand/40 hover:text-emerald-brand hover:bg-emerald-brand/[0.02] hover:-translate-y-0.5"}`}
+                    >
+                      {n}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                id="pagination-next"
+                onClick={() => handlePage(Math.min(totalPages, page + 1))}
+                disabled={page === totalPages}
+                aria-label="Next page"
+                className="group flex items-center justify-center gap-1.5 px-4 h-11 rounded-xl bg-white border border-beige-soft
+                           text-xs font-semibold text-neutral-600 tracking-wide uppercase
+                           hover:border-emerald-brand/40 hover:text-emerald-brand hover:bg-emerald-brand/[0.02]
+                           active:scale-95 transition-all duration-300
+                           disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-neutral-600 disabled:hover:border-beige-soft disabled:active:scale-100"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </motion.nav>
+            <span className="text-xs text-neutral-400 font-medium">
+              Page <span className="font-semibold text-neutral-600">{page}</span> of <span className="font-semibold text-neutral-600">{totalPages}</span>
+            </span>
+          </div>
         )}
 
         {/* ── Organic promise strip ── */}
@@ -724,15 +838,18 @@ export function Shop() {
                 no chemicals, no shortcuts, just nature's best.
               </p>
             </div>
-            <div className="flex gap-8 text-white text-center shrink-0">
+            <div className="flex gap-6 sm:gap-10 justify-center text-white text-center flex-wrap sm:flex-nowrap">
               {[
                 { v: "50+", l: "Farmers" },
                 { v: "12+", l: "Products" },
                 { v: "4.8★", l: "Avg Rating" },
               ].map(({ v, l }) => (
-                <div key={l}>
-                  <div className="font-display font-bold text-3xl">{v}</div>
-                  <div className="text-white/70 text-xs mt-0.5">{l}</div>
+                <div 
+                  key={l}
+                  className="flex flex-col items-center px-4 py-2 rounded-2xl hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="font-display font-bold text-3xl sm:text-4xl">{v}</div>
+                  <div className="text-white/80 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mt-1">{l}</div>
                 </div>
               ))}
             </div>

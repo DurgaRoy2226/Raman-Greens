@@ -274,6 +274,336 @@ const DEFAULT_PRODUCTS = [
     stock: 55,
     weight: "200g",
     origin: "Khandwa, MP"
+  },
+  {
+    id: "p13",
+    name: "Premium Nimari Wheat Seeds",
+    category: "Seeds",
+    price: 320,
+    rating: 4.8,
+    reviews: 112,
+    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=900&q=80"],
+    description: "High-germination, disease-resistant heirloom wheat seeds, carefully selected for Nimar's black cotton soil.",
+    benefits: ["98% Germination rate", "Heirloom native variety", "Disease resistant", "High yield potential"],
+    nutrition: [
+      { label: "Purity", value: "99%" },
+      { label: "Moisture", value: "< 8%" }
+    ],
+    tags: ["seeds", "farming", "organic", "wheat"],
+    stock: 150,
+    weight: "2 kg",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p14",
+    name: "Organic Sun-Flower Seeds",
+    category: "Seeds",
+    price: 190,
+    rating: 4.7,
+    reviews: 85,
+    image: "https://images.unsplash.com/photo-1508595165502-3e2652e557b2?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1508595165502-3e2652e557b2?auto=format&fit=crop&w=900&q=80"],
+    description: "Naturally dried, non-GMO sunflower seeds suitable for sowing or oil extraction. Sustainably grown.",
+    benefits: ["Non-GMO verified", "Naturally sun-dried", "High oil content", "Chemical-free selection"],
+    nutrition: [
+      { label: "Purity", value: "98%" },
+      { label: "Oil Yield", value: "42%" }
+    ],
+    tags: ["seeds", "farming", "sunflower", "organic"],
+    stock: 200,
+    weight: "1 kg",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p15",
+    name: "Premium Bio-Vermicompost Bag",
+    category: "Fertilizers",
+    price: 250,
+    rating: 4.9,
+    reviews: 140,
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80"],
+    description: "Nutrient-rich organic compost produced by earthworms feeding on organic cow dung. Boosts soil health and plant growth.",
+    benefits: ["100% Organic manure", "Improves soil aeration", "Rich in NPK nutrients", "Retains soil moisture"],
+    nutrition: [
+      { label: "Nitrogen", value: "1.8%" },
+      { label: "Phosphorus", value: "1.5%" },
+      { label: "Potassium", value: "1.6%" }
+    ],
+    tags: ["fertilizer", "organic", "compost", "soil-health"],
+    stock: 80,
+    weight: "5 kg",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p16",
+    name: "Pure Neem Cake Fertilizer",
+    category: "Fertilizers",
+    price: 180,
+    rating: 4.8,
+    reviews: 95,
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80"],
+    description: "Organic soil conditioner and natural pesticide made from wood-pressed neem seed kernels. Controls nematodes and soil pests.",
+    benefits: ["Natural pest repellent", "Rich in organic nitrogen", "Protects plant roots", "Eco-friendly & safe"],
+    nutrition: [
+      { label: "Neem Oil Content", value: "6%" },
+      { label: "Organic Matter", value: "85%" }
+    ],
+    tags: ["fertilizer", "neem", "organic", "pest-control"],
+    stock: 110,
+    weight: "2 kg",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p17",
+    name: "A2 Desi Cow Ghee",
+    category: "Dairy",
+    price: 680,
+    oldPrice: 750,
+    rating: 4.9,
+    reviews: 280,
+    image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=900&q=80"],
+    description: "Pure grass-fed A2 Gir cow ghee prepared using the traditional Bilona churning method. Golden, aromatic, and rich in nutrients.",
+    benefits: ["Traditional Bilona method", "100% Pure A2 milk", "Boosts immunity & digestion", "No added preservatives"],
+    nutrition: [
+      { label: "Energy", value: "897 kcal" },
+      { label: "Saturated Fats", value: "65 g" },
+      { label: "Vitamin A", value: "800 mcg" }
+    ],
+    tags: ["dairy", "ghee", "pure", "bestseller"],
+    bestseller: true,
+    stock: 45,
+    weight: "500ml",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p18",
+    name: "Organic Nimari Paneer",
+    category: "Dairy",
+    price: 210,
+    rating: 4.7,
+    reviews: 152,
+    image: "https://images.unsplash.com/photo-1486297678162-ad2a1fa4a40f?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1486297678162-ad2a1fa4a40f?auto=format&fit=crop&w=900&q=80"],
+    description: "Fresh, artisan-crafted cottage cheese made from organic fresh cow milk. Super soft, high in protein, and delicious.",
+    benefits: ["100% Organic cow milk", "No chemical coagulants", "Rich in protein & calcium", "Made fresh daily"],
+    nutrition: [
+      { label: "Energy", value: "265 kcal" },
+      { label: "Protein", value: "18.3 g" },
+      { label: "Calcium", value: "480 mg" }
+    ],
+    tags: ["dairy", "fresh", "paneer", "organic"],
+    stock: 30,
+    weight: "400g",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p19",
+    name: "Organic Vine-Ripened Tomatoes",
+    category: "Vegetables",
+    price: 80,
+    rating: 4.6,
+    reviews: 92,
+    image: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=900&q=80"],
+    description: "Fresh, bright red tomatoes harvested daily from organic greenhouses in Khandwa. Juicy and flavorful.",
+    benefits: ["Freshly picked daily", "Chemical-free farming", "Rich in Lycopene & Vitamin C", "Perfect for salads & curries"],
+    nutrition: [
+      { label: "Vitamin C", value: "13.7 mg" },
+      { label: "Potassium", value: "237 mg" },
+      { label: "Fibre", value: "1.2 g" }
+    ],
+    tags: ["vegetable", "tomato", "fresh", "organic"],
+    stock: 60,
+    weight: "1 kg",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p20",
+    name: "Fresh Farm-Picked Potatoes",
+    category: "Vegetables",
+    price: 60,
+    rating: 4.8,
+    reviews: 115,
+    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=80"],
+    description: "Premium earth-grown Nimari potatoes, thin-skinned and highly nutritious. Perfect for roasting and everyday cooking.",
+    benefits: ["Grown in nutrient-dense soil", "No growth hormones", "Excellent source of carbs", "Long storage life"],
+    nutrition: [
+      { label: "Energy", value: "77 kcal" },
+      { label: "Carbs", value: "17.5 g" },
+      { label: "Potassium", value: "421 mg" }
+    ],
+    tags: ["vegetable", "potato", "farm-fresh", "organic"],
+    stock: 150,
+    weight: "1.5 kg",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p21",
+    name: "Premium Sharbati Wheat",
+    category: "Grains",
+    price: 380,
+    rating: 4.9,
+    reviews: 195,
+    image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=900&q=80"],
+    description: "The king of wheat grains, grown in the golden fields of Nimar. Naturally sweet and high in protein for super soft rotis.",
+    benefits: ["100% Sharbati variety", "Rich in gluten & protein", "Heirloom rain-fed crops", "Stone-cleaned & polished"],
+    nutrition: [
+      { label: "Protein", value: "12.6 g" },
+      { label: "Fibre", value: "10.2 g" },
+      { label: "Carbs", value: "71 g" }
+    ],
+    tags: ["grains", "wheat", "premium", "roti"],
+    trending: true,
+    stock: 80,
+    weight: "5 kg",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p22",
+    name: "Aromatic Basmati Rice",
+    category: "Grains",
+    price: 220,
+    rating: 4.7,
+    reviews: 134,
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=900&q=80"],
+    description: "Aged, long-grain fragrant Basmati rice. Perfect fluffy texture and captivating natural aroma.",
+    benefits: ["Aged for 12+ months", "Extra long slender grains", "Low glycemic index", "No artificial fragrance"],
+    nutrition: [
+      { label: "Energy", value: "356 kcal" },
+      { label: "Carbs", value: "78 g" },
+      { label: "Fibre", value: "1.3 g" }
+    ],
+    tags: ["grains", "rice", "aromatic", "aged"],
+    stock: 100,
+    weight: "1 kg",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p23",
+    name: "Fresh Immunity Tulsi Leaves",
+    category: "Herbs",
+    price: 45,
+    rating: 4.9,
+    reviews: 74,
+    image: "https://images.unsplash.com/photo-1608797178974-15b35a61d121?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1608797178974-15b35a61d121?auto=format&fit=crop&w=900&q=80"],
+    description: "Freshly plucked Rama & Shyama Tulsi leaves from our organic herb gardens. Loaded with antioxidants to boost immunity.",
+    benefits: ["100% Organic holy basil", "Antioxidant rich", "Handpicked morning fresh", "Natural stress reliever"],
+    nutrition: [
+      { label: "Vitamin C", value: "High" },
+      { label: "Antioxidants", value: "Rich" }
+    ],
+    tags: ["herbs", "tulsi", "fresh", "organic"],
+    stock: 40,
+    weight: "100g",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p24",
+    name: "Nimari Fresh Mint Leaves",
+    category: "Herbs",
+    price: 35,
+    rating: 4.8,
+    reviews: 68,
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=80"],
+    description: "Extremely aromatic and cooling fresh mint leaves, grown using natural canal water. Perfect for chutneys and summer drinks.",
+    benefits: ["Natural cooling herb", "Zero chemical residue", "Organically cultivated", "Handpicked daily"],
+    nutrition: [
+      { label: "Iron", value: "5.08 mg" },
+      { label: "Fibre", value: "8 g" }
+    ],
+    tags: ["herbs", "mint", "cooling", "organic"],
+    stock: 50,
+    weight: "150g",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p25",
+    name: "Artisanal Hand Sickle (Darata)",
+    category: "Farming Products",
+    price: 450,
+    rating: 4.7,
+    reviews: 54,
+    image: "https://images.unsplash.com/photo-1592878904946-b3cd8ae243d8?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1592878904946-b3cd8ae243d8?auto=format&fit=crop&w=900&q=80"],
+    description: "High-carbon forged steel agricultural sickle with a sturdy ergonomic sheesham wood handle. Hand-crafted by Nimar's blacksmiths.",
+    benefits: ["Forged high-carbon steel", "Ergonomic wooden handle", "Extremely sharp teeth", "Balanced lightweight feel"],
+    nutrition: [
+      { label: "Steel Type", value: "HC 1080" },
+      { label: "Blade Length", value: "10 inches" }
+    ],
+    tags: ["farming", "tools", "sickle", "handcrafted"],
+    stock: 25,
+    weight: "450g",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p26",
+    name: "Premium Gardening Trowel & Fork",
+    category: "Farming Products",
+    price: 320,
+    rating: 4.8,
+    reviews: 42,
+    image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80"],
+    description: "Heavy-duty carbon steel trowel and hand fork set. Perfect for planting, turning soil, and container gardening.",
+    benefits: ["Rust-resistant coating", "Comfortable soft-grip", "Includes trowel & fork", "High durability"],
+    nutrition: [
+      { label: "Material", value: "Carbon Steel" },
+      { label: "Grip", value: "Anti-slip Rubber" }
+    ],
+    tags: ["farming", "gardening", "tools", "equipment"],
+    stock: 35,
+    weight: "600g",
+    origin: "Khandwa, MP"
+  },
+  {
+    id: "p27",
+    name: "Eco Golden Turmeric Powder",
+    category: "Spices",
+    price: 160,
+    rating: 4.9,
+    reviews: 215,
+    image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=900&q=80"],
+    description: "Pure heirloom turmeric powder from the riverbed soil of Nimar. Packed with 5%+ curcumin for maximum health benefits.",
+    benefits: ["High curcumin content (5%+)", "No artificial colors", "Fragrant and earthy flavor", "Grown organically"],
+    nutrition: [
+      { label: "Curcumin", value: "5.2%" },
+      { label: "Energy", value: "354 kcal" }
+    ],
+    tags: ["spices", "turmeric", "pure", "organic"],
+    stock: 120,
+    weight: "250g",
+    origin: "Nimar Belt, MP"
+  },
+  {
+    id: "p28",
+    name: "Whole Fragrant Coriander Seeds",
+    category: "Spices",
+    price: 120,
+    rating: 4.8,
+    reviews: 98,
+    image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=900&q=80",
+    gallery: ["https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=900&q=80"],
+    description: "Aromatic whole coriander seeds harvested from organic fields in Nimar. Perfect for grinding fresh or tempering dishes.",
+    benefits: ["Handpicked premium seed-grade", "Sun-dried to lock aroma", "No chemical processing", "Extremely rich aroma"],
+    nutrition: [
+      { label: "Energy", value: "298 kcal" },
+      { label: "Fibre", value: "41.9 g" }
+    ],
+    tags: ["spices", "coriander", "seeds", "organic"],
+    stock: 90,
+    weight: "200g",
+    origin: "Nimar Belt, MP"
   }
 ];
 
