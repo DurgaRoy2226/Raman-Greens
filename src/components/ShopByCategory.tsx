@@ -69,8 +69,8 @@ const BANNERS = [
 
 export function ShopByCategory() {
   return (
-    <section className="py-12 bg-white w-full overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+    <section className="py-10 sm:py-12 bg-white w-full overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
         
         {/* Elegant Heading */}
         <div className="text-center mb-20 flex flex-col items-center">
@@ -84,15 +84,19 @@ export function ShopByCategory() {
             <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600/80 mb-4">
               Explore Our Range
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
               Shop By Category
             </h2>
             <div className="w-10 h-[2px] bg-emerald-600/30 mx-auto" />
           </motion.div>
         </div>
 
-        {/* Circular Icons Row */}
-        <div className="flex flex-wrap justify-center gap-10 md:gap-16 lg:gap-24 mb-24">
+        {/* Circular Icons Row - horizontal scroll on mobile */}
+        <div className="w-full relative mb-16 sm:mb-24">
+          {/* Fade edge indicators on mobile */}
+          <div className="absolute left-0 top-0 bottom-8 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none sm:hidden" />
+          <div className="absolute right-0 top-0 bottom-8 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none sm:hidden" />
+          <div className="flex gap-6 sm:gap-10 md:gap-16 lg:gap-24 overflow-x-auto sm:flex-wrap sm:justify-center sm:overflow-visible pb-4 pt-1 px-4 -mx-4 sm:px-0 sm:mx-0 no-scrollbar">
           {CATEGORIES.map((cat, i) => {
             const Icon = cat.icon;
             return (
@@ -102,29 +106,30 @@ export function ShopByCategory() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="flex flex-col items-center group cursor-pointer"
+                className="flex flex-col items-center group cursor-pointer shrink-0"
               >
                 <Link to={cat.path} className="flex flex-col items-center">
-                  <div className="relative w-[110px] h-[110px] flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-105">
+                  <div className="relative w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] flex items-center justify-center mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-105">
                     {/* Blob Background */}
                     <div 
                       className={`absolute inset-0 ${cat.color} transition-all duration-700 group-hover:rotate-[20deg]`}
                       style={{ borderRadius: cat.blob }}
                     />
                     {/* Icon */}
-                    <Icon size={34} strokeWidth={1.5} className="relative z-10 text-white drop-shadow-sm" />
+                    <Icon size={28} strokeWidth={1.5} className="relative z-10 text-white drop-shadow-sm" />
                   </div>
-                  <span className="text-sm font-medium tracking-wide text-neutral-800 group-hover:text-emerald-800 transition-colors">
+                  <span className="text-xs sm:text-sm font-medium tracking-wide text-neutral-800 group-hover:text-emerald-800 transition-colors text-center">
                     {cat.name}
                   </span>
                 </Link>
               </motion.div>
             );
           })}
+          </div>
         </div>
 
         {/* Banners Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
           {BANNERS.map((banner, i) => (
             <motion.div
               key={banner.id}
@@ -133,7 +138,7 @@ export function ShopByCategory() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
             >
-              <div className={`relative rounded-[24px] overflow-hidden h-[260px] flex items-center p-8 lg:p-10 group ${banner.bg} transition-shadow duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]`}>
+              <div className={`relative rounded-[24px] overflow-hidden h-[220px] sm:h-[260px] flex items-center p-6 sm:p-8 lg:p-10 group ${banner.bg} transition-shadow duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]`}>
                 
                 {/* Text Content */}
                 <div className="relative z-20 flex-1 h-full flex flex-col justify-center">

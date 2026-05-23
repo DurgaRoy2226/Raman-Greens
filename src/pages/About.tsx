@@ -25,18 +25,18 @@ export function About() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-emerald-brand text-white py-24 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">About Raman Greens</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto opacity-90 leading-relaxed">
+      <section className="bg-emerald-brand text-white py-12 sm:py-16 md:py-24 px-4 text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">About Raman Greens</h1>
+        <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto opacity-90 leading-relaxed font-light">
           Dedicated to bringing you the finest quality, chemical-free dehydrated products with a perfect blend of tradition and modern technology.
         </p>
       </section>
 
       {/* Machinery Section */}
-      <section className="py-24 px-4 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-4">Our Advanced Machinery</h2>
-          <p className="text-neutral-600 max-w-2xl mx-auto text-lg">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-800 mb-3 sm:mb-4">Our Advanced Machinery</h2>
+          <p className="text-neutral-600 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
             We leverage cutting-edge industrial equipment to ensure our production process is highly efficient, perfectly hygienic, and exceptionally consistent.
           </p>
         </div>
@@ -59,11 +59,11 @@ export function About() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-neutral-800 mb-3 group-hover:text-emerald-brand transition-colors">
+              <div className="p-6 sm:p-8">
+                <h3 className="text-lg sm:text-xl font-bold text-neutral-800 mb-3 group-hover:text-emerald-brand transition-colors">
                   {machine.name}
                 </h3>
-                <p className="text-neutral-600 leading-relaxed">
+                <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-light">
                   {machine.description}
                 </p>
               </div>

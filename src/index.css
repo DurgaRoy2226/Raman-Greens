@@ -13,14 +13,27 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
   overflow-x: hidden;
+  max-width: 100vw;
   font-family: var(--font-sans);
   background: #FFFFFF;
   color: #1a1a1a;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure all images stay inside their containers */
+img {
+  max-width: 100%;
+}
+
+/* Prevent any element from causing horizontal overflow */
+* {
+  box-sizing: border-box;
 }
 
 

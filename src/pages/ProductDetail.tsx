@@ -63,12 +63,12 @@ export function ProductDetail() {
               </span>
             )}
           </motion.div>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-1">
             {product.gallery.map((g, i) => (
               <button
                 key={i}
                 onClick={() => setImgIdx(i)}
-                className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition ${
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition shrink-0 ${
                   imgIdx === i ? "border-emerald-brand" : "border-transparent"
                 }`}
               >
@@ -162,15 +162,15 @@ export function ProductDetail() {
           </button>
 
           {/* Trust */}
-          <div className="mt-6 grid grid-cols-3 gap-2 text-xs">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] sm:text-xs">
             {[
               { i: Truck, t: "Free shipping ₹499+" },
               { i: ShieldCheck, t: "Secure checkout" },
               { i: Leaf, t: "Authentic Nimari" },
             ].map((it) => (
-              <div key={it.t} className="bg-beige-warm rounded-xl p-3 text-center">
-                <it.i size={16} className="mx-auto text-emerald-brand mb-1" />
-                <div className="font-medium">{it.t}</div>
+              <div key={it.t} className="bg-beige-warm rounded-xl p-3 text-center flex sm:flex-col items-center sm:justify-center gap-2.5 sm:gap-1">
+                <it.i size={16} className="text-emerald-brand shrink-0" />
+                <div className="font-medium text-neutral-800">{it.t}</div>
               </div>
             ))}
           </div>
@@ -230,9 +230,9 @@ export function ProductDetail() {
 
       {/* Recommendations */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 pb-24">
-        <h2 className="font-display font-bold text-3xl">Recommended for You</h2>
+        <h2 className="font-display font-bold text-2xl sm:text-3xl text-neutral-900">Recommended for You</h2>
         <p className="text-neutral-500 mt-1 text-sm">More from {product.category}</p>
-        <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {recs.map((p, i) => <ProductCard key={p.id} product={p} idx={i} />)}
         </div>
       </section>

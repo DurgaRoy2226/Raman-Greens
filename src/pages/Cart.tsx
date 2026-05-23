@@ -59,39 +59,42 @@ export function Cart() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -50 }}
-                  className="bg-white p-4 rounded-2xl flex gap-4 items-center"
+                  className="bg-white p-4 rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
                 >
-                  <Link to={`/product/${item.product.id}`} className="shrink-0">
-                    <img src={item.product.image} alt="" className="w-20 h-20 lg:w-24 lg:h-24 rounded-xl object-cover" />
-                  </Link>
-                  <div className="flex-1 min-w-0">
-                    <Link to={`/product/${item.product.id}`} className="font-display font-semibold hover:text-emerald-brand line-clamp-1">
-                      {item.product.name}
+                  <div className="flex gap-4 items-center w-full sm:w-auto">
+                    <Link to={`/product/${item.product.id}`} className="shrink-0">
+                      <img src={item.product.image} alt="" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl object-cover" />
                     </Link>
-                    <div className="text-xs text-neutral-500 mt-0.5">{item.product.category} · {item.product.weight}</div>
-                    <div className="font-bold mt-1.5">₹{item.product.price}</div>
+                    <div className="flex-1 min-w-0">
+                      <Link to={`/product/${item.product.id}`} className="font-display font-semibold hover:text-emerald-brand line-clamp-1 text-sm sm:text-base">
+                        {item.product.name}
+                      </Link>
+                      <div className="text-xs text-neutral-500 mt-0.5">{item.product.category} · {item.product.weight}</div>
+                      <div className="font-bold mt-1 text-sm sm:text-base">₹{item.product.price}</div>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex items-center justify-between w-full sm:w-auto gap-4 pt-3 sm:pt-0 border-t border-neutral-100 sm:border-t-0">
                     <div className="flex items-center bg-beige-warm rounded-full">
                       <button
                         onClick={() => dispatch({ type: "UPDATE_QTY", id: item.product.id, qty: item.qty - 1 })}
-                        className="w-8 h-8 flex items-center justify-center"
+                        className="w-8 h-8 flex items-center justify-center hover:bg-beige-soft rounded-full"
                       >
                         <Minus size={12} />
                       </button>
                       <span className="w-7 text-center text-sm font-semibold">{item.qty}</span>
                       <button
                         onClick={() => dispatch({ type: "UPDATE_QTY", id: item.product.id, qty: item.qty + 1 })}
-                        className="w-8 h-8 flex items-center justify-center"
+                        className="w-8 h-8 flex items-center justify-center hover:bg-beige-soft rounded-full"
                       >
                         <Plus size={12} />
                       </button>
                     </div>
                     <button
                       onClick={() => dispatch({ type: "REMOVE_FROM_CART", id: item.product.id })}
-                      className="text-neutral-400 hover:text-red-500 p-1"
+                      className="text-neutral-400 hover:text-red-500 p-1 flex items-center gap-1.5"
                     >
                       <Trash2 size={14} />
+                      <span className="text-xs sm:hidden">Remove</span>
                     </button>
                   </div>
                 </motion.div>

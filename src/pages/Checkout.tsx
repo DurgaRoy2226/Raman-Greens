@@ -91,38 +91,38 @@ export function Checkout() {
         <h1 className="font-display font-bold text-3xl">Secure Checkout</h1>
 
         {/* Stepper */}
-        <div className="mt-8 flex items-center justify-center gap-2 sm:gap-4">
+        <div className="mt-8 flex items-center justify-center gap-1 sm:gap-4">
           {STEPS.map((s, i) => (
-            <div key={s.k} className="flex items-center gap-2 sm:gap-4">
+            <div key={s.k} className="flex items-center gap-1 sm:gap-4">
               <div className="flex flex-col items-center gap-1.5">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition ${
                     step >= s.k
                       ? "bg-emerald-brand text-white"
                       : "bg-white border border-beige-soft text-neutral-400"
                   }`}
                 >
-                  {step > s.k ? <Check size={16} /> : <s.icon size={16} />}
+                  {step > s.k ? <Check size={14} /> : <s.icon size={14} />}
                 </div>
-                <span className={`text-xs font-semibold ${step >= s.k ? "text-emerald-brand" : "text-neutral-400"}`}>
+                <span className={`text-[10px] sm:text-xs font-semibold ${step >= s.k ? "text-emerald-brand" : "text-neutral-400"}`}>
                   {s.l}
                 </span>
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`h-0.5 w-12 sm:w-20 ${step > s.k ? "bg-emerald-brand" : "bg-beige-soft"}`} />
+                <div className={`h-0.5 w-6 xs:w-12 sm:w-20 ${step > s.k ? "bg-emerald-brand" : "bg-beige-soft"}`} />
               )}
             </div>
           ))}
         </div>
 
         <div className="mt-10 grid lg:grid-cols-[1fr_360px] gap-6">
-          <div className="bg-white p-7 rounded-2xl">
+          <div className="bg-white p-5 sm:p-7 rounded-2xl">
             <AnimatePresence mode="wait">
               {step === 1 && (
                 <motion.div key="1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                   <h2 className="font-display font-bold text-xl mb-1">Shipping Address</h2>
                   <p className="text-neutral-500 text-sm mb-5">Where shall we deliver Nimar's freshness?</p>
-                  <div className="grid sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
                       ["name", "Full Name", "sm:col-span-2"],
                       ["phone", "Phone", ""],

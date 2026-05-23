@@ -303,7 +303,7 @@ export function Admin() {
           </button>
 
           {/* Search */}
-          <div className={`flex items-center gap-2 flex-1 max-w-sm px-4 py-2.5 rounded-xl text-sm ${inp}`}>
+          <div className={`hidden md:flex items-center gap-2 flex-1 max-w-sm px-4 py-2.5 rounded-xl text-sm ${inp}`}>
             <Search size={16}/>
             <input value={search} onChange={e=>setSearch(e.target.value)}
               placeholder="Search orders, products..." className="bg-transparent outline-none flex-1 text-sm"/>

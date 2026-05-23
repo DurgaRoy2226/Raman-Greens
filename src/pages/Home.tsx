@@ -40,7 +40,7 @@ export function Home() {
     <>
       {/* HERO SLIDER */}
       <section 
-        className="relative h-[100vh] min-h-[700px] w-full overflow-hidden group"
+        className="relative h-[100svh] min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] w-full overflow-hidden group"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -72,30 +72,30 @@ export function Home() {
 
             {/* Content */}
             <div className="absolute inset-0 flex items-center">
-              <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+              <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 w-full">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
                   className="max-w-3xl text-white"
                 >
-                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white mb-8 border border-white/20 shadow-sm">
+                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white mb-6 sm:mb-8 border border-white/20 shadow-sm">
                     <Sparkles size={14} className="text-emerald-400" /> 100% Certified Organic
                   </div>
                   
-                  <h1 className="font-serif font-medium text-5xl sm:text-6xl lg:text-[6rem] leading-[1.05] tracking-tight text-white mb-8 drop-shadow-sm">
+                  <h1 className="font-serif font-medium text-4xl sm:text-5xl md:text-6xl lg:text-[6rem] leading-[1.05] tracking-tight text-white mb-6 sm:mb-8 drop-shadow-sm">
                     Pure Taste of <br/>
                     <span className="text-emerald-400 italic">Nimar Valley</span>
                   </h1>
                   
-                  <p className="text-lg sm:text-xl text-white/90 max-w-xl leading-relaxed font-light tracking-wide mb-12">
+                  <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-xl leading-relaxed font-light tracking-wide mb-8 sm:mb-12">
                     Handpicked organics and traditional snacks, crafted with purity and love directly from the farms.
                   </p>
 
-                  <div className="flex flex-wrap gap-5">
+                  <div className="flex flex-wrap gap-4">
                     <Link
                       to="/shop"
-                      className="group relative inline-flex items-center gap-3 bg-white text-neutral-900 px-9 py-4 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase overflow-hidden transition-all duration-300 hover:bg-emerald-50 hover:text-emerald-800 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+                      className="group relative inline-flex items-center gap-3 bg-white text-neutral-900 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase overflow-hidden transition-all duration-300 hover:bg-emerald-50 hover:text-emerald-800 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
                     >
                       <span>Shop Collection</span>
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -145,7 +145,7 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-      <section className="mt-12 py-12 px-6 lg:px-12 max-w-[1400px] mx-auto bg-white text-neutral-900">
+      <section className="mt-8 sm:mt-12 py-10 sm:py-12 px-4 sm:px-6 lg:px-12 max-w-[1400px] mx-auto bg-white text-neutral-900">
         <div className="text-center mb-12 flex flex-col items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -157,7 +157,7 @@ export function Home() {
             <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
               Our Promise
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
               Why Raman Greens?
             </h2>
             <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
@@ -195,15 +195,15 @@ export function Home() {
       <ShopByCategory />
 
       {/* STORY STRIP REDESIGNED (Clean & Minimal) */}
-      <section className="py-10 lg:py-14 bg-[#FAFAFA] relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-[#FAFAFA] relative overflow-hidden">
         {/* Soft Organic Background Blurs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[10%] w-[40%] h-[50%] bg-emerald-600/5 rounded-full blur-[140px]" />
           <div className="absolute bottom-1/4 -right-[10%] w-[40%] h-[50%] bg-emerald-500/5 rounded-full blur-[140px]" />
         </div>
 
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-24 items-center">
             
             {/* Image Side */}
             <motion.div
@@ -211,7 +211,7 @@ export function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
+              className="relative aspect-[4/3] sm:aspect-[4/4] md:aspect-[4/5] rounded-[32px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
             >
               <img
                 src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
@@ -231,7 +231,7 @@ export function Home() {
                 Our Heritage
               </span>
               
-              <h2 className="font-serif text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-8">
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-6 sm:mb-8">
                 From Nimari soil to your table, <span className="text-emerald-700 italic">without shortcuts.</span>
               </h2>
               
@@ -277,7 +277,7 @@ export function Home() {
       </section>
 
       {/* PROMOTIONAL HERO BANNER */}
-      <section className="relative h-[400px] lg:h-[500px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative h-[280px] sm:h-[350px] lg:h-[500px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <img 
             src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1920&q=80" 
@@ -286,7 +286,7 @@ export function Home() {
           />
           <div className="absolute inset-0 bg-neutral-900/40 mix-blend-multiply" />
         </div>
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
+        <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -296,7 +296,7 @@ export function Home() {
             <span className="block text-emerald-300 font-bold tracking-[0.3em] uppercase text-[11px] mb-6">
               Farm to Table
             </span>
-            <h2 className="font-serif font-medium text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-10 drop-shadow-md">
+            <h2 className="font-serif font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 sm:mb-10 drop-shadow-md">
               The Essence of Nimar
             </h2>
             <Link 
@@ -313,8 +313,8 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-      <section className="py-10 bg-[#FAFAFA] border-t border-neutral-100/50">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <section className="py-10 md:py-16 bg-[#FAFAFA] border-t border-neutral-100/50">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="text-center mb-12 flex flex-col items-center">
             <motion.div 
@@ -327,7 +327,7 @@ export function Home() {
               <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
                 Testimonials
               </span>
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
                 Letters From Our Customers
               </h2>
               <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
@@ -380,18 +380,18 @@ export function Home() {
       </section>
 
       {/* NEWSLETTER */}
-      <section className="bg-white py-10 px-6 lg:px-12">
+      <section className="bg-white py-10 px-4 sm:px-6 lg:px-12">
         <div className="max-w-[1200px] mx-auto">
-          <div className="relative bg-emerald-800 rounded-[32px] p-10 lg:p-16 text-white overflow-hidden shadow-2xl">
+          <div className="relative bg-emerald-800 rounded-[24px] sm:rounded-[32px] p-6 sm:p-10 lg:p-16 text-white overflow-hidden shadow-2xl">
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
             <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
             
-            <div className="relative grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
               <div>
                 <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-300 mb-4">
                   Join Our Community
                 </span>
-                <h3 className="font-serif font-medium text-4xl lg:text-5xl leading-tight mb-4">
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight mb-4">
                   Get a taste of Nimar, every Sunday.
                 </h3>
                 <p className="text-emerald-100/80 font-light text-sm max-w-md leading-relaxed">
@@ -400,14 +400,14 @@ export function Home() {
               </div>
               
               <div className="w-full">
-                <form className="flex gap-2 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/20 shadow-inner">
+                <form className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-2xl sm:rounded-full border border-white/20 shadow-inner">
                   <input
                     type="email"
                     required
                     placeholder="Enter your email address"
-                    className="flex-1 bg-transparent px-6 py-3 placeholder:text-white/50 text-white text-sm focus:outline-none"
+                    className="flex-1 bg-transparent px-4 sm:px-6 py-3 placeholder:text-white/50 text-white text-sm focus:outline-none"
                   />
-                  <button className="bg-white text-emerald-950 font-bold tracking-wide uppercase text-[11px] px-8 py-3 rounded-full hover:bg-emerald-50 transition-colors shadow-md">
+                  <button className="bg-white text-emerald-950 font-bold tracking-wide uppercase text-[11px] px-6 sm:px-8 py-3 rounded-xl sm:rounded-full hover:bg-emerald-50 transition-colors shadow-md whitespace-nowrap">
                     Subscribe
                   </button>
                 </form>

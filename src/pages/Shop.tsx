@@ -15,6 +15,7 @@ import {
   SlidersHorizontal,
   Sparkles,
   ChevronDown,
+  ShieldCheck,
 } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import type { Product } from "../data/products";
@@ -291,17 +292,16 @@ function QuickViewModal({
         animate={{ opacity: 1, scale: 1,    y: 0  }}
         exit={{   opacity: 0, scale: 0.88, y: 24  }}
         transition={{ type: "spring", damping: 28, stiffness: 320 }}
-        className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden"
+        className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 overflow-y-auto flex-1">
           {/* Image */}
-          <div className="relative bg-beige-warm" style={{ minHeight: "280px" }}>
+          <div className="relative bg-beige-warm aspect-[4/3] md:aspect-auto md:h-full min-h-[220px] md:min-h-[280px]">
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover"
-              style={{ minHeight: "280px" }}
+              className="w-full h-full object-cover md:absolute md:inset-0"
             />
             {product.bestseller && (
               <span className="absolute top-3 left-3 bg-amber-400 text-amber-900 text-[10px]
@@ -318,85 +318,92 @@ function QuickViewModal({
           </div>
 
           {/* Info */}
-          <div className="p-6 flex flex-col max-h-[90vh] overflow-y-auto">
-            <button
-              id="quick-view-close"
-              onClick={onClose}
-              aria-label="Close"
-              className="self-end mb-1 p-2 rounded-full hover:bg-beige-warm text-neutral-400
-                         hover:text-neutral-700 transition-colors"
-            >
-              <X size={18} />
-            </button>
+          <div className="p-5 sm:p-6 flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-start mb-2">
+                <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-brand">
+                  {product.category} · {product.origin}
+                </span>
+                <button
+                  id="quick-view-close"
+                  onClick={onClose}
+                  aria-label="Close"
+                  className="p-1.5 rounded-full hover:bg-beige-warm text-neutral-400
+                             hover:text-neutral-700 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <h2 className="font-display font-bold text-xl sm:text-2xl text-neutral-900 leading-tight mb-2">
+                {product.name}
+              </h2>
 
-            <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-brand mb-1">
-              {product.category} · {product.origin}
-            </span>
-            <h2 className="font-display font-bold text-2xl text-neutral-900 leading-tight mb-2">
-              {product.name}
-            </h2>
+              <div className="flex items-center gap-2 mb-3">
+                <StarRow rating={product.rating} />
+                <span className="text-sm font-semibold text-neutral-800">{product.rating}</span>
+                <span className="text-xs text-neutral-400">({product.reviews} reviews)</span>
+              </div>
 
-            <div className="flex items-center gap-2 mb-3">
-              <StarRow rating={product.rating} />
-              <span className="text-sm font-semibold text-neutral-800">{product.rating}</span>
-              <span className="text-sm text-neutral-400">({product.reviews} reviews)</span>
+              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed mb-4">
+                {product.description}
+              </p>
+
+              {/* benefits */}
+              <ul className="space-y-1 mb-4">
+                {product.benefits.map((b) => (
+                  <li key={b} className="flex items-center gap-2 text-xs sm:text-sm text-neutral-700">
+                    <Leaf size={12} className="text-emerald-brand flex-shrink-0" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <p className="text-sm text-neutral-600 leading-relaxed mb-4">
-              {product.description}
-            </p>
+            <div>
+              {/* price */}
+              <div className="flex items-baseline gap-2 mb-4 pt-3 border-t border-neutral-100">
+                <span className="font-display font-bold text-2xl sm:text-3xl text-neutral-900">₹{product.price}</span>
+                {product.oldPrice && (
+                  <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
+                )}
+                <span className="text-xs sm:text-sm text-neutral-400 ml-1">/ {product.weight}</span>
+              </div>
 
-            {/* benefits */}
-            <ul className="space-y-1.5 mb-5">
-              {product.benefits.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-sm text-neutral-700">
-                  <Leaf size={12} className="text-emerald-brand flex-shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
+              {/* actions */}
+              <div className="flex gap-2">
+                <button
+                  id="quick-view-add-cart"
+                  onClick={() => { dispatch({ type: "ADD_TO_CART", product }); onClose(); }}
+                  className="flex-grow bg-emerald-brand hover:bg-emerald-brand-dark text-white font-semibold
+                             py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm
+                             transition-colors duration-200 shadow-lg hover:shadow-emerald-brand/30"
+                >
+                  <ShoppingCart size={15} /> Add to Cart
+                </button>
+                <button
+                  id="quick-view-wishlist"
+                  onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center border-2
+                               transition-all duration-200 shrink-0
+                               ${wished
+                                 ? "border-emerald-brand bg-emerald-brand text-white"
+                                 : "border-beige-soft hover:border-emerald-brand text-neutral-400"}`}
+                >
+                  <Heart size={16} className={wished ? "fill-white" : ""} />
+                </button>
+              </div>
 
-            {/* price */}
-            <div className="flex items-baseline gap-2 mb-5">
-              <span className="font-display font-bold text-3xl text-neutral-900">₹{product.price}</span>
-              {product.oldPrice && (
-                <span className="text-sm line-through text-neutral-400">₹{product.oldPrice}</span>
-              )}
-              <span className="text-sm text-neutral-400 ml-1">/ {product.weight}</span>
+              <div className="text-center mt-3">
+                <Link
+                  to={`/product/${product.id}`}
+                  onClick={onClose}
+                  className="inline-block text-xs text-emerald-brand hover:text-emerald-brand-dark
+                             font-semibold transition-colors"
+                >
+                  View Full Details →
+                </Link>
+              </div>
             </div>
-
-            {/* actions */}
-            <div className="flex gap-2.5 mt-auto">
-              <button
-                id="quick-view-add-cart"
-                onClick={() => { dispatch({ type: "ADD_TO_CART", product }); onClose(); }}
-                className="flex-1 bg-emerald-brand hover:bg-emerald-brand-dark text-white font-semibold
-                           py-3 px-5 rounded-2xl flex items-center justify-center gap-2
-                           transition-colors duration-200 shadow-lg hover:shadow-emerald-brand/30"
-              >
-                <ShoppingCart size={16} /> Add to Cart
-              </button>
-              <button
-                id="quick-view-wishlist"
-                onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })}
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2
-                             transition-all duration-200
-                             ${wished
-                               ? "border-emerald-brand bg-emerald-brand text-white"
-                               : "border-beige-soft hover:border-emerald-brand text-neutral-400"}`}
-              >
-                <Heart size={18} className={wished ? "fill-white" : ""} />
-              </button>
-            </div>
-
-            <Link
-              to={`/product/${product.id}`}
-              onClick={onClose}
-              className="text-center mt-3 text-sm text-emerald-brand hover:text-emerald-brand-dark
-                         font-semibold transition-colors"
-            >
-              View Full Details →
-            </Link>
           </div>
         </div>
       </motion.div>
@@ -542,6 +549,48 @@ export function Shop() {
           {/* Subtle decorative leaf background */}
           <div className="absolute inset-0 bg-leaf-pattern opacity-[0.03] pointer-events-none" />
           
+          {/* Left Decorative Organic Image */}
+          <motion.div
+            animate={{
+              y: [0, -8, 0],
+              rotate: [0, 6, 0],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.08 }}
+            className="absolute left-6 lg:left-12 top-1/2 -translate-y-1/2 hidden md:block w-20 h-20 lg:w-24 lg:h-24 opacity-35 lg:opacity-60 select-none rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] overflow-hidden border border-emerald-brand-light/25 shadow-md shadow-emerald-brand/5 hover:opacity-95 transition-all duration-300"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Premium Organic Herbal Powder"
+              className="w-full h-full object-cover transform scale-110"
+            />
+          </motion.div>
+
+          {/* Right Decorative Organic Image */}
+          <motion.div
+            animate={{
+              y: [0, 8, 0],
+              rotate: [0, -6, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.08 }}
+            className="absolute right-6 lg:right-12 top-1/2 -translate-y-1/2 hidden md:block w-20 h-20 lg:w-24 lg:h-24 opacity-35 lg:opacity-60 select-none rounded-[40%_60%_70%_30%_/_40%_50%_60%_50%] overflow-hidden border border-emerald-brand-light/25 shadow-md shadow-emerald-brand/5 hover:opacity-95 transition-all duration-300"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Premium Organic Farming Seeds"
+              className="w-full h-full object-cover transform scale-110"
+            />
+          </motion.div>
+          
           <div className="relative z-10 flex flex-col items-center">
             {/* Logo frame with organic soft shadow and background */}
             <div className="bg-beige-warm p-4 rounded-full shadow-inner border border-beige-soft/40 mb-4 hover:scale-105 transition-all duration-300">
@@ -567,6 +616,27 @@ export function Shop() {
             <p className="text-xs text-neutral-500 max-w-md leading-relaxed">
               Harvested with care from Nimar's fertile lands, bringing pure, unadulterated organic goodness straight to your home.
             </p>
+            
+            {/* Elegant Separator */}
+            <div className="w-12 h-px bg-emerald-brand-light/20 my-4" />
+
+            {/* Premium feature highlights */}
+            <div className="flex flex-wrap justify-center items-center gap-y-2.5 gap-x-5 md:gap-x-7 w-full max-w-md">
+              <div className="flex items-center gap-1.5 hover:scale-105 transition-transform duration-300">
+                <Leaf size={12} className="text-emerald-brand/80" />
+                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-neutral-600">100% Organic</span>
+              </div>
+              <span className="text-neutral-300 select-none">•</span>
+              <div className="flex items-center gap-1.5 hover:scale-105 transition-transform duration-300">
+                <Sparkles size={12} className="text-emerald-brand/80" />
+                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-neutral-600">Freshly Harvested</span>
+              </div>
+              <span className="text-neutral-300 select-none">•</span>
+              <div className="flex items-center gap-1.5 hover:scale-105 transition-transform duration-300">
+                <ShieldCheck size={12} className="text-emerald-brand/80" />
+                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-neutral-600">Chemical Free</span>
+              </div>
+            </div>
           </div>
         </motion.div>
 

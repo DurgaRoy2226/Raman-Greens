@@ -116,7 +116,7 @@ export function AIChatbot() {
         animate={{ scale: 1 }}
         transition={{ delay: 1, type: "spring" }}
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-emerald-brand text-white shadow-2xl shadow-emerald-brand/40 flex items-center justify-center hover:bg-emerald-brand-dark transition group"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 rounded-full bg-emerald-brand text-white shadow-2xl shadow-emerald-brand/40 flex items-center justify-center hover:bg-emerald-brand-dark transition group"
         aria-label="Chat with Nimari AI"
       >
         <MessageCircle size={22} />
@@ -135,7 +135,7 @@ export function AIChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] sm:w-96 h-[600px] max-h-[80vh] bg-white rounded-3xl shadow-2xl border border-beige-soft flex flex-col overflow-hidden"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 h-[550px] max-h-[85vh] sm:h-[600px] bg-white rounded-3xl shadow-2xl border border-beige-soft flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-gradient-to-br from-emerald-brand to-emerald-brand-dark text-white p-4 flex items-center gap-3">

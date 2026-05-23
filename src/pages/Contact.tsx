@@ -72,7 +72,7 @@ export function Contact() {
   return (
     <div className="min-h-screen bg-nimar-gradient">
       {/* Hero Section */}
-      <section className="bg-emerald-brand text-white py-12 px-4 text-center relative overflow-hidden">
+      <section className="bg-emerald-brand text-white py-12 sm:py-16 md:py-20 px-4 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-leaf-pattern opacity-10 pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.span
@@ -86,7 +86,7 @@ export function Contact() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-display font-bold mb-5"
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-4 sm:mb-5"
           >
             We'd Love to Hear From You
           </motion.h1>
@@ -94,14 +94,14 @@ export function Contact() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-lg max-w-2xl mx-auto opacity-90 leading-relaxed font-sans"
+            className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto opacity-90 leading-relaxed font-sans font-light"
           >
             Have questions about our authentic Nimari snacks, organic seeds, spices or custom gifting packages? Our team in Khandwa is here to help!
           </motion.p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 sm:py-16 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Contact Cards */}
           <div className="lg:col-span-5 space-y-6">
@@ -315,13 +315,13 @@ export function Contact() {
       </div>
 
       {/* FAQ Section */}
-      <section className="bg-beige-warm/60 py-20 border-t border-beige-soft">
+      <section className="bg-beige-warm/60 py-12 sm:py-16 md:py-20 border-t border-beige-soft">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mx-auto mb-3">
               <MessageSquare size={20} />
             </div>
-            <h2 className="text-3xl font-display font-bold text-neutral-800">Frequently Asked Questions</h2>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-neutral-800">Frequently Asked Questions</h2>
             <p className="text-neutral-500 text-sm mt-2">Find quick answers to common queries about our service.</p>
           </div>
 
