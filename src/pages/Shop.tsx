@@ -112,15 +112,12 @@ function StarRow({ rating }: { rating: number }) {
 function PremiumCard({
   product,
   idx,
-  onQuickView,
 }: {
   product: Product;
   idx: number;
-  onQuickView: (p: Product) => void;
 }) {
   const { state, dispatch } = useStore();
   const wished = state.wishlist.includes(product.id);
-  const badge = CAT_STYLE[product.category]?.badge ?? "bg-gray-100 text-gray-600";
 
   return (
     <motion.article
@@ -129,57 +126,50 @@ function PremiumCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.55, delay: (idx % 4) * 0.1, ease: "easeOut" }}
+<<<<<<< HEAD
       className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft/80
                  hover:border-emerald-brand/35 hover:shadow-xl hover:shadow-emerald-brand/8
                  hover:-translate-y-1.5 transition-all duration-300 ease-out flex flex-col"
+=======
+      className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft
+                 hover:border-emerald-brand/20 hover:shadow-2xl hover:shadow-emerald-brand/5
+                 hover:-translate-y-1.5 transition-all duration-500 flex flex-col"
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
     >
       {/* ── Image zone ── */}
-      <div className="relative overflow-hidden bg-beige-warm" style={{ aspectRatio: "1 / 1" }}>
+      <Link
+        to={`/product/${product.id}`}
+        className="block relative overflow-hidden bg-beige-warm"
+        style={{ aspectRatio: "1 / 1" }}
+      >
         <img
           src={product.image}
           alt={product.name}
+<<<<<<< HEAD
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+=======
+          className="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-103"
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
         />
 
-        {/* gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent
-                        opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-
-        {/* top badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-          {product.oldPrice && (
-            <span className="bg-emerald-brand text-white text-[10px] font-bold uppercase tracking-wider
-                             px-2.5 py-1 rounded-full shadow">
-              -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
-            </span>
-          )}
-          {product.bestseller && (
-            <span className="bg-amber-400 text-amber-900 text-[10px] font-bold uppercase tracking-wider
-                             px-2.5 py-1 rounded-full shadow">
-              ★ Bestseller
-            </span>
-          )}
-          {product.trending && !product.bestseller && (
-            <span className="bg-rose-500 text-white text-[10px] font-bold uppercase tracking-wider
-                             px-2.5 py-1 rounded-full shadow">
-              🔥 Trending
-            </span>
-          )}
-        </div>
-
-        {/* wishlist button */}
+        {/* Wishlist Button (permanently visible on top-right corner) */}
         <button
           id={`wishlist-${product.id}`}
           aria-label="Toggle wishlist"
-          onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
+          }}
           className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center
-                      shadow-lg transition-all duration-200 hover:scale-110
+                      shadow-md transition-all duration-300 hover:scale-110 active:scale-95 z-20
                       ${wished
                         ? "bg-emerald-brand text-white"
-                        : "bg-white/80 backdrop-blur-sm text-neutral-500 hover:bg-white"}`}
+                        : "bg-white/90 backdrop-blur-sm text-neutral-500 hover:bg-white hover:text-emerald-brand"}`}
         >
           <Heart size={15} className={wished ? "fill-white" : ""} />
         </button>
+<<<<<<< HEAD
 
         {/* hover action bar */}
         <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2
@@ -217,36 +207,44 @@ function PremiumCard({
         <Link to={`/product/${product.id}`}>
           <h3 className="font-display font-semibold text-neutral-900 text-[15px] leading-snug
                          line-clamp-2 hover:text-emerald-brand transition-colors duration-300 mb-2.5">
+=======
+      </Link>
+
+      {/* ── Body ── */}
+      <div className="p-5 flex flex-col flex-1">
+        <Link to={`/product/${product.id}`}>
+          <h3 className="font-display font-medium text-neutral-900 text-[15px] leading-snug
+                         line-clamp-2 hover:text-emerald-brand transition-colors duration-200 mb-3">
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             {product.name}
           </h3>
         </Link>
 
-        {/* rating */}
-        <div className="flex items-center gap-2 mb-3">
-          <StarRow rating={product.rating} />
-          <span className="text-xs font-semibold text-neutral-700">{product.rating}</span>
-          <span className="text-xs text-neutral-400">({product.reviews})</span>
-        </div>
-
         {/* price row */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-soft/60">
           <div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-display font-bold text-xl text-neutral-900">₹{product.price}</span>
+            <div className="flex items-baseline gap-2">
+              <span className="font-display font-bold text-lg text-neutral-900">₹{product.price}</span>
               {product.oldPrice && (
                 <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
               )}
             </div>
-            <span className="text-[10px] text-neutral-400">{product.weight}</span>
+            <span className="text-[10px] text-neutral-400 font-light">{product.weight}</span>
           </div>
+
+          {/* Add to Cart Button (permanently visible at the bottom) */}
           <motion.button
             id={`addcart-${product.id}`}
-            whileTap={{ scale: 0.88 }}
-            onClick={() => dispatch({ type: "ADD_TO_CART", product })}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              dispatch({ type: "ADD_TO_CART", product });
+            }}
             aria-label="Add to cart"
             className="w-10 h-10 bg-emerald-brand hover:bg-emerald-brand-dark text-white rounded-full
-                       flex items-center justify-center transition-colors duration-200
-                       shadow-md hover:shadow-emerald-brand/30 hover:shadow-lg"
+                       flex items-center justify-center transition-all duration-300
+                       shadow-md hover:shadow-emerald-brand/30 hover:shadow-lg active:scale-90"
           >
             <ShoppingCart size={15} />
           </motion.button>
@@ -804,7 +802,6 @@ export function Shop() {
                 key={p.id}
                 product={p}
                 idx={i}
-                onQuickView={setQvProd}
               />
             ))}
           </div>

@@ -1,96 +1,74 @@
 import { Link } from "react-router-dom";
-import { Search, Apple, Carrot, Fish, Wheat, ArrowRight } from "lucide-react";
+import { ChevronRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 const CATEGORIES = [
   {
-    name: "All Items",
-    icon: Search,
-    color: "bg-amber-400/50",
-    blob: "60% 40% 30% 70% / 60% 30% 70% 40%",
-    path: "/shop",
-  },
-  {
-    name: "Fresh Fruits",
-    icon: Apple,
-    color: "bg-lime-500/40",
-    blob: "30% 70% 70% 30% / 30% 30% 70% 70%",
-    path: "/shop?cat=Fruits",
-  },
-  {
-    name: "Vegetables",
-    icon: Carrot,
-    color: "bg-pink-400/50",
-    blob: "50% 50% 20% 80% / 25% 80% 20% 75%",
-    path: "/shop?cat=Vegetables",
-  },
-  {
-    name: "Fish & Meat",
-    icon: Fish,
-    color: "bg-stone-500/40",
-    blob: "70% 30% 50% 50% / 30% 30% 70% 70%",
-    path: "/shop?cat=Meat",
-  },
-  {
-    name: "Staples",
-    icon: Wheat,
-    color: "bg-blue-400/40",
-    blob: "40% 60% 70% 30% / 40% 50% 60% 50%",
-    path: "/shop?cat=Staples",
-  },
-];
-
-const BANNERS = [
-  {
     id: 1,
-    title: "Bell Pepper\nOrange",
-    discount: "-10% OFF",
-    bg: "bg-[#FDF7F2]",
-    image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=500&q=80",
-    path: "/shop?cat=Vegetables",
+    title: "Fresh Juices",
+    subtitle: "100% natural.",
+    image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=700&q=85",
+    path: "/shop?cat=Snacks",
   },
   {
     id: 2,
-    title: "Fruit Juice\nPackage",
-    discount: "-20% OFF",
-    bg: "bg-[#F3F8F4]",
-    image: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=500&q=80",
-    path: "/shop?cat=Beverages",
+    title: "Fresh Vegetables",
+    subtitle: "Fresh from farm.",
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=85",
+    path: "/shop?cat=Organics",
   },
   {
     id: 3,
-    title: "Full Fresh\nVegetable",
-    discount: "-30% OFF",
-    bg: "bg-[#FCF5F7]",
-    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80",
-    path: "/shop?cat=Vegetables",
+    title: "Spices & Herbs",
+    subtitle: "Aromatic & pure.",
+    image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=700&q=85",
+    path: "/shop?cat=Spices",
+  },
+  {
+    id: 4,
+    title: "Healthy Snacks",
+    subtitle: "Guilt-free treats.",
+    image: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?auto=format&fit=crop&w=700&q=85",
+    path: "/shop?cat=Gifting",
   },
 ];
 
 export function ShopByCategory() {
   return (
+<<<<<<< HEAD
     <section className="py-10 sm:py-12 bg-white w-full overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
         
         {/* Elegant Heading */}
         <div className="text-center mb-20 flex flex-col items-center">
+=======
+    <section className="py-8 lg:py-10 bg-white w-full">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="text-center mb-8 flex flex-col items-center">
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.6 }}
             className="inline-block"
           >
-            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600/80 mb-4">
-              Explore Our Range
+            <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
+              <Sparkles size={14} /> Discover
             </span>
+<<<<<<< HEAD
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
               Shop By Category
+=======
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-4 tracking-tight">
+              Shop by Category
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             </h2>
-            <div className="w-10 h-[2px] bg-emerald-600/30 mx-auto" />
+            <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
           </motion.div>
         </div>
 
+<<<<<<< HEAD
         {/* Circular Icons Row - horizontal scroll on mobile */}
         <div className="w-full relative mb-16 sm:mb-24">
           {/* Fade edge indicators on mobile */}
@@ -131,13 +109,19 @@ export function ShopByCategory() {
         {/* Banners Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
           {BANNERS.map((banner, i) => (
+=======
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {CATEGORIES.map((cat, i) => (
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             <motion.div
-              key={banner.id}
-              initial={{ opacity: 0, y: 30 }}
+              key={cat.id}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="group relative flex bg-[#282d35] rounded-xl overflow-hidden h-[240px] md:h-[280px]"
             >
+<<<<<<< HEAD
               <div className={`relative rounded-[24px] overflow-hidden h-[220px] sm:h-[260px] flex items-center p-6 sm:p-8 lg:p-10 group ${banner.bg} transition-shadow duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]`}>
                 
                 {/* Text Content */}
@@ -147,32 +131,45 @@ export function ShopByCategory() {
                   </span>
                   <h3 className="text-2xl lg:text-3xl font-serif font-medium text-neutral-900 leading-tight mb-8 whitespace-pre-line">
                     {banner.title}
+=======
+              <Link to={cat.path} className="flex w-full h-full">
+
+                {/* ── Left: Dark panel ── */}
+                <div className="w-[50%] relative z-10 flex flex-col justify-center px-8 lg:px-10">
+                  <h3 className="text-white font-bold mb-2 text-2xl lg:text-3xl tracking-tight">
+                    {cat.title}
+>>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
                   </h3>
-                  <div>
-                    <Link
-                      to={banner.path}
-                      className="inline-flex items-center gap-2 bg-white text-neutral-900 hover:text-emerald-800 text-[11px] font-bold uppercase tracking-[0.15em] px-6 py-3 rounded-full transition-all duration-300 shadow-[0_4px_14px_rgba(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] group/btn"
-                    >
+
+                  <p className="text-neutral-400 text-sm font-light mb-8">
+                    {cat.subtitle}
+                  </p>
+
+                  {/* Shop Now link */}
+                  <div className="inline-flex items-center text-white text-sm font-bold w-fit group-hover:text-gray-200 transition-colors">
+                    <span className="border-b-[1.5px] border-white pb-0.5">
                       Shop Now
-                      <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    </Link>
+                    </span>
+                    <ChevronRight
+                      size={16}
+                      className="ml-1 group-hover:translate-x-1 transition-transform duration-300"
+                    />
                   </div>
                 </div>
 
-                {/* Image */}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-[120%] z-10 pointer-events-none">
+                {/* ── Right: Photo ── */}
+                <div className="w-[50%] relative overflow-hidden">
                   <img
-                    src={banner.image}
-                    alt={banner.title.replace('\n', ' ')}
-                    className="w-full h-full object-contain object-right group-hover:scale-105 transition-transform duration-700 ease-out"
-                    style={{ filter: "drop-shadow(-10px 10px 20px rgba(0,0,0,0.08))" }}
+                    src={cat.image}
+                    alt={cat.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
-              </div>
+
+              </Link>
             </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );
