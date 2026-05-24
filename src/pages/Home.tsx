@@ -541,17 +541,18 @@ export function Home() {
               const Icon = feature.icon;
               return (
                 <div key={i} className="flex items-center w-full">
-                  <div className="group flex flex-col items-center justify-center text-center py-2 px-2 w-full cursor-default">
-                    <div className="text-[#8bc34a] mb-3 transition-transform duration-300 group-hover:-translate-y-1">
-                      <Icon size={34} strokeWidth={1} />
+                  <div className="group flex flex-col items-center justify-center text-center py-4 px-2 w-full cursor-default">
+                    {/* Outlined icon box */}
+                    <div className="w-[64px] h-[64px] flex items-center justify-center rounded-[10px] border-2 border-[#8bc34a] text-[#8bc34a] mb-4 transition-all duration-300 group-hover:bg-emerald-50 group-hover:-translate-y-1">
+                      <Icon size={28} strokeWidth={1.25} />
                     </div>
-                    <span className="text-[10px] font-bold tracking-[0.15em] text-[#333] uppercase whitespace-pre-line leading-[1.5] transition-colors duration-300 group-hover:text-[#1a3626]">
+                    <span className="text-[10px] font-bold tracking-[0.15em] text-[#333] uppercase whitespace-pre-line leading-[1.6] transition-colors duration-300 group-hover:text-[#1a3626]">
                       {feature.title}
                     </span>
                   </div>
                   {/* Thin Vertical Divider */}
                   {i < 4 && (
-                    <div className="hidden md:block w-[1px] h-12 bg-neutral-100 flex-shrink-0" />
+                    <div className="hidden md:block w-[1px] h-16 bg-neutral-100 flex-shrink-0" />
                   )}
                 </div>
               );
