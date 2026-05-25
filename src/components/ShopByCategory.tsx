@@ -67,7 +67,15 @@ export function ShopByCategory() {
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-4 tracking-tight">
               Shop by Category
             </h2>
-            <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
+            {/* Leaf separator */}
+            <div className="flex items-center justify-center gap-3 my-3">
+              <div className="w-12 h-[1px] bg-neutral-300" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#8bc34a" className="text-[#8bc34a]"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2-5 10" /></svg>
+              <div className="w-12 h-[1px] bg-neutral-300" />
+            </div>
+            <p className="text-neutral-500 text-sm font-light max-w-sm mx-auto leading-relaxed mt-1">
+              Handpicked organic produce, cold-pressed oils, traditional snacks & more — straight from Nimar farms.
+            </p>
           </motion.div>
         </div>
 
@@ -89,7 +97,7 @@ export function ShopByCategory() {
                     {cat.title}
                   </h3>
 
-                  <p className={`${cat.subtitleColor} text-sm font-light mb-8 transition-colors duration-500`}>
+                  <p className={`${cat.subtitleColor} text-xs font-light mb-5 transition-colors duration-500`}>
                     {cat.subtitle}
                   </p>
 

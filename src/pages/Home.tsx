@@ -57,7 +57,7 @@ export function Home() {
     const timer = setInterval(() => {
       setPreviousSlide(currentSlide);
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
+    }, 2000);
     return () => clearInterval(timer);
   }, [isPaused, currentSlide]);
 
@@ -236,7 +236,7 @@ export function Home() {
               <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
             </motion.div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-8">
             {[
               { icon: Leaf, subtitle: "SINCE 1983", title: "100% Organic", desc: "Certified organic produce sourced directly from farmers. Find out what it means to be fresh from source.", linkText: "Our Story >" },
               { icon: ShieldCheck, subtitle: "PURE & NATURAL", title: "No Preservatives", desc: "Pure, natural ingredients with zero chemical additives, purposely blended for delicious taste.", linkText: "Shop Our Range >" },
