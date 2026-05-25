@@ -103,9 +103,10 @@ export function Contact() {
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+
           {/* Left Column: Contact Cards */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="text-center">
+          <div className="lg:col-span-5 space-y-6 flex flex-col items-center text-center">
+            <div className="text-center mx-auto">
               <h2 className="text-2xl font-bold text-neutral-800 mb-2">Contact Information</h2>
               <p className="text-neutral-500 text-sm mb-6">
                 Reach out to us directly or visit our production office.
@@ -178,7 +179,7 @@ export function Contact() {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 lg:pt-[5.25rem] flex flex-col">
+          <div className="lg:col-span-7 lg:pt-[5.25rem] flex flex-col mt-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -270,7 +271,7 @@ export function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3 mb-4 bg-emerald-brand hover:bg-emerald-brand-dark disabled:bg-emerald-brand/70 text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                      className="w-full py-3 bg-emerald-brand hover:bg-emerald-brand-dark disabled:bg-emerald-brand/70 text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                     >
                       {isSubmitting ? (
                         <>
@@ -322,8 +323,8 @@ export function Contact() {
             <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mx-auto mb-3">
               <MapPin size={20} />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-display font-bold text-neutral-800">Find Us on the Map</h2>
-            <p className="text-neutral-500 text-sm mt-2">Visit our production office in the heart of Nimar, Khandwa.</p>
+            <h2 className="text-2xl font-bold text-neutral-800 mb-2">Find Us on the Map</h2>
+            <p className="text-neutral-500 text-sm mb-6">Visit our production office in the heart of Nimar, Khandwa.</p>
           </div>
 
           {/* Two-column: Map + Location Details */}
