@@ -17,23 +17,6 @@ export function RegionalFavourites() {
   }).slice(0, 8);
 
   return (
-<<<<<<< HEAD
-    <section className="relative py-12 sm:py-16 md:py-20 bg-[#FDFDFC]">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        {/* Leaf decorations */}
-        <div className="absolute top-1/4 left-8 text-emerald-600/10 pointer-events-none">
-          <Leaf size={64} className="opacity-15" />
-        </div>
-        <div className="absolute bottom-1/4 right-8 text-emerald-600/10 pointer-events-none">
-          <Leaf size={64} className="opacity-15" />
-        </div>
-      
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-        
-        {/* Header Section */}
-        <div className="flex flex-col items-center mb-20">
-=======
     <section className="relative py-16 lg:py-20 bg-white overflow-hidden">
       {/* Subtle background blobs */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/60 rounded-full blur-[160px] -translate-y-1/3 translate-x-1/3 pointer-events-none" />
@@ -43,7 +26,6 @@ export function RegionalFavourites() {
 
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -60,69 +42,12 @@ export function RegionalFavourites() {
               Hand-prepared culinary treasures from the heart of Nimar, beloved by our community.
             </p>
           </motion.div>
-<<<<<<< HEAD
-          
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 mb-4 sm:mb-6 text-center tracking-tight">
-            Regional Favourites
-          </h2>
-          <p className="text-neutral-500 max-w-lg text-center leading-relaxed text-sm sm:text-base">
-            Experience the soulful essence of Nimar through our most cherished, hand-prepared culinary treasures.
-          </p>
-        </div>
-
-        {/* Filters */}
-        <motion.div 
-          className="flex flex-wrap justify-center gap-2 mb-10 sm:mb-16"
-        >
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 sm:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 border ${
-                activeCategory === cat
-                  ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-900/20"
-                  : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-300"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Product Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProducts.map((product, idx) => (
-              <motion.div
-                key={product.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
-              >
-                <ProductCard product={product} idx={idx} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* CTA */}
-        <div className="mt-12 sm:mt-20 flex justify-center">
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 px-8 sm:px-10 py-3.5 sm:py-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/20"
-=======
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
           >
             <Link
               to="/shop"

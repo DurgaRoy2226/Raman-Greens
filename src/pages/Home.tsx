@@ -74,22 +74,18 @@ export function Home() {
   return (
     <>
       {/* HERO SLIDER */}
-      <section 
-<<<<<<< HEAD
+      <section
         className="relative h-[100svh] min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] w-full overflow-hidden group"
-=======
-        className="relative h-[100vh] min-h-[700px] w-full overflow-hidden group bg-neutral-950"
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         {/* Invisible Image Preload Container for browser decoding */}
         <div className="hidden" aria-hidden="true">
           {HERO_SLIDES.map((slide) => (
-            <img 
-              key={`preload-${slide.id}`} 
-              src={slide.image} 
-              alt="" 
+            <img
+              key={`preload-${slide.id}`}
+              src={slide.image}
+              alt=""
               loading="eager"
             />
           ))}
@@ -100,26 +96,26 @@ export function Home() {
           {HERO_SLIDES.map((slide, idx) => {
             const isActive = idx === currentSlide;
             const isPrev = idx === previousSlide;
-            
+
             return (
               <div
                 key={slide.id}
                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  isActive 
-                    ? "opacity-100 z-10" 
-                    : isPrev 
-                      ? "opacity-100 z-0" 
+                  isActive
+                    ? "opacity-100 z-10"
+                    : isPrev
+                      ? "opacity-100 z-0"
                       : "opacity-0 z-0 pointer-events-none"
                 }`}
               >
-                <motion.div 
+                <motion.div
                   initial={{ scale: 1.08 }}
                   animate={{ scale: isActive ? 1 : 1.08 }}
                   transition={{ duration: 6, ease: "easeOut" }}
                   className="absolute inset-0"
                 >
-                  <img 
-                    src={slide.image} 
+                  <img
+                    src={slide.image}
                     alt="Fresh Organic Products"
                     className="w-full h-full object-cover"
                   />
@@ -157,46 +153,11 @@ export function Home() {
                   {HERO_SLIDES[currentSlide].titleLine1} <br/>
                   <span className="text-emerald-400">{HERO_SLIDES[currentSlide].titleHighlight}</span>
                 </h1>
-                
+
                 <p className="text-lg sm:text-xl text-white/90 max-w-xl leading-relaxed font-light tracking-wide mb-12">
                   {HERO_SLIDES[currentSlide].desc}
                 </p>
 
-<<<<<<< HEAD
-            {/* Content */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 w-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-                  className="max-w-3xl text-white"
-                >
-                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white mb-6 sm:mb-8 border border-white/20 shadow-sm">
-                    <Sparkles size={14} className="text-emerald-400" /> 100% Certified Organic
-                  </div>
-                  
-                  <h1 className="font-serif font-medium text-4xl sm:text-5xl md:text-6xl lg:text-[6rem] leading-[1.05] tracking-tight text-white mb-6 sm:mb-8 drop-shadow-sm">
-                    Pure Taste of <br/>
-                    <span className="text-emerald-400 italic">Nimar Valley</span>
-                  </h1>
-                  
-                  <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-xl leading-relaxed font-light tracking-wide mb-8 sm:mb-12">
-                    Handpicked organics and traditional snacks, crafted with purity and love directly from the farms.
-                  </p>
-
-                  <div className="flex flex-wrap gap-4">
-                    <Link
-                      to="/shop"
-                      className="group relative inline-flex items-center gap-3 bg-white text-neutral-900 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase overflow-hidden transition-all duration-300 hover:bg-emerald-50 hover:text-emerald-800 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
-                    >
-                      <span>Shop Collection</span>
-                      <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-=======
                 <div className="flex flex-wrap gap-5">
                   <Link
                     to={HERO_SLIDES[currentSlide].btnLink}
@@ -207,14 +168,13 @@ export function Home() {
                   </Link>
                 </div>
               </motion.div>
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             </div>
           </motion.div>
         </AnimatePresence>
 
         {/* Navigation Arrows */}
         <div className="absolute inset-y-0 left-6 lg:left-12 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30">
-          <button 
+          <button
             onClick={prevSlide}
             className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
             aria-label="Previous slide"
@@ -223,7 +183,7 @@ export function Home() {
           </button>
         </div>
         <div className="absolute inset-y-0 right-6 lg:right-12 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30">
-          <button 
+          <button
             onClick={nextSlide}
             className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
             aria-label="Next slide"
@@ -243,8 +203,8 @@ export function Home() {
                 setCurrentSlide(idx);
               }}
               className={`transition-all duration-500 rounded-full ${
-                currentSlide === idx 
-                  ? "w-12 h-1 bg-white" 
+                currentSlide === idx
+                  ? "w-12 h-1 bg-white"
                   : "w-4 h-1 bg-white/40 hover:bg-white/70"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
@@ -254,65 +214,19 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-<<<<<<< HEAD
-      <section className="mt-8 sm:mt-12 py-10 sm:py-12 px-4 sm:px-6 lg:px-12 max-w-[1400px] mx-auto bg-white text-neutral-900">
-        <div className="text-center mb-12 flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-block"
-          >
-            <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-600 mb-4">
-              Our Promise
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
-              Why Raman Greens?
-            </h2>
-            <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {[
-            { icon: Leaf, title: "100% Organic", desc: "Certified organic produce sourced directly from farmers." },
-            { icon: ShieldCheck, title: "No Preservatives", desc: "Pure, natural ingredients with zero chemical additives." },
-            { icon: Activity, title: "Cold Pressed", desc: "Traditional extraction methods retaining full nutrients." },
-            { icon: Heart, title: "Women Empowered", desc: "Supporting rural women across the Narmada belt." }
-          ].map((feature, i) => {
-            const Icon = feature.icon;
-            return (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="flex flex-col items-center text-center group"
-              >
-                <div className="w-20 h-20 rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-emerald-700 flex items-center justify-center mb-6 group-hover:bg-emerald-700 group-hover:text-white transition-all duration-500 group-hover:-translate-y-2">
-                  <Icon size={28} strokeWidth={1.5} />
-                </div>
-                <h3 className="font-serif font-medium text-xl text-neutral-900 mb-3">{feature.title}</h3>
-                <p className="text-sm text-neutral-500 leading-relaxed max-w-[220px] font-light">{feature.desc}</p>
-              </motion.div>
-            )
-          })}
-=======
       <section className="relative mt-8 py-10 px-6 lg:px-12 w-full bg-[#F9FCF9] text-neutral-900 overflow-hidden">
         {/* Faint leaf pattern background */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")' }} />
-        
+
         <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="text-center mb-12 flex flex-col items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="inline-block"
             >
-              
               <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
                 <Sparkles size={14} /> Our Promise
               </span>
@@ -343,13 +257,13 @@ export function Home() {
                     <div className="absolute -top-2 -left-4 w-12 h-12 bg-[#8bc34a] rounded-full z-0 opacity-90 transition-transform duration-500 group-hover:scale-110" />
                     <Icon size={48} strokeWidth={1} className="relative z-10 text-[#1a3626]" />
                   </div>
-                  
+
                   <span className="text-[10px] font-bold tracking-[0.2em] text-[#8bc34a] uppercase mb-2">
                     {feature.subtitle}
                   </span>
-                  
+
                   <h3 className="font-serif font-bold text-2xl text-[#1a3626] mb-4">{feature.title}</h3>
-                  
+
                   <p className="text-[13px] text-neutral-600 leading-relaxed font-medium flex-grow max-w-[240px]">
                     {feature.desc}
                   </p>
@@ -357,7 +271,6 @@ export function Home() {
               )
             })}
           </div>
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
         </div>
       </section>
 
@@ -365,11 +278,7 @@ export function Home() {
       <ShopByCategory />
 
       {/* STORY STRIP REDESIGNED (Clean & Minimal) */}
-<<<<<<< HEAD
       <section className="py-10 md:py-14 bg-[#FAFAFA] relative overflow-hidden">
-=======
-      <section className="py-8 lg:py-10 bg-[#FAFAFA] relative overflow-hidden">
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
         {/* Soft Organic Background Blurs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[10%] w-[40%] h-[50%] bg-emerald-600/5 rounded-full blur-[140px]" />
@@ -378,7 +287,7 @@ export function Home() {
 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-24 items-center">
-            
+
             {/* Image Side */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -404,16 +313,11 @@ export function Home() {
                 <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
                   <Sparkles size={14} /> Our Heritage
                 </span>
-              
-<<<<<<< HEAD
+
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-6 sm:mb-8">
                 From Nimari soil to your table, <span className="text-emerald-700 italic">without shortcuts.</span>
-=======
-              <h2 className="font-serif text-4xl lg:text-5xl font-medium text-neutral-900 leading-tight mb-8 pr-8">
-                From Nimari soil to your table, <span className="text-emerald-700">without shortcuts.</span>
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
               </h2>
-              
+
               <p className="text-neutral-500 leading-relaxed mb-12 text-base font-light">
                 Raman Greens KNW was born in a small kitchen in Khandwa with one belief: the soul of Nimar
                 deserves a stage. We work directly with farmers across the Narmada belt to bring you snacks, organics
@@ -458,9 +362,9 @@ export function Home() {
       {/* PROMOTIONAL HERO BANNER */}
       <section className="relative h-[280px] sm:h-[350px] lg:h-[500px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1920&q=80" 
-            alt="Organic Farm" 
+          <img
+            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1920&q=80"
+            alt="Organic Farm"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-neutral-900/40 mix-blend-multiply" />
@@ -478,8 +382,8 @@ export function Home() {
             <h2 className="font-serif font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 sm:mb-10 drop-shadow-md">
               The Essence of Nimar
             </h2>
-            <Link 
-              to="/shop" 
+            <Link
+              to="/shop"
               className="inline-flex items-center gap-3 px-9 py-4 bg-white text-neutral-900 hover:bg-emerald-50 hover:text-emerald-800 rounded-full font-bold text-[11px] uppercase tracking-[0.15em] transition-all duration-300 shadow-xl group"
             >
               Explore Collection <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -492,16 +396,11 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-<<<<<<< HEAD
       <section className="py-10 md:py-16 bg-[#FAFAFA] border-t border-neutral-100/50">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
-=======
-      <section className="py-8 bg-[#FAFAFA] border-t border-neutral-100/50">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
-          
+
           <div className="text-center mb-10 flex flex-col items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -563,25 +462,10 @@ export function Home() {
         </div>
       </section>
 
-<<<<<<< HEAD
-      {/* NEWSLETTER */}
-      <section className="bg-white py-10 px-4 sm:px-6 lg:px-12">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="relative bg-emerald-800 rounded-[24px] sm:rounded-[32px] p-6 sm:p-10 lg:p-16 text-white overflow-hidden shadow-2xl">
-            <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
-            <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-800/40 blur-[100px] pointer-events-none" />
-            
-            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
-              <div>
-                <span className="block text-[11px] font-bold tracking-[0.25em] uppercase text-emerald-300 mb-4">
-                  Join Our Community
-                </span>
-                <h3 className="font-serif font-medium text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight mb-4">
-                  Get a taste of Nimar, every Sunday.
-=======
+
       {/* NEWSLETTER & FEATURES */}
       <section className="relative overflow-visible bg-white">
-        
+
         {/* Newsletter Banner Container */}
         <div className="relative bg-[#eceded] border-y border-neutral-100 z-20 overflow-hidden">
           {/* Subtle botanical leaf pattern background */}
@@ -589,45 +473,27 @@ export function Home() {
 
           {/* Tea Cup Image - Absolute Top Left */}
           <div className="absolute top-0 left-0 z-10 pointer-events-none w-[280px] md:w-[380px] transform -translate-x-8 -translate-y-[30%]">
-            <img 
-              src="/images/tea-cup.png" 
-              alt="" 
+            <img
+              src="/images/tea-cup.png"
+              alt=""
               className="w-full h-auto object-contain mix-blend-multiply opacity-90"
             />
           </div>
 
           {/* Content Wrapper */}
           <div className="relative max-w-[900px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 z-20 min-h-[160px] lg:min-h-[180px]">
-            
+
             {/* Left side: Text */}
             <div className="flex items-center flex-1 relative w-full">
               {/* Heading & Description */}
               <div className="text-center lg:text-left max-w-[340px] py-10 lg:py-0 relative z-20">
                 <h3 className="font-serif font-bold text-[26px] lg:text-[30px] text-[#1a3626] mb-2 tracking-tight">
                   Join the Tea Club
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
                 </h3>
                 <p className="text-[#666] text-[13px] leading-[1.6] font-medium pr-4">
                   You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.
                 </p>
               </div>
-<<<<<<< HEAD
-              
-              <div className="w-full">
-                <form className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-2xl sm:rounded-full border border-white/20 shadow-inner">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email address"
-                    className="flex-1 bg-transparent px-4 sm:px-6 py-3 placeholder:text-white/50 text-white text-sm focus:outline-none"
-                  />
-                  <button className="bg-white text-emerald-950 font-bold tracking-wide uppercase text-[11px] px-6 sm:px-8 py-3 rounded-xl sm:rounded-full hover:bg-emerald-50 transition-colors shadow-md whitespace-nowrap">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
-=======
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             </div>
 
             {/* Email Form - Right Side */}
@@ -639,7 +505,7 @@ export function Home() {
                   placeholder="Your email address"
                   className="flex-1 bg-transparent px-6 text-[#555] text-[13px] font-medium focus:outline-none placeholder:text-[#bbb]"
                 />
-                <button 
+                <button
                   type="submit"
                   className="bg-emerald-800 hover:bg-emerald-900 text-white font-bold tracking-[0.08em] uppercase text-[12px] px-8 transition-colors duration-300 flex-shrink-0 flex items-center justify-center"
                 >
@@ -653,12 +519,12 @@ export function Home() {
 
         {/* Features Row */}
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-10 lg:py-12 bg-white z-10">
-          
+
           {/* Decorative Fresh Green Leaves - Bottom Right Corner */}
           <div className="absolute right-[-20px] bottom-[-40px] w-[220px] h-[220px] pointer-events-none z-0 hidden lg:block opacity-80">
-            <img 
-              src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80" 
-              alt="" 
+            <img
+              src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
+              alt=""
               className="w-full h-full object-cover mix-blend-multiply rounded-full blur-[1px] transition-transform duration-1000 hover:scale-110 hover:rotate-6"
               style={{ clipPath: 'circle(45% at 60% 60%)' }}
             />
@@ -694,6 +560,7 @@ export function Home() {
           </div>
         </div>
       </section>
+
     </>
   );
 }

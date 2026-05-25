@@ -126,15 +126,9 @@ function PremiumCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.55, delay: (idx % 4) * 0.1, ease: "easeOut" }}
-<<<<<<< HEAD
       className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft/80
                  hover:border-emerald-brand/35 hover:shadow-xl hover:shadow-emerald-brand/8
                  hover:-translate-y-1.5 transition-all duration-300 ease-out flex flex-col"
-=======
-      className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft
-                 hover:border-emerald-brand/20 hover:shadow-2xl hover:shadow-emerald-brand/5
-                 hover:-translate-y-1.5 transition-all duration-500 flex flex-col"
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
     >
       {/* ── Image zone ── */}
       <Link
@@ -145,11 +139,7 @@ function PremiumCard({
         <img
           src={product.image}
           alt={product.name}
-<<<<<<< HEAD
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-=======
-          className="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-103"
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
         />
 
         {/* Wishlist Button (permanently visible on top-right corner) */}
@@ -169,45 +159,6 @@ function PremiumCard({
         >
           <Heart size={15} className={wished ? "fill-white" : ""} />
         </button>
-<<<<<<< HEAD
-
-        {/* hover action bar */}
-        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2
-                        translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-                        transition-all duration-400">
-          <button
-            id={`quickview-${product.id}`}
-            onClick={() => onQuickView(product)}
-            className="flex items-center gap-1.5 bg-white text-neutral-800 text-xs font-semibold
-                       px-4 py-2.5 rounded-full shadow-xl hover:bg-emerald-brand hover:text-white
-                       hover:scale-105 transition-all duration-300 ease-out"
-          >
-            <Eye size={13} /> Quick View
-          </button>
-          <button
-            id={`addcart-hover-${product.id}`}
-            onClick={() => dispatch({ type: "ADD_TO_CART", product })}
-            className="flex items-center gap-1.5 bg-emerald-brand text-white text-xs font-semibold
-                       px-4 py-2.5 rounded-full shadow-xl hover:bg-emerald-brand-dark
-                       hover:scale-105 transition-all duration-300 ease-out"
-          >
-            <ShoppingCart size={13} /> Add
-          </button>
-        </div>
-      </div>
-
-      {/* ── Body ── */}
-      <div className="p-5 flex flex-col flex-1">
-        {/* category badge */}
-        <span className={`self-start text-[10px] font-bold uppercase tracking-wider
-                          px-2.5 py-1 rounded-full mb-2.5 ${badge}`}>
-          {product.category}
-        </span>
-
-        <Link to={`/product/${product.id}`}>
-          <h3 className="font-display font-semibold text-neutral-900 text-[15px] leading-snug
-                         line-clamp-2 hover:text-emerald-brand transition-colors duration-300 mb-2.5">
-=======
       </Link>
 
       {/* ── Body ── */}
@@ -215,7 +166,6 @@ function PremiumCard({
         <Link to={`/product/${product.id}`}>
           <h3 className="font-display font-medium text-neutral-900 text-[15px] leading-snug
                          line-clamp-2 hover:text-emerald-brand transition-colors duration-200 mb-3">
->>>>>>> 5eabd1caa3822538adfe427454e7db99fb673683
             {product.name}
           </h3>
         </Link>
