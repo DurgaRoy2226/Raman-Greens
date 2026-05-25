@@ -214,7 +214,7 @@ export function Home() {
       </section>
 
       {/* WHY RAMAN GREENS */}
-      <section className="relative mt-8 py-10 px-6 lg:px-12 w-full bg-[#F9FCF9] text-neutral-900 overflow-hidden">
+      <section className="relative py-10 px-6 lg:px-12 w-full bg-[#F9FCF9] text-neutral-900 overflow-hidden">
         {/* Faint leaf pattern background */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")' }} />
 
@@ -227,7 +227,7 @@ export function Home() {
               transition={{ duration: 0.6 }}
               className="inline-block"
             >
-              <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
+              <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
                 <Sparkles size={14} /> Our Promise
               </span>
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
@@ -310,7 +310,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
+                <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
                   <Sparkles size={14} /> Our Heritage
                 </span>
 
@@ -376,7 +376,7 @@ export function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-6">
+            <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-6">
               <Sparkles size={14} /> Explore Our Range
             </span>
             <h2 className="font-serif font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 sm:mb-10 drop-shadow-md">
@@ -396,10 +396,27 @@ export function Home() {
       <RegionalFavourites />
 
       {/* TESTIMONIALS */}
-      <section className="py-10 md:py-16 bg-[#FAFAFA] border-t border-neutral-100/50">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      {/* TESTIMONIALS */}
+      <section className="relative py-16 md:py-24 bg-[#FAFAFA] border-t border-neutral-100/50 overflow-hidden">
+        {/* Soft botanical leaves background */}
+        <div className="absolute top-0 left-0 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 pointer-events-none select-none opacity-20 lg:opacity-40">
+          <img
+            src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
+            alt=""
+            className="w-full h-full object-contain transform -translate-x-[20%] -translate-y-[20%] rotate-45 mix-blend-multiply"
+          />
+        </div>
+        <div className="absolute top-0 right-0 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 pointer-events-none select-none opacity-20 lg:opacity-40">
+          <img
+            src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
+            alt=""
+            className="w-full h-full object-contain transform translate-x-[20%] -translate-y-[20%] -scale-x-100 -rotate-45 mix-blend-multiply"
+          />
+        </div>
 
-          <div className="text-center mb-10 flex flex-col items-center">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+
+          <div className="text-center mb-12 flex flex-col items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -407,13 +424,25 @@ export function Home() {
               transition={{ duration: 0.6 }}
               className="inline-block"
             >
-              <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
-                <Sparkles size={14} /> Testimonials
+              {/* Badge with Leaf icon and dark green background */}
+              <span className="inline-flex items-center gap-2 bg-[#133121] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase mb-5">
+                <Leaf size={12} className="fill-white text-white" /> TESTIMONIALS
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-5 tracking-tight">
+              
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium text-neutral-900 leading-tight mb-4 tracking-tight">
                 Letters From Our Customers
               </h2>
-              <div className="w-10 h-[2px] bg-emerald-600/40 mx-auto" />
+
+              {/* Separator: leaf in the center with horizontal lines */}
+              <div className="flex items-center justify-center gap-3 my-4">
+                <div className="w-12 h-[1px] bg-neutral-300" />
+                <Leaf size={16} className="text-[#8bc34a] fill-[#8bc34a]" />
+                <div className="w-12 h-[1px] bg-neutral-300" />
+              </div>
+
+              <p className="text-sm text-neutral-500 max-w-md mx-auto mt-2 leading-relaxed">
+                Real stories from real people who love our products.
+              </p>
             </motion.div>
           </div>
 
@@ -423,16 +452,19 @@ export function Home() {
                 n: "Priya S.",
                 l: "Indore",
                 t: "The Nimari sev tastes EXACTLY like the one from my nani's house in Khandwa. Brought tears to my eyes.",
+                img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
               },
               {
                 n: "Rahul J.",
                 l: "Mumbai",
                 t: "Their festive hamper was a hit at Diwali. Beautiful packaging, and every snack was flawless.",
+                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
               },
               {
                 n: "Anita V.",
                 l: "Bangalore",
                 t: "The cold-pressed groundnut oil is now a kitchen staple. Authentic, aromatic and absolutely pure.",
+                img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
               },
             ].map((r, i) => (
               <motion.div
@@ -441,19 +473,31 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="bg-white p-10 rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-neutral-100 flex flex-col h-full"
+                className="bg-white p-10 rounded-[28px] shadow-[0_15px_50px_rgba(0,0,0,0.025)] border border-neutral-100 flex flex-col h-full relative overflow-hidden"
               >
-                <div className="flex text-amber-400 mb-6">
-                  {[...Array(5)].map((_, k) => <Star key={k} size={14} fill="currentColor" />)}
+                {/* Large Quotation Mark */}
+                <div className="absolute top-6 left-8 text-[120px] font-serif leading-none select-none pointer-events-none text-[#8bc34a]/10">
+                  “
                 </div>
-                <p className="text-neutral-600 leading-relaxed font-light mb-8 flex-grow">"{r.t}"</p>
-                <div className="flex items-center gap-4 mt-auto">
-                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-serif text-lg">
-                    {r.n[0]}
-                  </div>
+
+                <div className="flex text-amber-400 mb-6 relative z-10 pt-4">
+                  {[...Array(5)].map((_, k) => <Star key={k} size={15} fill="currentColor" className="text-amber-400 border-none" />)}
+                </div>
+                <p className="text-neutral-600 leading-relaxed font-light mb-8 flex-grow text-sm relative z-10">
+                  "{r.t}"
+                </p>
+                <div className="flex items-center gap-4 mt-auto relative z-10 border-t border-neutral-100/60 pt-5">
+                  <img
+                    src={r.img}
+                    alt={r.n}
+                    className="w-12 h-12 rounded-full object-cover shadow-sm border border-neutral-100"
+                  />
                   <div>
-                    <div className="font-medium text-sm text-neutral-900">{r.n}</div>
-                    <div className="text-xs text-neutral-500 font-light">{r.l}</div>
+                    <div className="font-bold text-sm text-neutral-800">{r.n}</div>
+                    <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 mt-0.5">
+                      <MapPin size={11} className="text-emerald-700" />
+                      <span>{r.l}</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -464,99 +508,96 @@ export function Home() {
 
 
       {/* NEWSLETTER & FEATURES */}
-      <section className="relative overflow-visible bg-white">
+      <section className="relative overflow-visible bg-[#FAFAFA] pb-16">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-20">
 
-        {/* Newsletter Banner Container */}
-        <div className="relative bg-[#eceded] border-y border-neutral-100 z-20 overflow-hidden">
-          {/* Subtle botanical leaf pattern background */}
-          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")', backgroundSize: '400px' }} />
+          {/* Newsletter Banner Container - Beautiful Rounded Card */}
+          <div className="relative bg-[#eceded] border border-neutral-200/50 rounded-[32px] overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.03)] min-h-[180px] lg:min-h-[220px] flex items-center">
+            {/* Botanical leaf pattern background */}
+            <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")', backgroundSize: '400px' }} />
 
-          {/* Tea Cup Image - Absolute Top Left */}
-          <div className="absolute top-0 left-0 z-10 pointer-events-none w-[280px] md:w-[380px] transform -translate-x-8 -translate-y-[30%]">
-            <img
-              src="/images/tea-cup.png"
-              alt=""
-              className="w-full h-auto object-contain mix-blend-multiply opacity-90"
-            />
-          </div>
+            {/* Left and Right Botanical branch decorations inside banner */}
+            <div className="absolute top-0 left-0 w-24 h-full pointer-events-none select-none opacity-20">
+              <img
+                src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=200&q=80"
+                alt=""
+                className="w-full h-full object-contain -translate-x-8 mix-blend-multiply"
+              />
+            </div>
+            <div className="absolute bottom-0 right-0 w-24 h-full pointer-events-none select-none opacity-20">
+              <img
+                src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=200&q=80"
+                alt=""
+                className="w-full h-full object-contain translate-x-8 -scale-x-100 mix-blend-multiply"
+              />
+            </div>
 
-          {/* Content Wrapper */}
-          <div className="relative max-w-[900px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 z-20 min-h-[160px] lg:min-h-[180px]">
-
-            {/* Left side: Text */}
-            <div className="flex items-center flex-1 relative w-full">
-              {/* Heading & Description */}
-              <div className="text-center lg:text-left max-w-[340px] py-10 lg:py-0 relative z-20">
-                <h3 className="font-serif font-bold text-[26px] lg:text-[30px] text-[#1a3626] mb-2 tracking-tight">
-                  Join the Tea Club
-                </h3>
-                <p className="text-[#666] text-[13px] leading-[1.6] font-medium pr-4">
-                  You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.
-                </p>
+            {/* Content Flex Grid */}
+            <div className="w-full px-8 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-8 z-10 relative">
+              
+              {/* Left side: Tea cup illustration & text */}
+              <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left flex-1">
+                {/* Real tea cup image */}
+                <div className="w-[120px] md:w-[150px] flex-shrink-0">
+                  <img
+                    src="/images/tea-cup.png"
+                    alt="Premium Nimari Tea"
+                    className="w-full h-auto object-contain mix-blend-multiply filter drop-shadow-md"
+                  />
+                </div>
+                
+                <div>
+                  <h3 className="font-serif font-bold text-2xl md:text-3xl lg:text-4xl text-[#133121] mb-2 tracking-tight">
+                    Join the Tea Club
+                  </h3>
+                  <p className="text-neutral-600 text-xs md:text-sm font-medium flex items-center justify-center sm:justify-start gap-1.5">
+                    <span>Exclusive offers, early access & more</span>
+                    <Leaf size={14} className="text-emerald-700 fill-emerald-700/10" />
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Email Form - Right Side */}
-            <div className="w-full lg:w-[480px] flex-shrink-0 relative z-20 py-8 lg:py-0">
-              <form className="flex w-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)] rounded-[3px] border border-neutral-200 overflow-hidden h-[54px] transition-shadow duration-300 hover:shadow-md focus-within:shadow-md focus-within:border-[#1a3626]/30">
-                <input
-                  type="email"
-                  required
-                  placeholder="Your email address"
-                  className="flex-1 bg-transparent px-6 text-[#555] text-[13px] font-medium focus:outline-none placeholder:text-[#bbb]"
-                />
-                <button
-                  type="submit"
-                  className="bg-emerald-800 hover:bg-emerald-900 text-white font-bold tracking-[0.08em] uppercase text-[12px] px-8 transition-colors duration-300 flex-shrink-0 flex items-center justify-center"
+              {/* Right side: Join Now Button */}
+              <div className="w-full sm:w-auto flex-shrink-0">
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center gap-3 bg-[#133121] hover:bg-[#1a3626] text-white font-bold tracking-[0.1em] uppercase text-xs sm:text-sm py-4 px-8 rounded-full shadow-[0_8px_25px_rgba(19,49,33,0.15)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 group"
                 >
-                  SUBSCRIBE
-                </button>
-              </form>
-            </div>
+                  <span>Join Now</span>
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
 
+            </div>
           </div>
+
         </div>
 
         {/* Features Row */}
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-10 lg:py-12 bg-white z-10">
-
-          {/* Decorative Fresh Green Leaves - Bottom Right Corner */}
-          <div className="absolute right-[-20px] bottom-[-40px] w-[220px] h-[220px] pointer-events-none z-0 hidden lg:block opacity-80">
-            <img
-              src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
-              alt=""
-              className="w-full h-full object-cover mix-blend-multiply rounded-full blur-[1px] transition-transform duration-1000 hover:scale-110 hover:rotate-6"
-              style={{ clipPath: 'circle(45% at 60% 60%)' }}
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center justify-between w-full relative z-10">
-            {[
-              { icon: Truck, title: "FREE\nSHIPPING" },
-              { icon: Package, title: "100% HAND\nPACKED" },
-              { icon: CreditCard, title: "SECURED\nPAYMENT" },
-              { icon: Award, title: "QUALITY\nGUARANTEE" },
-              { icon: Headphones, title: "CUSTOMER\nSERVICE" }
-            ].map((feature, i) => {
-              const Icon = feature.icon;
-              return (
-                <div key={i} className="flex items-center w-full">
-                  <div className="group flex flex-col items-center justify-center text-center py-4 px-2 w-full cursor-default">
-                    {/* Outlined icon box */}
-                    <div className="w-[64px] h-[64px] flex items-center justify-center rounded-[10px] border-2 border-[#8bc34a] text-[#8bc34a] mb-4 transition-all duration-300 group-hover:bg-emerald-50 group-hover:-translate-y-1">
-                      <Icon size={28} strokeWidth={1.25} />
+        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 mt-12 bg-transparent z-10">
+          <div className="bg-white border border-neutral-100 rounded-3xl p-8 lg:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Leaf, title: "100% Natural", desc: "No additives or chemicals" },
+                { icon: ShieldCheck, title: "Premium Quality", desc: "Sourced with care" },
+                { icon: Truck, title: "Fast Delivery", desc: "Across India" },
+                { icon: Heart, title: "Loved by Thousands", desc: "Happy customers everywhere" }
+              ].map((feature, i) => {
+                const Icon = feature.icon;
+                return (
+                  <div key={i} className="flex items-center gap-4 group">
+                    {/* Circle icon box with soft lime green accent */}
+                    <div className="w-12 h-12 rounded-full bg-[#8bc34a]/10 text-[#8bc34a] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
+                      <Icon size={20} strokeWidth={1.5} />
                     </div>
-                    <span className="text-[10px] font-bold tracking-[0.15em] text-[#333] uppercase whitespace-pre-line leading-[1.6] transition-colors duration-300 group-hover:text-[#1a3626]">
-                      {feature.title}
-                    </span>
+                    <div className="text-left">
+                      <h4 className="font-bold text-xs sm:text-sm text-neutral-800 tracking-wide">{feature.title}</h4>
+                      <p className="text-[10px] sm:text-xs text-neutral-500 font-light mt-0.5">{feature.desc}</p>
+                    </div>
                   </div>
-                  {/* Thin Vertical Divider */}
-                  {i < 4 && (
-                    <div className="hidden md:block w-[1px] h-16 bg-neutral-100 flex-shrink-0" />
-                  )}
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

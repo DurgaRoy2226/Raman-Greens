@@ -61,7 +61,7 @@ export function ShopByCategory() {
             transition={{ duration: 0.6 }}
             className="inline-block"
           >
-            <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
+            <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
               <Sparkles size={14} /> Discover
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-neutral-900 leading-tight mb-4 tracking-tight">

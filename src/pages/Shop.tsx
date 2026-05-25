@@ -252,7 +252,7 @@ function QuickViewModal({
               className="w-full h-full object-cover md:absolute md:inset-0"
             />
             {product.bestseller && (
-              <span className="absolute top-3 left-3 bg-amber-400 text-amber-900 text-[10px]
+              <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px]
                                font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow">
                 ★ Bestseller
               </span>

@@ -58,7 +58,7 @@ export function ProductDetail() {
               style={{ transform: zoomed ? "scale(1.5)" : "scale(1)" }}
             />
             {product.bestseller && (
-              <span className="absolute top-4 left-4 bg-amber-400 text-amber-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+              <span className="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                 ⭐ Bestseller
               </span>
             )}

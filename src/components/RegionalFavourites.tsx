@@ -32,7 +32,7 @@ export function RegionalFavourites() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
+            <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
               <Sparkles size={13} /> Curated Collections
             </div>
             <h2 className="font-serif text-4xl md:text-5xl font-medium text-neutral-900 leading-tight tracking-tight">
