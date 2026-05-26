@@ -26,15 +26,13 @@ const PER_PAGE = 8;
 /* ─── Category colour map ────────────────────────────────────────────────────── */
 const CAT_STYLE: Record<string, { pill: string; badge: string }> = {
   All:                  { pill: "bg-emerald-50 text-emerald-700",  badge: "bg-emerald-100 text-emerald-700" },
-  Organics:             { pill: "bg-green-50   text-green-700",    badge: "bg-green-100   text-green-700"   },
-  Seeds:                { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
+  Snacks:               { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
   Spices:               { pill: "bg-red-50     text-red-700",      badge: "bg-red-100     text-red-700"     },
-  Fertilizers:          { pill: "bg-orange-50  text-orange-700",   badge: "bg-orange-100  text-orange-700"  },
+  Seeds:                { pill: "bg-yellow-50  text-yellow-700",   badge: "bg-yellow-100  text-yellow-700"  },
   Dairy:                { pill: "bg-blue-50    text-blue-700",     badge: "bg-blue-100    text-blue-700"    },
-  Vegetables:           { pill: "bg-emerald-50 text-emerald-700",  badge: "bg-emerald-100 text-emerald-700" },
-  Grains:               { pill: "bg-yellow-50  text-yellow-700",   badge: "bg-yellow-100  text-yellow-700"  },
+  Grains:               { pill: "bg-orange-50  text-orange-700",   badge: "bg-orange-100  text-orange-700"  },
   Herbs:                { pill: "bg-teal-50    text-teal-700",     badge: "bg-teal-100    text-teal-700"    },
-  "Farming Products":   { pill: "bg-amber-50   text-amber-700",    badge: "bg-amber-100   text-amber-700"   },
+  "Farming Products":   { pill: "bg-green-50   text-green-700",    badge: "bg-green-100   text-green-700"   },
 };
 
 /* ─── Category image map ─────────────────────────────────────────────────────── */
@@ -43,29 +41,21 @@ const CAT_INFO: Record<string, { label: string; image: string }> = {
     label: "All Products",
     image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=120&h=120&q=80",
   },
-  Organics: {
-    label: "Organics",
-    image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=120&h=120&q=80",
-  },
-  Seeds: {
-    label: "Seeds",
-    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=120&h=120&q=80",
+  Snacks: {
+    label: "Snacks",
+    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=120&h=120&q=80",
   },
   Spices: {
     label: "Spices",
     image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=120&h=120&q=80",
   },
-  Fertilizers: {
-    label: "Fertilizers",
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=120&h=120&q=80",
+  Seeds: {
+    label: "Seeds",
+    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=120&h=120&q=80",
   },
   Dairy: {
     label: "Dairy",
     image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=120&h=120&q=80",
-  },
-  Vegetables: {
-    label: "Vegetables",
-    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=120&h=120&q=80",
   },
   Grains: {
     label: "Grains",
@@ -73,7 +63,7 @@ const CAT_INFO: Record<string, { label: string; image: string }> = {
   },
   Herbs: {
     label: "Herbs",
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=120&h=120&q=80",
+    image: "https://images.unsplash.com/photo-1608797178974-15b35a61d121?auto=format&fit=crop&w=120&h=120&q=80",
   },
   "Farming Products": {
     label: "Farming Products",
@@ -81,51 +71,89 @@ const CAT_INFO: Record<string, { label: string; image: string }> = {
   },
 };
 
-/* ─── Star Rating ────────────────────────────────────────────────────────────── */
+/* ─── Star Rating ───────────────────────────────────────────────────────────── */
 function StarRow({ rating }: { rating: number }) {
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.25;
   return (
     <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <Star
-          key={s}
-          size={11}
-          className={
-            s <= Math.round(rating)
-              ? "fill-amber-400 text-amber-400"
-              : "fill-neutral-200 text-neutral-200"
-          }
-        />
-      ))}
+      {Array.from({ length: 5 }).map((_, i) => {
+        if (i < fullStars) {
+          return <Star key={i} size={11} className="fill-amber-500 text-amber-500" />;
+        } else if (i === fullStars && hasHalf) {
+          return (
+            <div key={i} className="relative w-2.5 h-2.5 flex items-center justify-center shrink-0">
+              <Star size={11} className="text-neutral-200 fill-neutral-200 absolute" />
+              <div className="absolute inset-0 overflow-hidden w-[50%]">
+                <Star size={11} className="fill-amber-500 text-amber-500" />
+              </div>
+            </div>
+          );
+        } else {
+          return <Star key={i} size={11} className="text-neutral-200 fill-neutral-200" />;
+        }
+      })}
     </div>
   );
 }
 
+/* ─── Product Card Variants ────────────────────────────────────────── */
+const cardVariants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 110,
+      damping: 17,
+    },
+  },
+};
+
 /* ─── Premium Product Card ───────────────────────────────────────────────────── */
-function PremiumCard({ product, idx }: { product: Product; idx: number }) {
+function PremiumCard({ product }: { product: Product }) {
   const { state, dispatch } = useStore();
   const wished = state.wishlist.includes(product.id);
 
   return (
     <motion.article
       id={`product-card-${product.id}`}
-      initial={{ opacity: 0, y: 48 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.55, delay: (idx % 4) * 0.1, ease: "easeOut" }}
-      className="group relative bg-white rounded-3xl overflow-hidden border border-beige-soft/80
-                 hover:border-emerald-brand/35 hover:shadow-xl hover:shadow-emerald-brand/8
-                 hover:-translate-y-1.5 transition-all duration-300 ease-out flex flex-col h-full w-full"
+      variants={cardVariants}
+      whileHover={{
+        y: -6,
+        transition: { duration: 0.25, ease: "easeOut" }
+      }}
+      className="group relative bg-white rounded-2xl overflow-hidden border border-neutral-100
+                 hover:border-emerald-brand-light/30 hover:shadow-[0_16px_36px_-12px_rgba(12,59,27,0.12)]
+                 transition-all duration-300 ease-out flex flex-col h-full w-full z-10"
     >
       {/* Image zone */}
       <Link
         to={`/product/${product.id}`}
-        className="block relative overflow-hidden bg-beige-warm w-full aspect-square"
+        className="block relative overflow-hidden bg-beige-warm/20 w-full aspect-square rounded-t-2xl"
       >
         <img
           src={product.image}
           alt={product.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[650ms] ease-out group-hover:scale-105"
+          loading="lazy"
         />
+
+        {/* Badges Overlay */}
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-20">
+          {product.bestseller && (
+            <span className="bg-amber-500 text-white text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 sm:py-1 rounded-full shadow-sm flex items-center gap-0.5">
+              ★ Bestseller
+            </span>
+          )}
+          {product.tags.includes("organic") && (
+            <span className="bg-emerald-brand-light text-white text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 sm:py-1 rounded-full shadow-sm flex items-center gap-0.5">
+              🌿 Organic
+            </span>
+          )}
+        </div>
+
         {/* Wishlist Button */}
         <button
           id={`wishlist-${product.id}`}
@@ -135,199 +163,74 @@ function PremiumCard({ product, idx }: { product: Product; idx: number }) {
             e.stopPropagation();
             dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
           }}
-          className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center
-                      shadow-md transition-all duration-300 hover:scale-110 active:scale-95 z-20
+          className={`absolute top-2 right-2 sm:top-3 sm:right-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center
+                      shadow-md transition-all duration-300 hover:scale-110 active:scale-95 z-20 cursor-pointer
                       ${wished
                         ? "bg-emerald-brand text-white"
-                        : "bg-white/90 backdrop-blur-sm text-neutral-500 hover:bg-white hover:text-emerald-brand"}`}
+                        : "bg-white/80 backdrop-blur-sm text-neutral-500 hover:bg-white hover:text-emerald-brand"}`}
         >
-          <Heart size={15} className={wished ? "fill-white" : ""} />
+          <Heart size={13} className={wished ? "fill-white" : ""} />
         </button>
       </Link>
 
       {/* Body */}
-      <div className="p-5 flex flex-col flex-1 justify-between">
-        <Link to={`/product/${product.id}`} className="block">
-          <h3 className="font-display font-medium text-neutral-900 text-[15px] leading-snug
-                         line-clamp-2 hover:text-emerald-brand transition-colors duration-200 mb-3">
+      <div className="p-4 sm:p-5 flex flex-col flex-1">
+        {/* Category & Origin Tag */}
+        <span className="text-[8px] sm:text-[9px] uppercase tracking-widest font-extrabold text-emerald-brand-light mb-1.5 block">
+          {product.category} · {product.origin}
+        </span>
+
+        {/* Title */}
+        <Link to={`/product/${product.id}`} className="block mb-1 sm:mb-2">
+          <h3 className="font-sans font-semibold text-neutral-900 text-sm sm:text-[15px] leading-snug
+                         line-clamp-2 min-h-[40px] hover:text-emerald-brand-light transition-colors duration-200">
             {product.name}
           </h3>
         </Link>
 
-        {/* Price row */}
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-soft/60">
+        {/* Rating Row */}
+        <div className="flex items-center gap-1.5 mb-4">
+          <StarRow rating={product.rating} />
+          <span className="text-[9px] sm:text-[10px] font-bold text-neutral-400">({product.reviews})</span>
+        </div>
+
+        {/* Price & Cart row */}
+        <div className="mt-auto pt-3.5 border-t border-neutral-100 flex items-center justify-between">
           <div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-display font-bold text-lg text-neutral-900">₹{product.price}</span>
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="font-sans font-bold text-[15px] sm:text-base text-neutral-900">₹{product.price}</span>
               {product.oldPrice && (
-                <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
+                <>
+                  <span className="text-[10px] sm:text-[11px] line-through text-neutral-400">₹{product.oldPrice}</span>
+                  <span className="text-[9px] sm:text-[10px] text-emerald-brand-light font-extrabold uppercase">
+                    {Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
+                  </span>
+                </>
               )}
             </div>
-            <span className="text-[10px] text-neutral-400 font-light">{product.weight}</span>
+            <span className="text-[9px] text-neutral-400 font-semibold block mt-0.5">{product.weight}</span>
           </div>
 
           {/* Add to Cart */}
           <motion.button
             id={`addcart-${product.id}`}
             whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               dispatch({ type: "ADD_TO_CART", product });
             }}
             aria-label="Add to cart"
-            className="w-10 h-10 bg-emerald-brand hover:bg-emerald-brand-dark text-white rounded-full
-                       flex items-center justify-center transition-all duration-300
-                       shadow-md hover:shadow-emerald-brand/30 hover:shadow-lg active:scale-90"
+            className="w-8.5 h-8.5 bg-emerald-brand hover:bg-emerald-brand-dark text-white rounded-full
+                       flex items-center justify-center transition-all duration-300 cursor-pointer
+                       shadow-sm hover:shadow-emerald-brand/20"
           >
-            <ShoppingCart size={15} />
+            <ShoppingCart size={13} />
           </motion.button>
         </div>
       </div>
     </motion.article>
-  );
-}
-
-/* ─── Quick View Modal ───────────────────────────────────────────────────────── */
-function QuickViewModal({ product, onClose }: { product: Product; onClose: () => void }) {
-  const { state, dispatch } = useStore();
-  const wished = state.wishlist.includes(product.id);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [onClose]);
-
-  return (
-    <motion.div
-      id="quick-view-modal"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.88, y: 24 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.88, y: 24 }}
-        transition={{ type: "spring", damping: 28, stiffness: 320 }}
-        className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 overflow-y-auto flex-1">
-          {/* Image */}
-          <div className="relative bg-beige-warm aspect-[4/3] md:aspect-auto md:h-full min-h-[220px] md:min-h-[280px]">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover md:absolute md:inset-0"
-            />
-            {product.bestseller && (
-              <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px]
-                               font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow">
-                ★ Bestseller
-              </span>
-            )}
-            {product.oldPrice && (
-              <span className="absolute bottom-3 left-3 bg-emerald-brand text-white text-[10px]
-                               font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow">
-                -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
-              </span>
-            )}
-          </div>
-
-          {/* Info */}
-          <div className="p-5 sm:p-6 flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-brand">
-                  {product.category} · {product.origin}
-                </span>
-                <button
-                  id="quick-view-close"
-                  onClick={onClose}
-                  aria-label="Close"
-                  className="p-1.5 rounded-full hover:bg-beige-warm text-neutral-400 hover:text-neutral-700 transition-colors"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-              <h2 className="font-display font-bold text-xl sm:text-2xl text-neutral-900 leading-tight mb-2">
-                {product.name}
-              </h2>
-
-              <div className="flex items-center gap-2 mb-3">
-                <StarRow rating={product.rating} />
-                <span className="text-sm font-semibold text-neutral-800">{product.rating}</span>
-                <span className="text-xs text-neutral-400">({product.reviews} reviews)</span>
-              </div>
-
-              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed mb-4">
-                {product.description}
-              </p>
-
-              <ul className="space-y-1 mb-4">
-                {product.benefits.map((b) => (
-                  <li key={b} className="flex items-center gap-2 text-xs sm:text-sm text-neutral-700">
-                    <Leaf size={12} className="text-emerald-brand flex-shrink-0" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <div className="flex items-baseline gap-2 mb-4 pt-3 border-t border-neutral-100">
-                <span className="font-display font-bold text-2xl sm:text-3xl text-neutral-900">₹{product.price}</span>
-                {product.oldPrice && (
-                  <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
-                )}
-                <span className="text-xs sm:text-sm text-neutral-400 ml-1">/ {product.weight}</span>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  id="quick-view-add-cart"
-                  onClick={() => { dispatch({ type: "ADD_TO_CART", product }); onClose(); }}
-                  className="flex-grow bg-emerald-brand hover:bg-emerald-brand-dark text-white font-semibold
-                             py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm
-                             transition-colors duration-200 shadow-lg hover:shadow-emerald-brand/30"
-                >
-                  <ShoppingCart size={15} /> Add to Cart
-                </button>
-                <button
-                  id="quick-view-wishlist"
-                  onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })}
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center border-2
-                               transition-all duration-200 shrink-0
-                               ${wished
-                                 ? "border-emerald-brand bg-emerald-brand text-white"
-                                 : "border-beige-soft hover:border-emerald-brand text-neutral-400"}`}
-                >
-                  <Heart size={16} className={wished ? "fill-white" : ""} />
-                </button>
-              </div>
-
-              <div className="text-center mt-3">
-                <Link
-                  to={`/product/${product.id}`}
-                  onClick={onClose}
-                  className="inline-block text-xs text-emerald-brand hover:text-emerald-brand-dark font-semibold transition-colors"
-                >
-                  View Full Details →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
   );
 }
 
@@ -353,14 +256,14 @@ export function Shop() {
   const [q,      setQ]      = useState(initQ);
   const [sort,   setSort]   = useState("popular");
   const [page,   setPage]   = useState(1);
-  const [qvProd, setQvProd] = useState<Product | null>(null);
 
   const [minPrice,            setMinPrice]            = useState<number>(0);
-  const [maxPrice,            setMaxPrice]            = useState<number>(5000);
+  const [maxPrice,            setMaxPrice]            = useState<number>(2000);
   const [selectedWeights,     setSelectedWeights]     = useState<string[]>([]);
   const [minDiscount,         setMinDiscount]         = useState<number | null>(null);
   const [selectedAvailability, setSelectedAvailability] = useState<string[]>([]);
   const [minRating,           setMinRating]           = useState<number | null>(null);
+  const [isMobileFilterOpen,  setIsMobileFilterOpen]  = useState(false);
 
   /* sync URL */
   useEffect(() => {
@@ -426,7 +329,7 @@ export function Shop() {
     setCat("All");
     setQ("");
     setMinPrice(0);
-    setMaxPrice(5000);
+    setMaxPrice(2000);
     setSelectedWeights([]);
     setMinDiscount(null);
     setSelectedAvailability([]);
@@ -438,16 +341,16 @@ export function Shop() {
     cat !== "All" ||
     q !== "" ||
     minPrice > 0 ||
-    maxPrice < 5000 ||
+    maxPrice < 2000 ||
     selectedWeights.length > 0 ||
     minDiscount !== null ||
     selectedAvailability.length > 0 ||
     minRating !== null ||
     sort !== "popular";
 
-  /* ── Sidebar content (shared between desktop & mobile drawer) ── */
+  /* ── Sidebar content (always open layout, no collapses, no scrollbars) ── */
   const SidebarFilters = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+    <div className="flex flex-col gap-5 text-neutral-800">
       <style dangerouslySetInnerHTML={{__html: `
         .price-slider-input::-webkit-slider-thumb {
           pointer-events: auto;
@@ -480,32 +383,32 @@ export function Shop() {
         }
       `}} />
 
-      {/* Search */}
-      <div className="sm:col-span-2 lg:col-span-1">
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2">Search</h3>
+      {/* Search Filter */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Search Catalog</h3>
         <div className="relative">
-          <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+          <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search products…"
-            className="w-full pl-7 pr-6 py-1.5 bg-beige-warm/40 rounded-xl border border-beige-soft
-                       hover:border-emerald-brand/35 focus:border-emerald-brand-light focus:outline-none
-                       text-xs font-medium text-neutral-700 transition-all duration-200"
+            placeholder="Search keywords..."
+            className="w-full pl-9 pr-8 py-1.5 bg-neutral-50 rounded-xl border border-neutral-200/80
+                       hover:border-emerald-brand-light/40 focus:border-emerald-brand focus:ring-4 focus:ring-emerald-brand-light/5 focus:bg-white focus:outline-none
+                       text-xs font-semibold text-neutral-700 transition-all duration-200"
           />
           {q && (
-            <button onClick={() => setQ("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700">
-              <X size={11} />
+            <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700">
+              <X size={12} />
             </button>
           )}
         </div>
       </div>
 
-      {/* 1. Categories */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Categories</h3>
-        <div className="grid grid-cols-2 gap-0.5">
+      {/* Categories (No dropdown collapse) */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Categories</h3>
+        <div className="flex flex-col gap-0.5">
           {CATEGORIES.map((c) => {
             const active = cat === c;
             const info = CAT_INFO[c] || { label: c, image: CAT_INFO["All"].image };
@@ -513,98 +416,98 @@ export function Shop() {
               <button
                 key={c}
                 onClick={() => setCat(c)}
-                className={`flex items-center justify-between px-2 py-1 rounded-lg text-left text-[11px] font-medium
-                            transition-all duration-200 w-full group cursor-pointer
+                className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold
+                            transition-all duration-150 w-full group cursor-pointer border
                             ${active
-                              ? "bg-emerald-brand/8 text-emerald-brand font-semibold"
-                              : "text-neutral-600 hover:bg-beige-warm/60 hover:text-emerald-brand"}`}
+                              ? "bg-emerald-brand-light/5 border-emerald-brand-light/10 text-emerald-brand font-extrabold"
+                              : "bg-transparent border-transparent text-neutral-600 hover:bg-neutral-50 hover:text-emerald-brand-light"}`}
               >
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <div className={`w-4 h-4 rounded-full overflow-hidden border shrink-0 transition-all duration-200
-                    ${active ? "border-emerald-brand/30" : "border-beige-soft/50 group-hover:scale-105"}`}>
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className={`w-5 h-5 rounded-full overflow-hidden border shrink-0 transition-all duration-200
+                    ${active ? "border-emerald-brand-light/40 scale-105" : "border-neutral-200 group-hover:scale-105"}`}>
                     <img src={info.image} alt={info.label} className="w-full h-full object-cover" />
                   </div>
-                  <span className="truncate text-[10px]">{info.label}</span>
+                  <span className="truncate text-[11px]">{info.label}</span>
                 </div>
-                {active && <span className="w-1 h-1 rounded-full bg-emerald-brand shrink-0 ml-0.5" />}
+                {active && <span className="w-1.5 h-1.5 rounded-full bg-emerald-brand-light shrink-0 ml-1" />}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* 2. Price Range */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Price Range</h3>
-        <div className="space-y-1.5">
-          <div className="flex justify-between text-[10px] font-medium text-neutral-500">
+      {/* Price Range */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Price Range</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between text-[10px] font-extrabold text-neutral-500">
             <span>₹{minPrice}</span>
-            <span className="text-emerald-brand-light font-semibold">₹{maxPrice}</span>
+            <span className="text-emerald-brand-light font-extrabold">₹{maxPrice}</span>
           </div>
-          <div className="relative w-full h-1 bg-beige-soft rounded-full my-1.5">
+          <div className="relative w-full h-1 bg-beige-soft rounded-full my-2.5">
             <div
               className="absolute h-full rounded-full"
               style={{
                 backgroundColor: "#2BB07F",
-                left: `${(minPrice / 5000) * 100}%`,
-                right: `${100 - (maxPrice / 5000) * 100}%`
+                left: `${(minPrice / 2000) * 100}%`,
+                right: `${100 - (maxPrice / 2000) * 100}%`
               }}
             />
             <input
-              type="range" min={0} max={5000} step={50} value={minPrice}
+              type="range" min={0} max={2000} step={50} value={minPrice}
               onChange={(e) => setMinPrice(Math.min(Number(e.target.value), maxPrice - 50))}
               className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
             />
             <input
-              type="range" min={0} max={5000} step={50} value={maxPrice}
+              type="range" min={0} max={2000} step={50} value={maxPrice}
               onChange={(e) => setMaxPrice(Math.max(Number(e.target.value), minPrice + 50))}
               className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
             />
           </div>
           <div className="flex items-center gap-1.5">
             <div className="relative flex-1">
-              <label className="absolute left-2 top-0.5 text-[7px] uppercase tracking-wider text-neutral-400 font-bold">Min</label>
+              <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Min</label>
               <input
                 type="number"
                 min={0}
-                max={5000}
+                max={2000}
                 value={minPrice}
                 onChange={(e) => setMinPrice(Math.min(Number(e.target.value), maxPrice - 50))}
-                className="w-full pl-2 pr-1 pt-3 pb-0.5 bg-white rounded-lg border border-beige-soft text-[11px]
-                           focus:outline-none focus:border-emerald-brand-light font-medium text-neutral-800"
+                className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-white rounded-lg border border-neutral-200 text-[11px]
+                           focus:outline-none focus:border-emerald-brand focus:ring-1 focus:ring-emerald-brand/10 font-bold text-neutral-800"
               />
             </div>
             <span className="text-neutral-300 text-xs">—</span>
             <div className="relative flex-1">
-              <label className="absolute left-2 top-0.5 text-[7px] uppercase tracking-wider text-neutral-400 font-bold">Max</label>
+              <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Max</label>
               <input
                 type="number"
                 min={0}
-                max={5000}
+                max={2000}
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Math.max(Number(e.target.value), minPrice + 50))}
-                className="w-full pl-2 pr-1 pt-3 pb-0.5 bg-white rounded-lg border border-beige-soft text-[11px]
-                           focus:outline-none focus:border-emerald-brand-light font-medium text-neutral-800"
+                className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-white rounded-lg border border-neutral-200 text-[11px]
+                           focus:outline-none focus:border-emerald-brand focus:ring-1 focus:ring-emerald-brand/10 font-bold text-neutral-800"
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Weight */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Weight</h3>
-        <div className="flex flex-wrap gap-1 pt-0.5">
+      {/* Weight Selector */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Weight</h3>
+        <div className="flex flex-wrap gap-1.5 pt-0.5">
           {["100g", "250g", "500g", "1kg", "5kg"].map((w) => {
             const active = selectedWeights.includes(w);
             return (
               <button
                 key={w}
                 onClick={() => setSelectedWeights(active ? selectedWeights.filter((x) => x !== w) : [...selectedWeights, w])}
-                className={`px-2 py-0.5 rounded border text-[10px] font-medium transition-all duration-200 cursor-pointer
+                className={`px-3 py-1 rounded-lg border text-[10px] font-bold transition-all duration-200 cursor-pointer
                             ${active
-                              ? "bg-emerald-brand/8 border-emerald-brand text-emerald-brand font-semibold"
-                              : "bg-white border-neutral-300 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
+                              ? "bg-emerald-brand border-emerald-brand text-white shadow-sm font-extrabold"
+                              : "bg-white border-neutral-200 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
               >
                 {w}
               </button>
@@ -613,20 +516,20 @@ export function Shop() {
         </div>
       </div>
 
-      {/* 4. Discount */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Discount</h3>
-        <div className="flex flex-wrap gap-1 pt-0.5">
+      {/* Discount Selector */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Discount</h3>
+        <div className="flex flex-wrap gap-1.5 pt-0.5">
           {[10, 20, 30, 40, 50].map((pct) => {
             const active = minDiscount === pct;
             return (
               <button
                 key={pct}
                 onClick={() => setMinDiscount(active ? null : pct)}
-                className={`px-2 py-0.5 rounded border text-[10px] font-medium transition-all duration-200 cursor-pointer
+                className={`px-3 py-1 rounded-lg border text-[10px] font-bold transition-all duration-200 cursor-pointer
                             ${active
-                              ? "bg-emerald-brand/8 border-emerald-brand text-emerald-brand font-semibold"
-                              : "bg-white border-neutral-300 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
+                              ? "bg-emerald-brand border-emerald-brand text-white shadow-sm font-extrabold"
+                              : "bg-white border-neutral-200 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
               >
                 {pct}%+
               </button>
@@ -635,37 +538,10 @@ export function Shop() {
         </div>
       </div>
 
-      {/* 5. Sort By */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Sort By</h3>
-        <div className="flex flex-wrap gap-1 pt-0.5">
-          {[
-            { value: "popular",    label: "Popular" },
-            { value: "newest",     label: "Newest" },
-            { value: "price-low",  label: "Price: Low-High" },
-            { value: "price-high", label: "Price: High-Low" },
-          ].map((opt) => {
-            const active = sort === opt.value;
-            return (
-              <button
-                key={opt.value}
-                onClick={() => setSort(opt.value)}
-                className={`px-2 py-0.5 rounded border text-[10px] font-medium transition-all duration-200 cursor-pointer
-                            ${active
-                              ? "bg-emerald-brand/8 border-emerald-brand text-emerald-brand font-semibold"
-                              : "bg-white border-neutral-300 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 6. Availability */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Availability</h3>
-        <div className="flex flex-wrap gap-1 pt-0.5">
+      {/* Availability Filter */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Availability</h3>
+        <div className="flex flex-wrap gap-1.5 pt-0.5">
           {[
             { value: "in-stock",     label: "In Stock" },
             { value: "out-of-stock", label: "Out of Stock" },
@@ -677,10 +553,10 @@ export function Shop() {
                 onClick={() => setSelectedAvailability(
                   active ? selectedAvailability.filter((x) => x !== opt.value) : [...selectedAvailability, opt.value]
                 )}
-                className={`px-2 py-0.5 rounded border text-[10px] font-medium transition-all duration-200 cursor-pointer
+                className={`px-3 py-1 rounded-lg border text-[10px] font-bold transition-all duration-200 cursor-pointer
                             ${active
-                              ? "bg-emerald-brand/8 border-emerald-brand text-emerald-brand font-semibold"
-                              : "bg-white border-neutral-300 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
+                              ? "bg-emerald-brand border-emerald-brand text-white shadow-sm font-extrabold"
+                              : "bg-white border-neutral-200 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
               >
                 {opt.label}
               </button>
@@ -689,30 +565,64 @@ export function Shop() {
         </div>
       </div>
 
-      {/* 7. Customer Reviews */}
-      <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-1.5">Customer Reviews</h3>
-        <div className="grid grid-cols-2 gap-0.5">
+      {/* Sort By Filter */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Sort Options</h3>
+        <div className="flex flex-wrap gap-1.5 pt-0.5">
+          {[
+            { value: "popular",    label: "Popular" },
+            { value: "price-low",  label: "Price: Low-High" },
+            { value: "price-high", label: "Price: High-Low" },
+            { value: "rating",     label: "Rating" },
+          ].map((opt) => {
+            const active = sort === opt.value;
+            return (
+              <button
+                key={opt.value}
+                onClick={() => setSort(opt.value)}
+                className={`px-3 py-1 rounded-lg border text-[10px] font-bold transition-all duration-200 cursor-pointer
+                            ${active
+                              ? "bg-emerald-brand border-emerald-brand text-white shadow-sm font-extrabold"
+                              : "bg-white border-neutral-200 text-neutral-600 hover:border-emerald-brand-light/50 hover:text-emerald-brand"}`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Customer Reviews Rating Filter */}
+      <div className="flex flex-col">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Customer Reviews</h3>
+        <div className="flex flex-col gap-0.5">
           {[4, 3, 2, 1].map((stars) => {
             const active = minRating === stars;
             return (
               <button
                 key={stars}
                 onClick={() => setMinRating(active ? null : stars)}
-                className={`flex items-center justify-between px-2 py-1 rounded-lg text-left text-[11px] font-medium
-                            transition-all duration-200 w-full group cursor-pointer
+                className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold
+                            transition-all duration-150 w-full group cursor-pointer border
                             ${active
-                              ? "bg-emerald-brand/8 text-emerald-brand font-semibold"
-                              : "text-neutral-600 hover:bg-beige-warm/60 hover:text-emerald-brand"}`}
+                              ? "bg-emerald-brand-light/5 border-emerald-brand-light/10 text-emerald-brand font-extrabold"
+                              : "bg-transparent border-transparent text-neutral-600 hover:bg-neutral-50 hover:text-emerald-brand-light"}`}
               >
-                <div className="flex items-center gap-1 min-w-0">
-                  <span className="text-[10px] font-bold text-amber-500 shrink-0">{stars}★</span>
-                  <span className="text-[9px] text-neutral-500 truncate font-light">&amp; above</span>
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <div className="flex items-center gap-0.5 text-amber-500 shrink-0">
+                    {Array.from({ length: stars }).map((_, si) => (
+                      <Star key={si} size={9} className="fill-amber-500" />
+                    ))}
+                    {Array.from({ length: 5 - stars }).map((_, si) => (
+                      <Star key={si} size={9} className="text-neutral-200 fill-neutral-200" />
+                    ))}
+                  </div>
+                  <span className="text-[9px] text-neutral-400 font-semibold truncate">&amp; above</span>
                 </div>
-                <div className={`w-3 h-3 rounded border flex items-center justify-center transition-all duration-200 shrink-0 ml-1
-                  ${active ? "bg-emerald-brand-light border-emerald-brand-light" : "border-neutral-300 bg-white group-hover:border-emerald-brand-light/50"}`}>
+                <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center transition-all duration-150 shrink-0 ml-1
+                  ${active ? "bg-emerald-brand-light border-emerald-brand-light text-white" : "border-neutral-200 bg-white group-hover:border-emerald-brand-light/40"}`}>
                   {active && (
-                    <svg className="w-2 h-2 stroke-white" viewBox="0 0 24 24" fill="none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-2.5 h-2.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   )}
@@ -723,31 +633,76 @@ export function Shop() {
         </div>
       </div>
 
-      {/* Clear All */}
+      {/* Brand Review Summary Card */}
+      <div className="mt-4 pt-5 border-t border-beige-soft/60 flex flex-col items-center text-center">
+        <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 border border-emerald-100/50">
+          <Leaf size={10} className="fill-current text-emerald-600" />
+          <span>Verified Organic Badge</span>
+        </div>
+        <div className="flex items-baseline gap-1 mb-1">
+          <span className="text-3xl font-display font-black text-neutral-900">4.8</span>
+          <span className="text-xs font-extrabold text-neutral-400">★</span>
+        </div>
+        <span className="text-[10px] font-bold text-neutral-500">12,450+ Review Counts</span>
+      </div>
+
+      {/* Clear All Filters Button */}
       {hasFilters && (
-        <div className="sm:col-span-2 lg:col-span-1 pt-2">
+        <div className="pt-2">
           <button
             onClick={resetAll}
             className="w-full py-2 rounded-xl border border-beige-soft bg-beige-warm/60
-                       hover:bg-beige-warm text-emerald-brand-dark text-[11px] font-bold
+                       hover:bg-beige-warm text-emerald-brand font-extrabold text-xs
                        flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer"
           >
-            <X size={11} /> Clear All Filters
+            <X size={12} /> Clear All Filters
           </button>
         </div>
       )}
     </div>
   );
 
-  /* ── render ── */
   return (
     <div
-      className="min-h-screen w-full overflow-x-hidden"
+      className="min-h-screen w-full overflow-x-hidden relative"
       style={{ background: "linear-gradient(170deg, #F7F4EE 0%, #EEF2E8 45%, #E4EAD8 100%)" }}
     >
+      {/* Floating leaves backdrop */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div
+          animate={{
+            y: [0, -24, 0],
+            x: [0, 12, 0],
+            rotate: [0, 45, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-1/4 left-4 opacity-[0.06] text-emerald-brand-light hidden xl:block"
+        >
+          <Leaf size={48} className="fill-current" />
+        </motion.div>
+        <motion.div
+          animate={{
+            y: [0, 28, 0],
+            x: [0, -15, 0],
+            rotate: [0, -35, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-2/3 right-8 opacity-[0.05] text-emerald-brand-light hidden xl:block"
+        >
+          <Leaf size={56} className="fill-current" />
+        </motion.div>
+      </div>
 
       {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden" style={{ height: "clamp(240px, 36vw, 420px)" }}>
+      <section className="relative overflow-hidden" style={{ height: "clamp(220px, 32vw, 360px)" }}>
         <img
           src={HERO_IMG}
           alt="Fresh Organic Products"
@@ -755,8 +710,41 @@ export function Shop() {
         />
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, rgba(0,60,30,0.82) 0%, rgba(0,0,0,0.52) 60%, rgba(0,100,50,0.48) 100%)" }}
+          style={{ background: "linear-gradient(to bottom, rgba(0, 45, 23, 0.75) 0%, rgba(0, 10, 5, 0.6) 100%)" }}
         />
+        
+        {/* Floating leaves in Hero banner */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+          <motion.div
+            animate={{
+              y: [0, -12, 0],
+              rotate: [0, 15, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute top-12 left-[10%] opacity-25 text-emerald-brand-light"
+          >
+            <Leaf size={24} className="fill-current" />
+          </motion.div>
+          <motion.div
+            animate={{
+              y: [0, 15, 0],
+              rotate: [0, -20, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute bottom-16 right-[15%] opacity-20 text-emerald-brand-light"
+          >
+            <Leaf size={32} className="fill-current" />
+          </motion.div>
+        </div>
+
         {/* glow blobs */}
         <div className="absolute -bottom-8 -left-8 w-56 h-56 rounded-full opacity-20"
              style={{ background: "radial-gradient(circle, #2BB07F, transparent 70%)" }} />
@@ -765,7 +753,7 @@ export function Shop() {
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
@@ -773,38 +761,38 @@ export function Shop() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.15, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-3"
               style={{ background: "rgba(43,176,127,0.22)", border: "1px solid rgba(43,176,127,0.4)" }}
             >
-              <Leaf size={13} style={{ color: "#2BB07F" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#7EEDC0" }}>
-                100% Organic &amp; Natural
+              <Leaf size={12} style={{ color: "#2BB07F" }} />
+              <span className="text-[10px] font-extrabold uppercase tracking-widest" style={{ color: "#7EEDC0" }}>
+                Raman Greens Catalog
               </span>
-              <Sparkles size={13} style={{ color: "#2BB07F" }} />
+              <Sparkles size={12} style={{ color: "#2BB07F" }} />
             </motion.div>
 
             <h1
-              className="font-display font-bold text-white leading-tight mb-3"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)", textShadow: "0 2px 24px rgba(0,0,0,0.35)" }}
+              className="font-display font-bold text-white leading-tight mb-2.5"
+              style={{ fontSize: "clamp(1.75rem, 4vw, 3.25rem)", textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}
             >
-              Fresh Organic Products
+              Shop Organic Luxury
             </h1>
 
-            <p className="text-white/75 mb-5 max-w-md mx-auto" style={{ fontSize: "clamp(0.85rem, 2vw, 1rem)" }}>
-              Handpicked from Nimar's fertile farmlands — pure, natural &amp; full of goodness.
+            <p className="text-white/80 mb-4.5 max-w-md mx-auto text-xs sm:text-sm font-medium">
+              Harvested from Nimar's clean soils — pure natural taste & sustainable goodness.
             </p>
 
-            <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-sm text-white/55">
-              <Link to="/" className="flex items-center gap-1.5 hover:text-white transition-colors duration-200">
-                <Home size={13} /> Home
+            <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-xs text-white/60">
+              <Link to="/" className="flex items-center gap-1 hover:text-white transition-colors duration-200 font-semibold">
+                <Home size={12} /> Home
               </Link>
               <span className="opacity-40">/</span>
-              <span className="text-white/90 font-medium">Products</span>
+              <span className="text-white/95 font-bold">Shop</span>
             </nav>
           </motion.div>
         </div>
 
-        {/* wave */}
+        {/* wave separator */}
         <div className="absolute bottom-0 left-0 right-0 h-10 overflow-hidden">
           <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-full">
             <path d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z" fill="#F7F4EE" />
@@ -813,50 +801,61 @@ export function Shop() {
       </section>
 
       {/* ── Main content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
 
-        {/* Grid: sidebar + products */}
-        <div className="grid grid-cols-1 lg:grid-cols-[270px_1fr] gap-5 items-start">
+        {/* Grid layout for sidebar & products */}
+        <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 items-start">
 
-          {/* ── Sidebar ── */}
+          {/* ── Left Sidebar (Desktop, glassmorphism, no collapse, no internal scroll) ── */}
           <aside
-            className="w-full bg-white rounded-3xl p-4 sm:p-5 border border-beige-soft/50
-                       shadow-sm lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-120px)]
-                       lg:overflow-y-auto no-scrollbar"
+            className="hidden lg:block w-full bg-white/60 backdrop-blur-md rounded-3xl p-5 border border-white/40
+                       shadow-[0_8px_32px_rgba(0,0,0,0.04)] lg:sticky lg:top-24 lg:self-start transition-all"
           >
             <SidebarFilters />
           </aside>
 
           {/* ── Products Column ── */}
-          <div className="min-w-0 space-y-3">
+          <div className="min-w-0 space-y-4">
 
-            {/* Result count bar */}
+            {/* Filter Results & Sorter Header */}
             <div
               id="products-grid-anchor"
-              className="flex items-center justify-between py-3 border-b border-beige-soft/60"
+              className="flex items-center justify-between py-3 border-b border-beige-soft/60 flex-wrap gap-2"
             >
-              <p className="text-xs text-neutral-500">
+              <p className="text-xs text-neutral-500 font-semibold">
                 Showing{" "}
-                <span className="font-semibold text-neutral-900">{filtered.length}</span>{" "}
+                <span className="font-extrabold text-neutral-900">{filtered.length}</span>{" "}
                 {filtered.length === 1 ? "product" : "products"}
                 {cat !== "All" && (
-                  <> in <span className="text-emerald-brand font-semibold">{cat}</span></>
+                  <> in <span className="text-emerald-brand font-extrabold">{cat}</span></>
                 )}
                 {q && (
-                  <> for <span className="text-emerald-brand font-semibold">"{q}"</span></>
+                  <> for <span className="text-emerald-brand font-extrabold">"{q}"</span></>
                 )}
               </p>
-              {hasFilters && (
+              
+              <div className="flex items-center gap-3">
+                {/* Mobile Filter trigger */}
                 <button
-                  onClick={resetAll}
-                  className="text-xs text-neutral-400 hover:text-emerald-brand transition-colors flex items-center gap-1 cursor-pointer"
+                  onClick={() => setIsMobileFilterOpen(true)}
+                  className="lg:hidden flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-beige-soft bg-white text-emerald-brand text-xs font-extrabold transition-all hover:bg-beige-warm active:scale-95 cursor-pointer shadow-sm"
                 >
-                  <X size={11} /> Clear filters
+                  <SlidersHorizontal size={12} />
+                  <span>Filters &amp; Sort</span>
                 </button>
-              )}
+
+                {hasFilters && (
+                  <button
+                    onClick={resetAll}
+                    className="text-xs text-neutral-400 hover:text-emerald-brand transition-colors flex items-center gap-1 cursor-pointer font-bold"
+                  >
+                    <X size={12} /> Clear filters
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Product Grid */}
+            {/* Product Grid (4 columns desktop, 2 tablet, 1 mobile) */}
             {paginated.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -870,23 +869,23 @@ export function Shop() {
                 </p>
                 <button
                   onClick={resetAll}
-                  className="bg-emerald-brand hover:bg-emerald-brand-dark text-white font-semibold
+                  className="bg-emerald-brand hover:bg-emerald-brand-dark text-white font-extrabold
                              px-7 py-3 rounded-full text-xs transition-colors shadow-lg cursor-pointer"
                 >
                   View All Products
                 </button>
               </motion.div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                {paginated.map((p, i) => (
-                  <PremiumCard key={p.id} product={p} idx={i} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
+                {paginated.map((p) => (
+                  <PremiumCard key={p.id} product={p} />
                 ))}
               </div>
             )}
 
-            {/* Pagination */}
+            {/* Pagination (Center-aligned, modern buttons, active green) */}
             {totalPages > 1 && (
-              <div className="flex flex-col items-center justify-center w-full gap-3 mt-8 text-center">
+              <div className="flex flex-col items-center justify-center w-full gap-3 mt-10 text-center">
                 <motion.nav
                   aria-label="Pagination"
                   initial={{ opacity: 0, y: 12 }}
@@ -899,8 +898,8 @@ export function Shop() {
                     onClick={() => handlePage(Math.max(1, page - 1))}
                     disabled={page === 1}
                     aria-label="Previous page"
-                    className="group flex items-center gap-1.5 px-4 h-11 rounded-xl bg-white border border-beige-soft
-                               text-xs font-semibold text-neutral-600 uppercase tracking-wide
+                    className="group flex items-center gap-1.5 px-4 h-10 rounded-xl bg-white border border-beige-soft
+                               text-xs font-bold text-neutral-600 uppercase tracking-wide
                                hover:border-emerald-brand/40 hover:text-emerald-brand
                                active:scale-95 transition-all duration-200 cursor-pointer
                                disabled:opacity-35 disabled:cursor-not-allowed"
@@ -918,10 +917,10 @@ export function Shop() {
                           id={`pagination-page-${n}`}
                           onClick={() => handlePage(n)}
                           aria-current={active ? "page" : undefined}
-                          className={`w-11 h-11 rounded-xl text-sm font-bold flex items-center justify-center
+                          className={`w-10 h-10 rounded-xl text-xs font-extrabold flex items-center justify-center
                                      transition-all duration-200 cursor-pointer
                                      ${active
-                                       ? "bg-emerald-50 text-emerald-brand border border-emerald-brand/20 shadow-sm"
+                                       ? "bg-emerald-brand text-white border border-emerald-brand shadow-sm"
                                        : "bg-white border border-beige-soft text-neutral-600 hover:border-emerald-brand/40 hover:text-emerald-brand hover:-translate-y-0.5"}`}
                         >
                           {n}
@@ -935,8 +934,8 @@ export function Shop() {
                     onClick={() => handlePage(Math.min(totalPages, page + 1))}
                     disabled={page === totalPages}
                     aria-label="Next page"
-                    className="group flex items-center gap-1.5 px-4 h-11 rounded-xl bg-white border border-beige-soft
-                               text-xs font-semibold text-neutral-600 uppercase tracking-wide
+                    className="group flex items-center gap-1.5 px-4 h-10 rounded-xl bg-white border border-beige-soft
+                               text-xs font-bold text-neutral-600 uppercase tracking-wide
                                hover:border-emerald-brand/40 hover:text-emerald-brand
                                active:scale-95 transition-all duration-200 cursor-pointer
                                disabled:opacity-35 disabled:cursor-not-allowed"
@@ -945,64 +944,85 @@ export function Shop() {
                     <ChevronRight size={14} className="transition-transform group-hover:translate-x-0.5" />
                   </button>
                 </motion.nav>
-                <span className="text-xs text-neutral-400 font-medium">
-                  Page <span className="font-semibold text-neutral-600">{page}</span> of{" "}
-                  <span className="font-semibold text-neutral-600">{totalPages}</span>
+                <span className="text-[10px] text-neutral-400 font-extrabold uppercase tracking-wider">
+                  Page {page} of {totalPages}
                 </span>
               </div>
             )}
 
           </div>
         </div>
-
-        {/* Organic Promise Strip — outside the grid so it spans full container width */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-8 rounded-3xl overflow-hidden relative"
-          style={{ background: "linear-gradient(135deg, #006B43 0%, #008F5A 50%, #2BB07F 100%)" }}
-        >
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-          <div className="relative px-6 py-7 flex flex-col sm:flex-row items-center justify-between gap-5">
-            <div className="text-white text-center sm:text-left">
-              <div className="flex items-center gap-2 justify-center sm:justify-start mb-2">
-                <Leaf size={18} className="text-white/80" />
-                <span className="text-white/80 text-xs font-bold uppercase tracking-widest">Our Promise</span>
-              </div>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl mb-1">100% Pure &amp; Organic</h2>
-              <p className="text-white/75 text-sm max-w-sm">
-                Sourced directly from certified farmers in the Nimar belt —
-                no chemicals, no shortcuts, just nature's best.
-              </p>
-            </div>
-            <div className="flex gap-6 sm:gap-10 justify-center text-white text-center flex-wrap sm:flex-nowrap">
-              {[
-                { v: "50+",  l: "Farmers" },
-                { v: "12+",  l: "Products" },
-                { v: "4.8★", l: "Avg Rating" },
-              ].map(({ v, l }) => (
-                <div key={l} className="flex flex-col items-center px-4 py-2 rounded-2xl hover:bg-white/10 transition-all duration-300">
-                  <div className="font-display font-bold text-3xl sm:text-4xl">{v}</div>
-                  <div className="text-white/80 text-[11px] font-semibold uppercase tracking-wider mt-1">{l}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </div>
 
-      {/* ── Quick View Modal ── */}
+      {/* Floating mobile filter button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setIsMobileFilterOpen(true)}
+        className="lg:hidden fixed bottom-6 right-6 z-40 bg-emerald-brand hover:bg-emerald-brand-dark text-white shadow-xl shadow-emerald-950/20 px-4 py-3 rounded-full flex items-center gap-2 font-bold text-xs border border-emerald-brand-light/20 cursor-pointer transition-all duration-300"
+      >
+        <SlidersHorizontal size={13} />
+        <span>Filters &amp; Sort</span>
+        {hasFilters && (
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+        )}
+      </motion.button>
+
+      {/* Mobile/Tablet Filter Drawer */}
       <AnimatePresence>
-        {qvProd && (
-          <QuickViewModal product={qvProd} onClose={() => setQvProd(null)} />
+        {isMobileFilterOpen && (
+          <>
+            {/* Drawer Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileFilterOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 lg:hidden"
+            />
+            {/* Drawer Panel */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 26, stiffness: 220 }}
+              className="fixed inset-y-0 left-0 w-[290px] sm:w-[320px] bg-white z-50 p-5 shadow-2xl flex flex-col h-full lg:hidden border-r border-beige-soft/60"
+            >
+              <div className="flex items-center justify-between pb-3.5 border-b border-beige-soft/60 mb-3.5 shrink-0">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal size={15} className="text-emerald-brand" />
+                  <h2 className="font-sans font-bold text-xs text-neutral-900 uppercase tracking-widest">Filters</h2>
+                </div>
+                <button
+                  onClick={() => setIsMobileFilterOpen(false)}
+                  className="p-1.5 rounded-full hover:bg-beige-warm text-neutral-400 hover:text-neutral-700 transition-colors"
+                  aria-label="Close filters"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto no-scrollbar pb-6">
+                <SidebarFilters />
+              </div>
+              
+              {hasFilters && (
+                <div className="pt-4 border-t border-beige-soft/60 shrink-0">
+                  <button
+                    onClick={() => {
+                      resetAll();
+                      setIsMobileFilterOpen(false);
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-beige-warm hover:bg-beige-soft text-emerald-brand text-xs font-extrabold transition-all duration-200"
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
