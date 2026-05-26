@@ -31,18 +31,18 @@ export function About() {
   ];
 
   const machines = [
-    { name: "Fruit & Vegetable Washer Machine", desc: "Used for cleaning vegetables and fruits before processing.", image: "/images/food_processing.png" },
-    { name: "Blanching Machine", desc: "Helps maintain color, texture, and nutrients before drying.", image: "/images/food_processing.png" },
-    { name: "Tray Dryer / Dehydrator", desc: "Used for controlled drying of vegetables and fruits.", image: "/images/dehydrator.png" },
-    { name: "Pulverizer Machine", desc: "Grinds dried materials into fine powder.", image: "/images/food_processing.png" },
-    { name: "Ribbon Blender", desc: "Ensures uniform mixing of food powders.", image: "/images/packaging.png" },
-    { name: "Vibro Sifter / Vibro Grader", desc: "Separates fine and coarse particles for better consistency.", image: "/images/food_processing.png" },
-    { name: "Pouch Packaging Machine", desc: "Used for hygienic and efficient powder packaging.", image: "/images/packaging.png" },
-    { name: "Heat Sealing Machine", desc: "Provides airtight sealing for freshness and shelf life.", image: "/images/packaging.png" },
-    { name: "Steam Distillation Unit", desc: "Used for extracting essential oils and plant extracts.", image: "/images/tea-cup.png" },
-    { name: "Batch Mixing Tank", desc: "Used for liquid and paste mixing during processing.", image: "/images/food_processing.png" },
-    { name: "Multi Vegetable Cutter", desc: "Used for slicing and cutting raw vegetables efficiently.", image: "/images/food_processing.png" },
-    { name: "Tomato Pulper Machine", desc: "Extracts pulp from tomatoes and soft vegetables.", image: "/images/food_processing.png" },
+    { name: "Fruit & Vegetable Washer Machine", desc: "Used for cleaning vegetables and fruits before processing.", image: "/images/food_processing.png", label: "Food Grade" },
+    { name: "Blanching Machine", desc: "Helps maintain color, texture, and nutrients before drying.", image: "/images/food_processing.png", label: "Stainless Steel" },
+    { name: "Tray Dryer / Dehydrator", desc: "Used for controlled drying of vegetables and fruits.", image: "/images/dehydrator.png", label: "Industrial Quality" },
+    { name: "Pulverizer Machine", desc: "Grinds dried materials into fine powder.", image: "/images/food_processing.png", label: "Food Grade" },
+    { name: "Ribbon Blender", desc: "Ensures uniform mixing of food powders.", image: "/images/packaging.png", label: "Hygienic Processing" },
+    { name: "Vibro Sifter / Vibro Grader", desc: "Separates fine and coarse particles for better consistency.", image: "/images/food_processing.png", label: "Stainless Steel" },
+    { name: "Pouch Packaging Machine", desc: "Used for hygienic and efficient powder packaging.", image: "/images/packaging.png", label: "Food Grade" },
+    { name: "Heat Sealing Machine", desc: "Provides airtight sealing for freshness and shelf life.", image: "/images/packaging.png", label: "Industrial Quality" },
+    { name: "Steam Distillation Unit", desc: "Used for extracting essential oils and plant extracts.", image: "/images/tea-cup.png", label: "Hygienic Processing" },
+    { name: "Batch Mixing Tank", desc: "Used for liquid and paste mixing during processing.", image: "/images/food_processing.png", label: "Stainless Steel" },
+    { name: "Multi Vegetable Cutter", desc: "Used for slicing and cutting raw vegetables efficiently.", image: "/images/food_processing.png", label: "Food Grade" },
+    { name: "Tomato Pulper Machine", desc: "Extracts pulp from tomatoes and soft vegetables.", image: "/images/food_processing.png", label: "Industrial Quality" },
   ];
 
   const processedItems = [
@@ -184,9 +184,14 @@ export function About() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {visibleMachines.map((m, i) => (
                 <motion.div key={m.name + ci + i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35, delay: i * 0.08 }}
-                  className="bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                  <div className="h-44 bg-neutral-100 overflow-hidden">
+                  className="bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#c8e6c9] transition-all duration-300">
+                  <div className="h-44 bg-neutral-100 overflow-hidden relative">
                     <img src={m.image} alt={m.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    {m.label && (
+                      <span className="absolute top-3 left-3 bg-[#e8f5e9]/90 backdrop-blur-sm text-[#2e7d32] text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm border border-[#c8e6c9]/40">
+                        {m.label}
+                      </span>
+                    )}
                   </div>
                   <div className="p-5">
                     <h3 className="font-bold text-neutral-800 text-[13px] mb-1.5">{m.name}</h3>
