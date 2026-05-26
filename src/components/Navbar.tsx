@@ -26,7 +26,7 @@ export function Navbar() {
   const links = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About Us" },
-    { to: "/shop", label: "Product" },
+    { to: "/shop", label: "Shop" },
     { to: "/contact", label: "Contact Us" },
   ];
 

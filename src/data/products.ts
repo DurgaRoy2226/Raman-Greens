@@ -31,11 +31,13 @@ export const PRODUCTS: Product[] = [
     oldPrice: 220,
     rating: 4.8,
     reviews: 342,
-    image: img("photo-1599490659213-e2b9527bd087"),
+    image: "/images/sev_hero.png",
     gallery: [
-      img("photo-1599490659213-e2b9527bd087"),
-      img("photo-1606491956689-2ea866880c84"),
-      img("photo-1601050690597-df0568f70950"),
+      "/images/sev_hero.png",
+      "/images/sev_closeup.png",
+      "/images/sev_lifestyle.png",
+      "/images/sev_ingredients.png",
+      "/images/sev_serving.png",
     ],
     description:
       "Hand-rolled gram flour sev seasoned with the fiery red chillies of Nimar. A tea-time legend from the bylanes of Khandwa.",
@@ -61,7 +63,13 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 198,
     image: img("photo-1601050690597-df0568f70950"),
-    gallery: [img("photo-1601050690597-df0568f70950"), img("photo-1606491956689-2ea866880c84")],
+    gallery: [
+      img("photo-1601050690597-df0568f70950"),
+      img("photo-1606491956689-2ea866880c84"),
+      img("photo-1506084868230-bb9d95c24759"),
+      img("photo-1599490659213-e2b9527bd087"),
+      img("photo-1590779033100-9f60a05a013d"),
+    ],
     description: "A perfectly balanced flattened-rice mix with roasted peanuts, curry leaves and Nimari garlic.",
     benefits: ["Light & crunchy", "Roasted, not fried", "Rich in fibre"],
     nutrition: [
