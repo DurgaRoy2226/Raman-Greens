@@ -13,6 +13,10 @@ import {
   Home,
   SlidersHorizontal,
   Sparkles,
+  Sprout,
+  Sun,
+  RotateCw,
+  Package,
 } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import type { Product } from "../data/products";
@@ -348,6 +352,35 @@ export function Shop() {
     minRating !== null ||
     sort !== "popular";
 
+  /* Visual Journey Steps */
+  const steps = [
+    {
+      title: "Farm Fresh Selection",
+      desc: "Sun-ripened, handpicked crops sourced directly from Nimar's organic farms.",
+      icon: Sprout,
+    },
+    {
+      title: "Cleaning & Preparation",
+      desc: "Triple-washed and carefully sorted by hand to select the finest produce.",
+      icon: Sparkles,
+    },
+    {
+      title: "Natural Drying",
+      desc: "Slow-dried under hygienic conditions to lock in vital nutrients.",
+      icon: Sun,
+    },
+    {
+      title: "Fine Processing",
+      desc: "Slow stone-ground milling at low temperatures to preserve aroma.",
+      icon: RotateCw,
+    },
+    {
+      title: "Hygienic Packaging",
+      desc: "Sealed in eco-friendly premium pouches to lock in peak freshness.",
+      icon: Package,
+    },
+  ];
+
   /* ── Sidebar content (always open layout, no collapses, no scrollbars) ── */
   const SidebarFilters = () => (
     <div className="flex flex-col gap-5 text-neutral-800">
@@ -633,19 +666,6 @@ export function Shop() {
         </div>
       </div>
 
-      {/* Brand Review Summary Card */}
-      <div className="mt-4 pt-5 border-t border-beige-soft/60 flex flex-col items-center text-center">
-        <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 border border-emerald-100/50">
-          <Leaf size={10} className="fill-current text-emerald-600" />
-          <span>Verified Organic Badge</span>
-        </div>
-        <div className="flex items-baseline gap-1 mb-1">
-          <span className="text-3xl font-display font-black text-neutral-900">4.8</span>
-          <span className="text-xs font-extrabold text-neutral-400">★</span>
-        </div>
-        <span className="text-[10px] font-bold text-neutral-500">12,450+ Review Counts</span>
-      </div>
-
       {/* Clear All Filters Button */}
       {hasFilters && (
         <div className="pt-2">
@@ -801,7 +821,7 @@ export function Shop() {
       </section>
 
       {/* ── Main content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16 relative z-10">
 
         {/* Grid layout for sidebar & products */}
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 items-start">
@@ -952,6 +972,102 @@ export function Shop() {
 
           </div>
         </div>
+
+        {/* ── Premium Storytelling & Branding Footer Sections (Merged inside main container, mt-10 for minimal clean spacing) ── */}
+        
+        {/* 1. FROM FARM TO POWDER (Visual Journey) */}
+        <motion.section 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-white/40 backdrop-blur-md border border-white/40 rounded-3xl p-8 sm:p-10 shadow-[0_8px_32px_rgba(0,0,0,0.03)] mt-10 sm:mt-12"
+        >
+          <div className="text-center max-w-xl mx-auto mb-10">
+            <span className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-brand bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">
+              Our Process
+            </span>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-neutral-900 mt-3">
+              From Farm to Powder
+            </h2>
+            <p className="text-xs text-neutral-500 mt-2 font-medium">
+              We follow a rigorous, quality-focused journey to bring Nimar's pure soil goodness to your home.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-3 items-stretch relative">
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <div key={idx} className="flex flex-col items-center text-center relative group flex-1">
+                  {/* Icon Container */}
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-beige-soft flex items-center justify-center text-emerald-brand-light shadow-sm group-hover:border-emerald-brand-light/40 group-hover:text-emerald-brand transition-all duration-300 z-10 mb-4">
+                    <Icon size={20} />
+                  </div>
+
+                  {/* Title & Description */}
+                  <h4 className="font-sans font-bold text-xs sm:text-[13px] text-neutral-800 mb-1.5 px-1">
+                    {step.title}
+                  </h4>
+                  <p className="text-[10px] sm:text-xs text-neutral-500 leading-relaxed max-w-[180px] font-medium px-2">
+                    {step.desc}
+                  </p>
+
+                  {/* Connecting Line (Desktop only) */}
+                  {idx < 4 && (
+                    <div className="hidden lg:block absolute top-6 left-[calc(50%+24px)] w-[calc(100%-48px)] h-0.5 border-t border-dashed border-beige-soft z-0" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </motion.section>
+
+        {/* 2. PREMIUM BRAND BANNER */}
+        <motion.section 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-brand/5 via-beige-warm/60 to-emerald-brand-light/10 border border-white/50 p-8 sm:p-12 md:p-16 text-center shadow-[0_8px_32px_rgba(0,0,0,0.03)] mt-8 sm:mt-10"
+        >
+          {/* Decorative floating leaves */}
+          <motion.div
+            animate={{ y: [-8, 8, -8], rotate: [0, 10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-10 left-10 text-emerald-brand-light/15 hidden md:block"
+          >
+            <Leaf size={32} className="fill-current" />
+          </motion.div>
+          <motion.div
+            animate={{ y: [8, -8, 8], rotate: [0, -12, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-10 right-12 text-emerald-brand-light/12 hidden md:block"
+          >
+            <Leaf size={40} className="fill-current" />
+          </motion.div>
+
+          <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+            <span className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-brand bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50 mb-4.5">
+              Premium Organic Promise
+            </span>
+            
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-neutral-900 leading-tight mb-4">
+              Crafted by Nature.<br className="sm:hidden" /> Refined by Innovation.
+            </h2>
+            
+            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md mb-8 font-medium">
+              Every Raman Greens product is carefully processed to preserve purity, freshness, and authentic taste.
+            </p>
+
+            <button
+              onClick={() => document.getElementById("products-grid-anchor")?.scrollIntoView({ behavior: "smooth" })}
+              className="bg-emerald-brand hover:bg-emerald-brand-dark text-white font-extrabold text-xs tracking-wider uppercase px-8 py-3.5 rounded-full transition-all duration-300 shadow-md hover:shadow-emerald-brand/20 cursor-pointer"
+            >
+              Explore Shop
+            </button>
+          </div>
+        </motion.section>
       </div>
 
       {/* Floating mobile filter button */}

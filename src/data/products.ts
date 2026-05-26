@@ -17,6 +17,10 @@ export type Product = {
   stock: number;
   weight: string;
   origin: string;
+  sizes?: { size: string; price: number; oldPrice?: number }[];
+  story?: string;
+  ingredients?: string[];
+  farmStory?: string;
 };
 
 // High quality product images via Unsplash CDN
@@ -54,6 +58,15 @@ export const PRODUCTS: Product[] = [
     stock: 48,
     weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 99, oldPrice: 120 },
+      { size: "400g", price: 180, oldPrice: 220 },
+      { size: "800g", price: 340, oldPrice: 420 },
+      { size: "1kg", price: 420, oldPrice: 520 }
+    ],
+    story: "Our Nimari Masala Sev is more than just a crunchy tea-time snack. It is a tribute to the deep agrarian heritage of the Nimar region in Madhya Pradesh. Gram flour (besan) is freshly stone-ground and hand-kneaded by local women self-help collectives. It is then seasoned with Nimar's legendary local red chillies, giving it a vibrant brick-red color and an aromatic fiery bite that the warm bylanes of Khandwa are famous for. Roasted in pure cold-pressed groundnut oil, it yields a zero-trans-fat snack that keeps you coming back for more.",
+    ingredients: ["Organic Gram Flour", "Cold Pressed Groundnut Oil", "Nimari Red Chilli Powder", "Asafoetida (Hing)", "Carom Seeds (Ajwain)", "Rock Salt"],
+    farmStory: "Sourced from the sun-drenched fields of the Narmada basin where gram is grown using organic, regenerative crop rotation."
   },
   {
     id: "p2",
@@ -67,9 +80,11 @@ export const PRODUCTS: Product[] = [
     gallery: [
       img("photo-1601050690597-df0568f70950"),
       img("photo-1606491956689-2ea866880c84"),
+      img("photo-1601050690597-df0568f70950"),
+      img("photo-1606491956689-2ea866880c84"),
     ],
     description: "A perfectly balanced flattened-rice mix with roasted peanuts, curry leaves, and Nimari garlic. Golden tones and cinematic crispness.",
-    benefits: ["Light & crunchy", "Roasted, not fried", "Rich in fibre"],
+    benefits: ["Light & crunchy", "Roasted, not fried", "Rich in fibre", "No preservatives"],
     nutrition: [
       { label: "Energy", value: "430 kcal" },
       { label: "Protein", value: "11 g" },
@@ -78,9 +93,19 @@ export const PRODUCTS: Product[] = [
     ],
     tags: ["savoury", "light", "garlic", "organic"],
     bestseller: true,
+    trending: true,
     stock: 60,
-    weight: "350g",
+    weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 90, oldPrice: 110 },
+      { size: "400g", price: 160, oldPrice: 195 },
+      { size: "800g", price: 300, oldPrice: 380 },
+      { size: "1kg", price: 380, oldPrice: 480 }
+    ],
+    story: "Our Khandwa Garlic Chivda is an authentic recipe crafted from the finest locally-grown rice flakes. Thin flattened rice is lightly roasted to a crunchy texture and tossed with crisp curry leaves, Nimar peanuts, and native garlic cloves. Every bite delivers a clean, savoury aroma seasoned with stone-ground red chillies and local rock salt. It's a wholesome, light, and low-calorie evening accompaniment prepared without any synthetic flavor enhancers.",
+    ingredients: ["Organic Flattened Rice", "Native Garlic Cloves", "Nimar Peanuts", "Curry Leaves", "Turmeric Powder", "Cold Pressed Groundnut Oil", "Rock Salt"],
+    farmStory: "The garlic is harvested from family farms in Khandwa, famed for its pungent aroma and therapeutic qualities."
   },
   {
     id: "p11",
@@ -91,19 +116,35 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 156,
     image: img("photo-1599490659213-e2b9527bd087"),
-    gallery: [img("photo-1599490659213-e2b9527bd087")],
+    gallery: [
+      img("photo-1599490659213-e2b9527bd087"),
+      img("photo-1544025162-d76694265947"),
+      img("photo-1599490659213-e2b9527bd087"),
+      img("photo-1544025162-d76694265947"),
+    ],
     description: "Crispy fox-nuts roasted in pure A2 cow ghee and tossed with hand-milled pudina (mint) and rock salt. The ultimate premium guilt-free crunch.",
     benefits: ["Low calorie", "Gluten-free", "High protein", "A2 Ghee roasted"],
     nutrition: [
       { label: "Energy", value: "347 kcal" },
       { label: "Protein", value: "9 g" },
       { label: "Carbs", value: "64 g" },
+      { label: "Fat", value: "8 g" },
     ],
     tags: ["healthy", "light", "tea-time", "organic"],
     bestseller: true,
+    trending: true,
     stock: 70,
-    weight: "100g",
+    weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 280, oldPrice: 350 },
+      { size: "400g", price: 520, oldPrice: 650 },
+      { size: "800g", price: 980, oldPrice: 1200 },
+      { size: "1kg", price: 1200, oldPrice: 1500 }
+    ],
+    story: "Crispy fox-nuts popped under natural heat, roasted slow in pure A2 Gir cow ghee, and tossed with organic mint (pudina) leaves and native black pepper. Prepared by hand to ensure a perfectly crisp, savory snack that supports heart and joint health.",
+    ingredients: ["Organic Foxnuts (Makhana)", "Pure A2 Desi Cow Ghee", "Dried Mint Leaves", "Black Pepper", "Rock Salt"],
+    farmStory: "Harvested from water bodies in North India and processed locally by traditional communities using manual heat popping."
   },
   {
     id: "p9",
@@ -114,19 +155,35 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 224,
     image: img("photo-1582058091505-f87a2e55a40f"),
-    gallery: [img("photo-1582058091505-f87a2e55a40f")],
+    gallery: [
+      img("photo-1582058091505-f87a2e55a40f"),
+      img("photo-1513885535751-8b9238bd345a"),
+      img("photo-1607920591413-4ec007e70023"),
+      img("photo-1582058091505-f87a2e55a40f"),
+    ],
     description: "A crunchy premium slab of natural organic jaggery layered with handpicked almonds, cashews, and pistachios. Energy in every bite.",
     benefits: ["Loaded with premium nuts", "Natural energy", "No refined sugar", "Organic jaggery base"],
     nutrition: [
       { label: "Energy", value: "520 kcal" },
       { label: "Protein", value: "12 g" },
-      { label: "Healthy Fats", value: "18 g" },
+      { label: "Carbs", value: "48 g" },
+      { label: "Fat", value: "18 g" },
     ],
     tags: ["sweet", "energy", "nuts", "organic"],
     trending: true,
+    bestseller: true,
     stock: 42,
-    weight: "300g",
+    weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 220, oldPrice: 260 },
+      { size: "400g", price: 420, oldPrice: 500 },
+      { size: "800g", price: 800, oldPrice: 950 },
+      { size: "1kg", price: 990, oldPrice: 1200 }
+    ],
+    story: "Crafted during winter harvests using Nimar's chemical-free jaggery and select organic almonds, pistachios, and cashews. A high-energy snack that pays homage to rustic Indian winter wellness recipes.",
+    ingredients: ["Organic Cashews", "Organic Almonds", "Organic Pistachios", "Raw Sugarcane Jaggery", "Desi Gir Cow Ghee"],
+    farmStory: "The jaggery is hand-processed from organic sugarcane stalks harvested at daybreak in the Nimar plains."
   },
   {
     id: "p10",
@@ -137,15 +194,33 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 118,
     image: img("photo-1532336414038-cf19250c5757"),
-    gallery: [img("photo-1532336414038-cf19250c5757")],
+    gallery: [
+      img("photo-1532336414038-cf19250c5757"),
+      img("photo-1596797038530-2c107229654b"),
+      img("photo-1615485290382-441e4d049cb5"),
+      img("photo-1532336414038-cf19250c5757"),
+    ],
     description: "An elegant handcrafted wooden masala-dani featuring 9 hand-blended, stone-ground Nimari spices. A premium culinary keepsake.",
     benefits: ["9 signature spices", "Sheesham wooden box", "Free recipe booklet", "100% natural"],
-    nutrition: [{ label: "Pieces", value: "9 spices" }],
+    nutrition: [
+      { label: "Total Spices", value: "9 unique blends" },
+      { label: "Purity", value: "100% Preservative Free" },
+    ],
     tags: ["gift", "spice", "premium", "festive"],
     bestseller: true,
+    trending: true,
     stock: 18,
     weight: "900g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 299, oldPrice: 399 },
+      { size: "400g", price: 549, oldPrice: 699 },
+      { size: "800g", price: 999, oldPrice: 1299 },
+      { size: "1kg", price: 1199, oldPrice: 1499 }
+    ],
+    story: "A handcrafted Sheesham wood box storing 9 signature stone-ground spices of Nimar. An heirloom culinary centerpiece that preserves flavor, oils, and tradition.",
+    ingredients: ["Nimari Red Chilli", "Turmeric", "Coriander", "Cumin", "Black Pepper", "Cloves", "Cardamom", "Cinnamon", "Dry Ginger"],
+    farmStory: "Spices grown across smallholder farm networks in the Nimar valley and stone-ground by hand at low temperatures to conserve volatile oils."
   },
   {
     id: "p8",
@@ -156,18 +231,34 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 305,
     image: img("photo-1599909533776-aaae46a09a8b"),
-    gallery: [img("photo-1599909533776-aaae46a09a8b")],
+    gallery: [
+      img("photo-1599909533776-aaae46a09a8b"),
+      img("photo-1615485290382-441e4d049cb5"),
+      img("photo-1599909533776-aaae46a09a8b"),
+      img("photo-1615485290382-441e4d049cb5"),
+    ],
     description: "Sun-dried Nimari red chillies, stone-ground to a fiery, brilliant crimson powder. Nimar's signature hot spice.",
     benefits: ["Stone-ground", "No artificial colour", "Sun-dried", "High capsaicin content"],
     nutrition: [
       { label: "Energy", value: "282 kcal" },
       { label: "Vitamin C", value: "76 mg" },
+      { label: "Curcumin", value: "0.2%" },
     ],
     tags: ["spicy", "spice", "cooking", "organic"],
     bestseller: true,
+    trending: true,
     stock: 95,
-    weight: "250g",
+    weight: "400g",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 120, oldPrice: 150 },
+      { size: "400g", price: 220, oldPrice: 260 },
+      { size: "800g", price: 420, oldPrice: 500 },
+      { size: "1kg", price: 500, oldPrice: 600 }
+    ],
+    story: "Handpicked bright crimson chillies dried under the hot Nimar sun and slow stone-ground to preserve their high capsaicin content, intense heat, and sweet undertone.",
+    ingredients: ["100% Sun-Dried Nimari Red Chillies"],
+    farmStory: "Grown on the banks of the Narmada River, where the dry heat and mineral-rich clay soil give the chillies their characteristic color and heat."
   },
   {
     id: "p17",
@@ -178,19 +269,35 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 280,
     image: img("photo-1550583724-b2692b85b150"),
-    gallery: [img("photo-1550583724-b2692b85b150")],
+    gallery: [
+      img("photo-1550583724-b2692b85b150"),
+      img("photo-1576092768241-dec231879fc3"),
+      img("photo-1550583724-b2692b85b150"),
+      img("photo-1576092768241-dec231879fc3"),
+    ],
     description: "Pure, grass-fed A2 Gir cow ghee prepared using the traditional ancient Bilona churning method. Golden, granular, and aromatic.",
     benefits: ["Traditional Bilona method", "100% Pure A2 milk", "Boosts immunity & digestion", "No added preservatives"],
     nutrition: [
       { label: "Energy", value: "897 kcal" },
       { label: "Saturated Fats", value: "65 g" },
       { label: "Vitamin A", value: "800 mcg" },
+      { label: "Omega-3", value: "1.2 g" },
     ],
     tags: ["dairy", "ghee", "pure", "bestseller", "organic"],
     bestseller: true,
+    trending: true,
     stock: 45,
     weight: "500ml",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200ml", price: 290, oldPrice: 330 },
+      { size: "400ml", price: 540, oldPrice: 600 },
+      { size: "800ml", price: 990, oldPrice: 1100 },
+      { size: "1kg", price: 1300, oldPrice: 1450 }
+    ],
+    story: "Churned from the whole curds of grass-fed Gir cows using the traditional Bilona method (bi-directional churning). Golden, granular, and rich in butyric acid.",
+    ingredients: ["100% Pure A2 Gir Cow Milk Fat"],
+    farmStory: "Prepared at our cooperative dairy in Khandwa, where cows graze freely on organic pastures and calves are fed first."
   },
   {
     id: "p4",
@@ -201,18 +308,34 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 256,
     image: img("photo-1474979266404-7eaacbcd87c5"),
-    gallery: [img("photo-1474979266404-7eaacbcd87c5")],
+    gallery: [
+      img("photo-1474979266404-7eaacbcd87c5"),
+      img("photo-1474979266404-7eaacbcd87c5"),
+      img("photo-1474979266404-7eaacbcd87c5"),
+    ],
     description: "Wood-pressed (kachi ghani) groundnut oil made from organically cultivated groundnuts. Clean, aromatic, and unrefined.",
     benefits: ["Cold-pressed", "Heart-friendly", "High smoke point", "Chemical-free"],
     nutrition: [
-      { label: "Energy", value: "884 kcal/100ml" },
+      { label: "Energy", value: "884 kcal" },
       { label: "MUFA", value: "46 g" },
       { label: "PUFA", value: "32 g" },
+      { label: "Vitamin E", value: "15 mg" },
     ],
     tags: ["oil", "organic", "cooking"],
+    bestseller: true,
+    trending: true,
     stock: 35,
     weight: "1 L",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200ml", price: 100, oldPrice: 120 },
+      { size: "400ml", price: 190, oldPrice: 220 },
+      { size: "800ml", price: 370, oldPrice: 420 },
+      { size: "1kg", price: 460, oldPrice: 520 }
+    ],
+    story: "Slow-pressed in traditional wooden mills (Lakdi Ghani) at temperatures below 40°C. Made from premium native groundnuts. Filtered naturally using sun sedimentation.",
+    ingredients: ["100% Cold-Pressed Groundnut Seeds"],
+    farmStory: "Sourced from native groundnut varieties grown by dryland farmers in Khandwa, ensuring high oil content and nutty aroma."
   },
   {
     id: "p3",
@@ -223,7 +346,11 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 412,
     image: img("photo-1604908176997-125f25cc6f3d"),
-    gallery: [img("photo-1604908176997-125f25cc6f3d"), img("photo-1599909533776-aaae46a09a8b")],
+    gallery: [
+      img("photo-1604908176997-125f25cc6f3d"),
+      img("photo-1599909533776-aaae46a09a8b"),
+      img("photo-1604908176997-125f25cc6f3d"),
+    ],
     description: "Sun-dried, unpolished toor dal grown by certified organic farmers across Nimar's fertile black-soil belt.",
     benefits: ["100% organic", "Unpolished", "No pesticides", "Nimari heirloom variety"],
     nutrition: [
@@ -234,9 +361,19 @@ export const PRODUCTS: Product[] = [
     ],
     tags: ["organic", "dal", "healthy"],
     trending: true,
+    bestseller: true,
     stock: 120,
     weight: "1 kg",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 60, oldPrice: 75 },
+      { size: "400g", price: 110, oldPrice: 130 },
+      { size: "800g", price: 200, oldPrice: 240 },
+      { size: "1kg", price: 240, oldPrice: 280 }
+    ],
+    story: "Sun-dried and completely unpolished heirloom toor dal. Grown without chemical fertilisers and stone-cleaned to retain its outer nutrient-rich layer.",
+    ingredients: ["100% Organic Unpolished Toor Dal"],
+    farmStory: "Cultivated in black cotton soil under rain-fed conditions by certified organic farmer clusters in Khandwa."
   },
   {
     id: "p5",
@@ -247,105 +384,190 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviews: 88,
     image: img("photo-1607920591413-4ec007e70023"),
-    gallery: [img("photo-1607920591413-4ec007e70023"), img("photo-1513885535751-8b9238bd345a")],
+    gallery: [
+      img("photo-1607920591413-4ec007e70023"),
+      img("photo-1513885535751-8b9238bd345a"),
+      img("photo-1607920591413-4ec007e70023"),
+    ],
     description:
       "A hand-curated wooden box featuring 6 of Nimar's finest treasures — sev, chivda, gud-papdi, dry fruit chikki, jaggery, and spice mix.",
     benefits: ["Premium wooden box", "6 artisanal treats", "Customisable note", "Free gift wrap"],
-    nutrition: [{ label: "Pieces", value: "6 items" }],
+    nutrition: [{ label: "Pieces", value: "6 items" }, { label: "Gift Packaging", value: "Eco Wooden Box" }],
     tags: ["gift", "festive", "premium", "hamper"],
     bestseller: true,
     trending: true,
     stock: 22,
     weight: "1.8 kg",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 250, oldPrice: 300 },
+      { size: "400g", price: 480, oldPrice: 580 },
+      { size: "800g", price: 850, oldPrice: 1000 },
+      { size: "1kg", price: 1499, oldPrice: 1799 }
+    ],
+    story: "A curated assortment of Nimar's culinary heritage. Includes masala sev, garlic chivda, dry fruit chikki, pure jaggery, Bilona ghee, and a spice mix inside a handcrafted wooden chest.",
+    ingredients: ["Nimari Masala Sev", "Garlic Chivda", "Dry Fruit Chikki", "Pure Desi Gud", "Bilona Ghee", "Aromatic Spices"],
+    farmStory: "A collaborative gift set showcasing the produce of 5 rural women self-help collectives and 12 organic family farms."
   },
   {
     id: "p6",
     name: "Pure Desi Gud (Jaggery)",
     category: "Snacks",
     price: 140,
+    oldPrice: 175,
     rating: 4.6,
     reviews: 174,
     image: img("photo-1610450949065-1f2841536c8c"),
-    gallery: [img("photo-1610450949065-1f2841536c8c")],
+    gallery: [
+      img("photo-1610450949065-1f2841536c8c"),
+      img("photo-1582058091505-f87a2e55a40f"),
+      img("photo-1610450949065-1f2841536c8c"),
+    ],
     description: "Chemical-free sugarcane jaggery from Nimar's farms. Rich, mineral-packed, and naturally sweet.",
-    benefits: ["No sulphur", "Iron-rich", "Traditional method"],
+    benefits: ["No sulphur", "Iron-rich", "Traditional method", "No artificial sweeteners"],
     nutrition: [
       { label: "Energy", value: "383 kcal" },
       { label: "Iron", value: "11 mg" },
+      { label: "Calcium", value: "80 mg" },
     ],
     tags: ["sweet", "natural", "winter"],
+    bestseller: true,
+    trending: true,
     stock: 80,
     weight: "500g",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 60, oldPrice: 80 },
+      { size: "400g", price: 110, oldPrice: 140 },
+      { size: "800g", price: 200, oldPrice: 250 },
+      { size: "1kg", price: 260, oldPrice: 320 }
+    ],
+    story: "Prepared from pure organic sugarcane juice boiled in traditional iron pans. No clarifying chemicals, sodium hyposulphite, or bleaching agents are added.",
+    ingredients: ["100% Organic Sugarcane Juice"],
+    farmStory: "Boiled at local furnaces ('Ghur') right beside the organic sugarcane fields of Nimar for maximum freshness."
   },
   {
     id: "p7",
     name: "Mawa Gud-Papdi",
     category: "Snacks",
     price: 280,
+    oldPrice: 350,
     rating: 4.7,
     reviews: 127,
     image: img("photo-1606471191009-63994c53433b"),
-    gallery: [img("photo-1606471191009-63994c53433b")],
+    gallery: [
+      img("photo-1606471191009-63994c53433b"),
+      img("photo-1513885535751-8b9238bd345a"),
+      img("photo-1606471191009-63994c53433b"),
+    ],
     description: "A melt-in-mouth winter delicacy of wheat flour, ghee, and jaggery — a Nimari grandmother's recipe.",
-    benefits: ["Pure desi ghee", "Hand-stirred", "Winter superfood"],
+    benefits: ["Pure desi ghee", "Hand-stirred", "Winter superfood", "Rich in minerals"],
     nutrition: [
       { label: "Energy", value: "480 kcal" },
       { label: "Carbs", value: "55 g" },
       { label: "Fat", value: "24 g" },
     ],
     tags: ["sweet", "winter", "ghee"],
+    bestseller: true,
+    trending: true,
     stock: 30,
     weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 150, oldPrice: 190 },
+      { size: "400g", price: 280, oldPrice: 350 },
+      { size: "800g", price: 520, oldPrice: 650 },
+      { size: "1kg", price: 620, oldPrice: 780 }
+    ],
+    story: "Coarse whole-wheat flour roasted slow in A2 desi cow ghee until golden-brown, then folded with natural jaggery and crushed green cardamom. Hand-pressed into delicate melt-in-mouth blocks.",
+    ingredients: ["Coarse Whole Wheat Flour", "A2 Desi Cow Ghee", "Organic Jaggery", "Green Cardamom", "Almond Silvers"],
+    farmStory: "Made by a village cooperative in Khandwa using wheat freshly harvested from adjacent fields."
   },
   {
     id: "p12",
     name: "Stone-Ground Garam Masala",
     category: "Spices",
     price: 260,
+    oldPrice: 320,
     rating: 4.8,
     reviews: 142,
     image: img("photo-1532336414038-cf19250c5757"),
-    gallery: [img("photo-1532336414038-cf19250c5757")],
+    gallery: [
+      img("photo-1532336414038-cf19250c5757"),
+      img("photo-1615485290382-441e4d049cb5"),
+      img("photo-1532336414038-cf19250c5757"),
+    ],
     description: "A warm, aromatic blend of 14 whole spices, sun-dried and stone-ground in small batches.",
-    benefits: ["14-spice blend", "Small batch", "Boosts digestion"],
-    nutrition: [{ label: "Energy", value: "379 kcal" }],
+    benefits: ["14-spice blend", "Small batch", "Boosts digestion", "High oil content preserved"],
+    nutrition: [
+      { label: "Energy", value: "379 kcal" },
+      { label: "Protein", value: "8.5 g" },
+    ],
     tags: ["spice", "aromatic"],
+    bestseller: true,
+    trending: true,
     stock: 55,
     weight: "200g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 260, oldPrice: 320 },
+      { size: "400g", price: 480, oldPrice: 600 },
+      { size: "800g", price: 920, oldPrice: 1100 },
+      { size: "1kg", price: 1100, oldPrice: 1350 }
+    ],
+    story: "A therapeutic blend of 14 native spices sourced directly from local forest boundaries. Ground together at slow speeds on heavy stone mills to prevent loss of volatile aromatic oils.",
+    ingredients: ["Coriander Seeds", "Cumin", "Black Cardamom", "Cinnamon", "Cloves", "Mace", "Nutmeg", "Black Pepper", "Dry Ginger", "Bay Leaves"],
+    farmStory: "Spices dried naturally on raised clean beds under open sunshine before batch grinding."
   },
   {
     id: "p13",
     name: "Premium Nimari Wheat Seeds",
     category: "Seeds",
     price: 320,
+    oldPrice: 390,
     rating: 4.8,
     reviews: 112,
     image: img("photo-1625246333195-78d9c38ad449"),
-    gallery: [img("photo-1625246333195-78d9c38ad449")],
+    gallery: [
+      img("photo-1625246333195-78d9c38ad449"),
+      img("photo-1574323347407-f5e1ad6d020b"),
+      img("photo-1625246333195-78d9c38ad449"),
+    ],
     description: "High-germination, disease-resistant heirloom wheat seeds, carefully selected for Nimar's black cotton soil.",
     benefits: ["98% Germination rate", "Heirloom native variety", "Disease resistant", "High yield potential"],
     nutrition: [
-      { label: "Purity", value: "99%" },
-      { label: "Moisture", value: "< 8%" },
+      { label: "Germination Rate", value: "98.5%" },
+      { label: "Purity", value: "99.1%" },
     ],
     tags: ["seeds", "farming", "organic", "wheat"],
+    bestseller: true,
+    trending: true,
     stock: 150,
     weight: "2 kg",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 50, oldPrice: 70 },
+      { size: "400g", price: 90, oldPrice: 120 },
+      { size: "800g", price: 170, oldPrice: 220 },
+      { size: "1kg", price: 200, oldPrice: 260 }
+    ],
+    story: "Hand-graded native seeds conserved over generations by local seed savers. Specially suited to dryland cultivation with low water dependency.",
+    ingredients: ["100% Organic Seed Grade Wheat"],
+    farmStory: "Sourced from seed multiplication plots in dry parts of East Nimar."
   },
   {
     id: "p14",
     name: "Organic Sun-Flower Seeds",
     category: "Seeds",
     price: 190,
+    oldPrice: 240,
     rating: 4.7,
     reviews: 85,
     image: img("photo-1508595165502-3e2652e557b2"),
-    gallery: [img("photo-1508595165502-3e2652e557b2")],
+    gallery: [
+      img("photo-1508595165502-3e2652e557b2"),
+      img("photo-1508595165502-3e2652e557b2"),
+    ],
     description: "Naturally dried, non-GMO sunflower seeds suitable for sowing or oil extraction. Sustainably grown.",
     benefits: ["Non-GMO verified", "Naturally sun-dried", "High oil content", "Chemical-free selection"],
     nutrition: [
@@ -353,19 +575,33 @@ export const PRODUCTS: Product[] = [
       { label: "Oil Yield", value: "42%" },
     ],
     tags: ["seeds", "farming", "sunflower", "organic"],
+    bestseller: true,
     stock: 200,
     weight: "1 kg",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 50, oldPrice: 70 },
+      { size: "400g", price: 90, oldPrice: 120 },
+      { size: "800g", price: 160, oldPrice: 210 },
+      { size: "1kg", price: 190, oldPrice: 240 }
+    ],
+    story: "Organic sunflower seeds harvested from robust open-pollinated blooms. Perfect for domestic sowing or kitchen seed-mix preparations.",
+    ingredients: ["100% Organic Sunflower Seeds"],
+    farmStory: "Bee-pollinated farms in the Narmada basin where sunflowers are planted to boost biological diversity."
   },
   {
     id: "p15",
     name: "Premium Bio-Vermicompost Bag",
     category: "Farming Products",
     price: 250,
+    oldPrice: 300,
     rating: 4.9,
     reviews: 140,
     image: img("photo-1585320806297-9794b3e4eeae"),
-    gallery: [img("photo-1585320806297-9794b3e4eeae")],
+    gallery: [
+      img("photo-1585320806297-9794b3e4eeae"),
+      img("photo-1585320806297-9794b3e4eeae"),
+    ],
     description: "Nutrient-rich organic compost produced by earthworms feeding on organic cow dung. Boosts soil health and plant growth.",
     benefits: ["100% Organic manure", "Improves soil aeration", "Rich in NPK nutrients", "Retains soil moisture"],
     nutrition: [
@@ -374,19 +610,33 @@ export const PRODUCTS: Product[] = [
       { label: "Potassium", value: "1.6%" },
     ],
     tags: ["fertilizer", "organic", "compost", "soil-health"],
+    bestseller: true,
     stock: 80,
     weight: "5 kg",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 20, oldPrice: 30 },
+      { size: "400g", price: 35, oldPrice: 50 },
+      { size: "800g", price: 65, oldPrice: 90 },
+      { size: "1kg", price: 80, oldPrice: 110 }
+    ],
+    story: "A highly active, rich organic manure produced under shaded compost structures using pure desi cow manure and deep-burrowing red wriggler earthworms.",
+    ingredients: ["Vermicompost Humus", "NPK Trace Minerals", "Beneficial Microbial Culture"],
+    farmStory: "Produced at our central vermi-yard in Nimar, which supports zero-waste circular farming."
   },
   {
     id: "p16",
     name: "Pure Neem Cake Fertilizer",
     category: "Farming Products",
     price: 180,
+    oldPrice: 220,
     rating: 4.8,
     reviews: 95,
     image: img("photo-1416879595882-3373a0480b5b"),
-    gallery: [img("photo-1416879595882-3373a0480b5b")],
+    gallery: [
+      img("photo-1416879595882-3373a0480b5b"),
+      img("photo-1416879595882-3373a0480b5b"),
+    ],
     description: "Organic soil conditioner and natural pesticide made from wood-pressed neem seed kernels. Controls nematodes and soil pests.",
     benefits: ["Natural pest repellent", "Rich in organic nitrogen", "Protects plant roots", "Eco-friendly & safe"],
     nutrition: [
@@ -394,19 +644,33 @@ export const PRODUCTS: Product[] = [
       { label: "Organic Matter", value: "85%" },
     ],
     tags: ["fertilizer", "neem", "organic", "pest-control"],
+    bestseller: true,
     stock: 110,
     weight: "2 kg",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 30, oldPrice: 40 },
+      { size: "400g", price: 55, oldPrice: 70 },
+      { size: "800g", price: 100, oldPrice: 130 },
+      { size: "1kg", price: 120, oldPrice: 160 }
+    ],
+    story: "The residue of clean neem seeds left after wood-pressing pure neem oil. Acts as a double-action organic farming input by fertilizing soil and warding off soil pathogens.",
+    ingredients: ["De-oiled Wood Pressed Neem Kernel Cake"],
+    farmStory: "Neem pods collected by forest dwellers in Nimar's hot scrub boundaries."
   },
   {
     id: "p18",
     name: "Organic Nimari Paneer",
     category: "Dairy",
     price: 210,
+    oldPrice: 250,
     rating: 4.7,
     reviews: 152,
     image: img("photo-1486297678162-ad2a1fa4a40f"),
-    gallery: [img("photo-1486297678162-ad2a1fa4a40f")],
+    gallery: [
+      img("photo-1486297678162-ad2a1fa4a40f"),
+      img("photo-1486297678162-ad2a1fa4a40f"),
+    ],
     description: "Fresh, artisan-crafted cottage cheese made from organic fresh cow milk. Super soft, high in protein, and delicious.",
     benefits: ["100% Organic cow milk", "No chemical coagulants", "Rich in protein & calcium", "Made fresh daily"],
     nutrition: [
@@ -415,19 +679,34 @@ export const PRODUCTS: Product[] = [
       { label: "Calcium", value: "480 mg" },
     ],
     tags: ["dairy", "fresh", "paneer", "organic"],
+    bestseller: true,
+    trending: true,
     stock: 30,
     weight: "400g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 110, oldPrice: 130 },
+      { size: "400g", price: 210, oldPrice: 250 },
+      { size: "800g", price: 410, oldPrice: 490 },
+      { size: "1kg", price: 500, oldPrice: 600 }
+    ],
+    story: "Fresh cottage cheese crafted daily using natural lemon extracts to curdle pure cow milk. Spun and pressed under stone slabs for that authentic crumbly texture.",
+    ingredients: ["Fresh Organic Cow Milk", "Natural Lemon Juice Extract"],
+    farmStory: "Cooperative dairy farms in East Nimar supplying morning-milked fat-balanced cow milk."
   },
   {
     id: "p19",
     name: "Organic Vine-Ripened Tomatoes",
     category: "Farming Products",
     price: 80,
+    oldPrice: 95,
     rating: 4.6,
     reviews: 92,
     image: img("photo-1595855759920-86582396756a"),
-    gallery: [img("photo-1595855759920-86582396756a")],
+    gallery: [
+      img("photo-1595855759920-86582396756a"),
+      img("photo-1595855759920-86582396756a"),
+    ],
     description: "Fresh, bright red tomatoes harvested daily from organic greenhouses in Khandwa. Juicy and flavorful.",
     benefits: ["Freshly picked daily", "Chemical-free farming", "Rich in Lycopene & Vitamin C", "Perfect for salads & curries"],
     nutrition: [
@@ -439,16 +718,29 @@ export const PRODUCTS: Product[] = [
     stock: 60,
     weight: "1 kg",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 20, oldPrice: 25 },
+      { size: "400g", price: 35, oldPrice: 42 },
+      { size: "800g", price: 65, oldPrice: 78 },
+      { size: "1kg", price: 80, oldPrice: 95 }
+    ],
+    story: "Vine-ripened tomatoes grown in controlled organic shade houses. Handpicked at peak maturity to maintain structural firmness and natural sweet-sour balance.",
+    ingredients: ["100% Fresh Organic Vine-Ripened Tomatoes"],
+    farmStory: "Grown using drip irrigation and neem oil pest management at our model greenhouse in Khandwa."
   },
   {
     id: "p20",
     name: "Fresh Farm-Picked Potatoes",
     category: "Farming Products",
     price: 60,
+    oldPrice: 75,
     rating: 4.8,
     reviews: 115,
     image: img("photo-1518977676601-b53f82aba655"),
-    gallery: [img("photo-1518977676601-b53f82aba655")],
+    gallery: [
+      img("photo-1518977676601-b53f82aba655"),
+      img("photo-1518977676601-b53f82aba655"),
+    ],
     description: "Premium earth-grown Nimari potatoes, thin-skinned and highly nutritious. Perfect for roasting and everyday cooking.",
     benefits: ["Grown in nutrient-dense soil", "No growth hormones", "Excellent source of carbs", "Long storage life"],
     nutrition: [
@@ -460,16 +752,29 @@ export const PRODUCTS: Product[] = [
     stock: 150,
     weight: "1.5 kg",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 10, oldPrice: 15 },
+      { size: "400g", price: 20, oldPrice: 28 },
+      { size: "800g", price: 35, oldPrice: 45 },
+      { size: "1kg", price: 40, oldPrice: 50 }
+    ],
+    story: "Harvested from river-bed soils, washed clean, and stored in traditional cool cellars. Thin skins and rich starchy pulp make them perfect for local dishes.",
+    ingredients: ["100% Fresh Organic Potatoes"],
+    farmStory: "Grown in alluvial deposits on the riverbanks of Narmada, rich in natural minerals."
   },
   {
     id: "p21",
     name: "Premium Sharbati Wheat",
     category: "Grains",
     price: 380,
+    oldPrice: 450,
     rating: 4.9,
     reviews: 195,
     image: img("photo-1574323347407-f5e1ad6d020b"),
-    gallery: [img("photo-1574323347407-f5e1ad6d020b")],
+    gallery: [
+      img("photo-1574323347407-f5e1ad6d020b"),
+      img("photo-1574323347407-f5e1ad6d020b"),
+    ],
     description: "The king of wheat grains, grown in the golden fields of Nimar. Naturally sweet and high in protein for super soft rotis.",
     benefits: ["100% Sharbati variety", "Rich in gluten & protein", "Heirloom rain-fed crops", "Stone-cleaned & polished"],
     nutrition: [
@@ -482,16 +787,29 @@ export const PRODUCTS: Product[] = [
     stock: 80,
     weight: "5 kg",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 30, oldPrice: 40 },
+      { size: "400g", price: 55, oldPrice: 70 },
+      { size: "800g", price: 100, oldPrice: 120 },
+      { size: "1kg", price: 120, oldPrice: 150 }
+    ],
+    story: "Considered the gold standard of wheat. Grown in low-humidity conditions in the Nimar belt, resulting in slightly heavier golden grains with high gluten elasticity.",
+    ingredients: ["100% Premium Sharbati Wheat Grains"],
+    farmStory: "Cultivated in fertile black loam fields and harvested during dry winter winds."
   },
   {
     id: "p22",
     name: "Aromatic Basmati Rice",
     category: "Grains",
     price: 220,
+    oldPrice: 260,
     rating: 4.7,
     reviews: 134,
     image: img("photo-1586201375761-83865001e31c"),
-    gallery: [img("photo-1586201375761-83865001e31c")],
+    gallery: [
+      img("photo-1586201375761-83865001e31c"),
+      img("photo-1586201375761-83865001e31c"),
+    ],
     description: "Aged, long-grain fragrant Basmati rice. Perfect fluffy texture and captivating natural aroma.",
     benefits: ["Aged for 12+ months", "Extra long slender grains", "Low glycemic index", "No artificial fragrance"],
     nutrition: [
@@ -503,16 +821,29 @@ export const PRODUCTS: Product[] = [
     stock: 100,
     weight: "1 kg",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 50, oldPrice: 65 },
+      { size: "400g", price: 95, oldPrice: 120 },
+      { size: "800g", price: 180, oldPrice: 220 },
+      { size: "1kg", price: 220, oldPrice: 260 }
+    ],
+    story: "Traditional Basmati variety cultivated carefully and aged for at least one year in dry warehouses. Aging reduces moisture content, ensuring long, separate cooked grains.",
+    ingredients: ["100% Aged Long Grain Basmati Rice"],
+    farmStory: "Grown by specialized paddy farmers in well-drained fertile soils."
   },
   {
     id: "p23",
     name: "Fresh Immunity Tulsi Leaves",
     category: "Herbs",
     price: 45,
+    oldPrice: 55,
     rating: 4.9,
     reviews: 74,
     image: img("photo-1608797178974-15b35a61d121"),
-    gallery: [img("photo-1608797178974-15b35a61d121")],
+    gallery: [
+      img("photo-1608797178974-15b35a61d121"),
+      img("photo-1608797178974-15b35a61d121"),
+    ],
     description: "Freshly plucked Rama & Shyama Tulsi leaves from our organic herb gardens. Loaded with antioxidants to boost immunity.",
     benefits: ["100% Organic holy basil", "Antioxidant rich", "Handpicked morning fresh", "Natural stress reliever"],
     nutrition: [
@@ -523,16 +854,29 @@ export const PRODUCTS: Product[] = [
     stock: 40,
     weight: "100g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 80, oldPrice: 100 },
+      { size: "400g", price: 150, oldPrice: 190 },
+      { size: "800g", price: 280, oldPrice: 350 },
+      { size: "1kg", price: 340, oldPrice: 420 }
+    ],
+    story: "Handpicked at daybreak when volatile aromatic oils are concentrated. Includes a balanced mix of green Rama Tulsi and purple Shyama Tulsi.",
+    ingredients: [" Rama Holy Basil Leaves", "Shyama Holy Basil Leaves"],
+    farmStory: "Harvested from our micro-farm herb sanctuary in East Nimar."
   },
   {
     id: "p24",
     name: "Nimari Fresh Mint Leaves",
     category: "Herbs",
     price: 35,
+    oldPrice: 45,
     rating: 4.8,
     reviews: 68,
     image: img("photo-1556909114-f6e7ad7d3136"),
-    gallery: [img("photo-1556909114-f6e7ad7d3136")],
+    gallery: [
+      img("photo-1556909114-f6e7ad7d3136"),
+      img("photo-1556909114-f6e7ad7d3136"),
+    ],
     description: "Extremely aromatic and cooling fresh mint leaves, grown using natural canal water. Perfect for chutneys and summer drinks.",
     benefits: ["Natural cooling herb", "Zero chemical residue", "Organically cultivated", "Handpicked daily"],
     nutrition: [
@@ -543,36 +887,62 @@ export const PRODUCTS: Product[] = [
     stock: 50,
     weight: "150g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 45, oldPrice: 60 },
+      { size: "400g", price: 80, oldPrice: 110 },
+      { size: "800g", price: 150, oldPrice: 200 },
+      { size: "1kg", price: 180, oldPrice: 240 }
+    ],
+    story: "Crisp, fragrant spearmint leaves cultivated along natural freshwater streams. Processed hygienically and shipped in thermal breathable wrap.",
+    ingredients: ["100% Organic Fresh Mint Leaves"],
+    farmStory: "Cultivated in muddy canal banks under high sun conditions."
   },
   {
     id: "p25",
     name: "Artisanal Hand Sickle (Darata)",
     category: "Farming Products",
     price: 450,
+    oldPrice: 550,
     rating: 4.7,
     reviews: 54,
     image: img("photo-1592878904946-b3cd8ae243d8"),
-    gallery: [img("photo-1592878904946-b3cd8ae243d8")],
+    gallery: [
+      img("photo-1592878904946-b3cd8ae243d8"),
+      img("photo-1592878904946-b3cd8ae243d8"),
+    ],
     description: "High-carbon forged steel agricultural sickle with a sturdy ergonomic sheesham wood handle. Hand-crafted by Nimar's blacksmiths.",
     benefits: ["Forged high-carbon steel", "Ergonomic wooden handle", "Extremely sharp teeth", "Balanced lightweight feel"],
     nutrition: [
-      { label: "Steel Type", value: "HC 1080" },
+      { label: "Steel Type", value: "HC 1080 Forged" },
       { label: "Blade Length", value: "10 inches" },
     ],
     tags: ["farming", "tools", "sickle", "handcrafted"],
     stock: 25,
     weight: "450g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "Compact", price: 350, oldPrice: 420 },
+      { size: "Standard", price: 450, oldPrice: 550 },
+      { size: "Heavy Duty", price: 580, oldPrice: 700 },
+      { size: "Forged Elite", price: 750, oldPrice: 900 }
+    ],
+    story: "Hand-forged by community blacksmiths in Nimar using high-temperature recycling techniques. Hand-filed teeth provide superior grip on grass and paddy stalks.",
+    ingredients: ["Forged High Carbon Steel", "Native Sheesham Wood Handle", "Brass Reinforcement Ring"],
+    farmStory: "Handcrafted in blacksmith workshops around rural Khandwa, promoting ancestral tool-making traditions."
   },
   {
     id: "p26",
     name: "Premium Gardening Trowel & Fork",
     category: "Farming Products",
     price: 320,
+    oldPrice: 390,
     rating: 4.8,
     reviews: 42,
     image: img("photo-1589923188900-85dae523342b"),
-    gallery: [img("photo-1589923188900-85dae523342b")],
+    gallery: [
+      img("photo-1589923188900-85dae523342b"),
+      img("photo-1589923188900-85dae523342b"),
+    ],
     description: "Heavy-duty carbon steel trowel and hand fork set. Perfect for planting, turning soil, and container gardening.",
     benefits: ["Rust-resistant coating", "Comfortable soft-grip", "Includes trowel & fork", "High durability"],
     nutrition: [
@@ -583,16 +953,30 @@ export const PRODUCTS: Product[] = [
     stock: 35,
     weight: "600g",
     origin: "Khandwa, MP",
+    sizes: [
+      { size: "Solo Trowel", price: 180, oldPrice: 220 },
+      { size: "Solo Fork", price: 180, oldPrice: 220 },
+      { size: "Standard Duo", price: 320, oldPrice: 390 },
+      { size: "Premium Set", price: 450, oldPrice: 550 }
+    ],
+    story: "A complete home-gardening toolkit forged from high-durability carbon steel. Features anti-slip grips and reinforced joint collars to withstand heavy root-turning.",
+    ingredients: ["Pressed Carbon Steel Blades", "Anti-Slip Rubberized Handles"],
+    farmStory: "Designed in collaboration with organic nursery growers in Nimar."
   },
   {
     id: "p27",
     name: "Eco Golden Turmeric Powder",
     category: "Spices",
     price: 160,
+    oldPrice: 195,
     rating: 4.9,
     reviews: 215,
     image: img("photo-1596797038530-2c107229654b"),
-    gallery: [img("photo-1596797038530-2c107229654b")],
+    gallery: [
+      img("photo-1596797038530-2c107229654b"),
+      img("photo-1615485290382-441e4d049cb5"),
+      img("photo-1596797038530-2c107229654b"),
+    ],
     description: "Pure heirloom turmeric powder from the riverbed soil of Nimar. Packed with 5%+ curcumin for maximum health benefits.",
     benefits: ["High curcumin content (5%+)", "No artificial colors", "Fragrant and earthy flavor", "Grown organically"],
     nutrition: [
@@ -603,16 +987,30 @@ export const PRODUCTS: Product[] = [
     stock: 120,
     weight: "250g",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 130, oldPrice: 160 },
+      { size: "400g", price: 240, oldPrice: 300 },
+      { size: "800g", price: 460, oldPrice: 560 },
+      { size: "1kg", price: 540, oldPrice: 650 }
+    ],
+    story: "Cultivated in alluvial deposits along the Narmada basin. Dried naturally in clean facilities and ground cold to retain its therapeutic properties and Curcumin oil structure.",
+    ingredients: ["100% Organic Heirloom Turmeric Rhizomes"],
+    farmStory: "Cultivated by certified farmers practicing zero-budget natural farming near Khandwa."
   },
   {
     id: "p28",
     name: "Whole Fragrant Coriander Seeds",
     category: "Spices",
     price: 120,
+    oldPrice: 150,
     rating: 4.8,
     reviews: 98,
     image: img("photo-1615485290382-441e4d049cb5"),
-    gallery: [img("photo-1615485290382-441e4d049cb5")],
+    gallery: [
+      img("photo-1615485290382-441e4d049cb5"),
+      img("photo-1596797038530-2c107229654b"),
+      img("photo-1615485290382-441e4d049cb5"),
+    ],
     description: "Aromatic whole coriander seeds harvested from organic fields in Nimar. Perfect for grinding fresh or tempering dishes.",
     benefits: ["Handpicked premium seed-grade", "Sun-dried to lock aroma", "No chemical processing", "Extremely rich aroma"],
     nutrition: [
@@ -623,6 +1021,53 @@ export const PRODUCTS: Product[] = [
     stock: 90,
     weight: "200g",
     origin: "Nimar Belt, MP",
+    sizes: [
+      { size: "200g", price: 120, oldPrice: 150 },
+      { size: "400g", price: 220, oldPrice: 280 },
+      { size: "800g", price: 420, oldPrice: 520 },
+      { size: "1kg", price: 500, oldPrice: 620 }
+    ],
+    story: "Native small-seeded coriander variety loaded with essential coriander oil. Harvested by hand, cleaned, and packed fresh in aroma-locking packs.",
+    ingredients: ["100% Organic Coriander Seeds"],
+    farmStory: "Sourced from rain-fed smallholdings in East Nimar during the spring harvest."
+  },
+  {
+    id: "p29",
+    name: "Organic Gummies / Candy",
+    category: "Snacks",
+    price: 280,
+    oldPrice: 350,
+    rating: 4.8,
+    reviews: 145,
+    image: img("photo-1581798459219-318e76aecc7b"),
+    gallery: [
+      img("photo-1581798459219-318e76aecc7b"),
+      img("photo-1575224300306-1b099b692a8b"),
+      img("photo-1581798459219-318e76aecc7b"),
+      img("photo-1575224300306-1b099b692a8b"),
+    ],
+    description: "Soft, chewy herbal candies made from real organic fruit pulp (amla, mango, tamarind) and sweetened with raw sugarcane jaggery. Absolutely zero gelatin, artificial colors, or corn syrup.",
+    benefits: ["100% Gelatin free", "No artificial colours", "Naturally sweetened", "Organic fruit pulp base"],
+    nutrition: [
+      { label: "Energy", value: "320 kcal" },
+      { label: "Vitamin C", value: "45 mg" },
+      { label: "Iron", value: "2.4 mg" },
+    ],
+    tags: ["sweet", "kids", "candy", "organic"],
+    trending: true,
+    bestseller: true,
+    stock: 85,
+    weight: "250g",
+    origin: "Khandwa, MP",
+    sizes: [
+      { size: "200g", price: 220, oldPrice: 280 },
+      { size: "400g", price: 400, oldPrice: 500 },
+      { size: "800g", price: 760, oldPrice: 950 },
+      { size: "1kg", price: 900, oldPrice: 1100 }
+    ],
+    story: "Soft, chewy herbal candies made from real organic fruit pulp (amla, mango, tamarind) and sweetened with raw sugarcane jaggery. Absolutely zero gelatin, artificial colors, or corn syrup.",
+    ingredients: ["Organic Fruit Pulp (Amla & Mango)", "Raw Sugarcane Jaggery", "Citric Acid", "Pectin", "Natural Plant Colors"],
+    farmStory: "Amla and mangoes are wild-harvested from organic orchards in Nimar forest boundaries."
   },
 ];
 
