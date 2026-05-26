@@ -101,11 +101,12 @@ export function Contact() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 sm:py-16 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+
           {/* Left Column: Contact Cards */}
-          <div className="lg:col-span-5 space-y-6">
-            <div>
+          <div className="lg:col-span-5 space-y-6 flex flex-col items-center text-center">
+            <div className="text-center mx-auto">
               <h2 className="text-2xl font-bold text-neutral-800 mb-2">Contact Information</h2>
               <p className="text-neutral-500 text-sm mb-6">
                 Reach out to us directly or visit our production office.
@@ -178,13 +179,13 @@ export function Contact() {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 lg:pt-[5.25rem] flex flex-col mt-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl border border-beige-soft p-6 md:p-8 shadow-sm relative overflow-hidden"
+              className="bg-white rounded-3xl border border-beige-soft p-6 md:p-8 shadow-sm relative overflow-hidden flex-1 flex flex-col justify-between"
             >
               <AnimatePresence mode="wait">
                 {!submitted ? (
@@ -196,9 +197,9 @@ export function Contact() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {/* Name */}
-                      <div>
+                      <div className="flex flex-col h-full">
                         <label htmlFor="name" className="text-xs font-semibold text-neutral-600 mb-1.5 block">
                           Full Name *
                         </label>
@@ -208,14 +209,14 @@ export function Contact() {
                           placeholder="e.g., Priya Sharma"
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition focus:ring-1 focus:ring-emerald-brand
-                            ${errors.name ? "border-red-400 focus:border-red-400" : "border-neutral-200 focus:border-emerald-brand"}`}
+                          className={`w-full h-full bg-white p-6 rounded-2xl border text-sm outline-none transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-md focus:ring-1 focus:ring-emerald-brand
+                            ${errors.name ? "border-red-400 focus:border-red-400" : "border-beige-soft focus:border-emerald-brand"}`}
                         />
                         {errors.name && <p className="text-red-500 text-[10px] mt-1">{errors.name}</p>}
                       </div>
 
                       {/* Email */}
-                      <div>
+                      <div className="flex flex-col h-full">
                         <label htmlFor="email" className="text-xs font-semibold text-neutral-600 mb-1.5 block">
                           Email Address *
                         </label>
@@ -225,8 +226,8 @@ export function Contact() {
                           placeholder="e.g., priya@example.com"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition focus:ring-1 focus:ring-emerald-brand
-                            ${errors.email ? "border-red-400 focus:border-red-400" : "border-neutral-200 focus:border-emerald-brand"}`}
+                          className={`w-full h-full bg-white p-6 rounded-2xl border text-sm outline-none transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-md focus:ring-1 focus:ring-emerald-brand
+                            ${errors.email ? "border-red-400 focus:border-red-400" : "border-beige-soft focus:border-emerald-brand"}`}
                         />
                         {errors.email && <p className="text-red-500 text-[10px] mt-1">{errors.email}</p>}
                       </div>
@@ -243,8 +244,8 @@ export function Contact() {
                         placeholder="e.g., Bulk Gifting Enquiry"
                         value={form.subject}
                         onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                        className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition focus:ring-1 focus:ring-emerald-brand
-                          ${errors.subject ? "border-red-400 focus:border-red-400" : "border-neutral-200 focus:border-emerald-brand"}`}
+                        className={`w-full px-6 py-3.5 rounded-2xl border text-sm outline-none transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-md focus:ring-1 focus:ring-emerald-brand
+                          ${errors.subject ? "border-red-400 focus:border-red-400" : "border-beige-soft focus:border-emerald-brand"}`}
                       />
                       {errors.subject && <p className="text-red-500 text-[10px] mt-1">{errors.subject}</p>}
                     </div>
@@ -260,8 +261,8 @@ export function Contact() {
                         rows={5}
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
-                        className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none resize-none transition focus:ring-1 focus:ring-emerald-brand
-                          ${errors.message ? "border-red-400 focus:border-red-400" : "border-neutral-200 focus:border-emerald-brand"}`}
+                        className={`w-full px-6 py-3.5 rounded-2xl border text-sm outline-none resize-none transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-md focus:ring-1 focus:ring-emerald-brand
+                          ${errors.message ? "border-red-400 focus:border-red-400" : "border-beige-soft focus:border-emerald-brand"}`}
                       />
                       {errors.message && <p className="text-red-500 text-[10px] mt-1">{errors.message}</p>}
                     </div>
@@ -313,6 +314,121 @@ export function Contact() {
           </div>
         </div>
       </div>
+
+      {/* Map & Location Section */}
+      <section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-10 sm:mb-12">
+            <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mx-auto mb-3">
+              <MapPin size={20} />
+            </div>
+            <h2 className="text-2xl font-bold text-neutral-800 mb-2">Find Us on the Map</h2>
+            <p className="text-neutral-500 text-sm mb-6">Visit our production office in the heart of Nimar, Khandwa.</p>
+          </div>
+
+          {/* Two-column: Map + Location Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            {/* Google Map */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl overflow-hidden border border-beige-soft shadow-sm hover:shadow-lg transition-shadow duration-300 min-h-[350px] lg:min-h-[420px]"
+            >
+              <iframe
+                title="Raman Greens Location - Khandwa"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d76.3523!3d21.8263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd89f6e0f000001%3A0x1234567890abcdef!2sPadava%20Rd%2C%20Khandwa%2C%20Madhya%20Pradesh%20450001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: "350px" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </motion.div>
+
+            {/* Location Details Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-3xl border border-beige-soft p-6 md:p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <h3 className="text-xl font-bold text-neutral-800 mb-1">Our Location</h3>
+                <p className="text-neutral-500 text-xs mb-6">Come visit us — we'd love to show you around!</p>
+
+                <div className="space-y-5">
+                  {/* Address */}
+                  <div className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
+                      <MapPin size={18} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-neutral-800 text-sm">Address</h4>
+                      <p className="text-neutral-600 text-xs mt-1 leading-relaxed">Padava Rd, Khandwa,<br />Madhya Pradesh 450001, India</p>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
+                      <Phone size={18} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-neutral-800 text-sm">Phone</h4>
+                      <p className="text-neutral-600 text-xs mt-1">+91 98765 43210</p>
+                      <a href="tel:+919876543210" className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-1">
+                        Call now →
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
+                      <Mail size={18} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-neutral-800 text-sm">Email</h4>
+                      <p className="text-neutral-600 text-xs mt-1">hello@ramangreens-knw.in</p>
+                      <a href="mailto:hello@ramangreens-knw.in" className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-1">
+                        Send email →
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Working Hours */}
+                  <div className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
+                      <Clock size={18} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-neutral-800 text-sm">Working Hours</h4>
+                      <p className="text-neutral-600 text-xs mt-1 leading-relaxed">Monday – Saturday: 9:00 AM – 7:00 PM</p>
+                      <p className="text-neutral-400 text-[10px] mt-0.5">Sundays: Closed for farm visits</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Directions Button */}
+              <a
+                href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 w-full py-3 bg-emerald-brand hover:bg-emerald-brand-dark text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm flex items-center justify-center gap-2 active:scale-98"
+              >
+                <MapPin size={15} />
+                <span>Get Directions</span>
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section className="bg-beige-warm/60 py-12 sm:py-16 md:py-20 border-t border-beige-soft">

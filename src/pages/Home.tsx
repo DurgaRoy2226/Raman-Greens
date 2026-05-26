@@ -4,7 +4,7 @@ import { ArrowRight, Leaf, ShieldCheck, Star, Sparkles, ChevronLeft, ChevronRigh
 import { PRODUCTS } from "../data/products";
 import { ShopByCategory } from "../components/ShopByCategory";
 import { RegionalFavourites } from "../components/RegionalFavourites";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const HERO_SLIDES = [
   {
@@ -43,6 +43,13 @@ export function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [previousSlide, setPreviousSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  const scrollTestimonials = (direction: "left" | "right") => {
+    if (testimonialsRef.current) {
+      testimonialsRef.current.scrollBy({ left: direction === "right" ? 360 : -360, behavior: "smooth" });
+    }
+  };
 
   // Preload all slider images on mount
   useEffect(() => {
@@ -286,7 +293,7 @@ export function Home() {
         </div>
 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-24 items-start">
 
             {/* Image Side */}
             <motion.div
@@ -309,6 +316,7 @@ export function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
+              className="lg:pt-6"
             >
                 <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-4">
                   <Sparkles size={14} /> Our Heritage
@@ -397,26 +405,12 @@ export function Home() {
 
       {/* TESTIMONIALS */}
       {/* TESTIMONIALS */}
-      <section className="relative py-16 md:py-24 bg-[#FAFAFA] border-t border-neutral-100/50 overflow-hidden">
-        {/* Soft botanical leaves background */}
-        <div className="absolute top-0 left-0 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 pointer-events-none select-none opacity-20 lg:opacity-40">
-          <img
-            src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
-            alt=""
-            className="w-full h-full object-contain transform -translate-x-[20%] -translate-y-[20%] rotate-45 mix-blend-multiply"
-          />
-        </div>
-        <div className="absolute top-0 right-0 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 pointer-events-none select-none opacity-20 lg:opacity-40">
-          <img
-            src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=400&q=80"
-            alt=""
-            className="w-full h-full object-contain transform translate-x-[20%] -translate-y-[20%] -scale-x-100 -rotate-45 mix-blend-multiply"
-          />
-        </div>
+      <section className="relative pt-10 pb-8 md:pt-16 md:pb-12 bg-[#FAFAFA] border-t border-neutral-100/50 overflow-hidden">
+
 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
 
-          <div className="text-center mb-12 flex flex-col items-center">
+          <div className="text-center mb-8 flex flex-col items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -425,156 +419,135 @@ export function Home() {
               className="inline-block"
             >
               {/* Badge with Leaf icon and dark green background */}
-              <span className="inline-flex items-center gap-2 bg-[#133121] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase mb-5">
+              <span className="inline-flex items-center gap-2 bg-[#133121] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase mb-3">
                 <Leaf size={12} className="fill-white text-white" /> TESTIMONIALS
               </span>
               
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium text-neutral-900 leading-tight mb-4 tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium text-neutral-900 leading-tight mb-2 tracking-tight">
                 Letters From Our Customers
               </h2>
 
               {/* Separator: leaf in the center with horizontal lines */}
-              <div className="flex items-center justify-center gap-3 my-4">
+              <div className="flex items-center justify-center gap-3 my-2">
                 <div className="w-12 h-[1px] bg-neutral-300" />
                 <Leaf size={16} className="text-[#8bc34a] fill-[#8bc34a]" />
                 <div className="w-12 h-[1px] bg-neutral-300" />
               </div>
 
-              <p className="text-sm text-neutral-500 max-w-md mx-auto mt-2 leading-relaxed">
+              <p className="text-sm text-neutral-500 max-w-md mx-auto mt-1 leading-relaxed">
                 Real stories from real people who love our products.
               </p>
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                n: "Priya S.",
-                l: "Indore",
-                t: "The Nimari sev tastes EXACTLY like the one from my nani's house in Khandwa. Brought tears to my eyes.",
-                img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
-              },
-              {
-                n: "Rahul J.",
-                l: "Mumbai",
-                t: "Their festive hamper was a hit at Diwali. Beautiful packaging, and every snack was flawless.",
-                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
-              },
-              {
-                n: "Anita V.",
-                l: "Bangalore",
-                t: "The cold-pressed groundnut oil is now a kitchen staple. Authentic, aromatic and absolutely pure.",
-                img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
-              },
-            ].map((r, i) => (
-              <motion.div
-                key={r.n}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="bg-white p-10 rounded-[28px] shadow-[0_15px_50px_rgba(0,0,0,0.025)] border border-neutral-100 flex flex-col h-full relative overflow-hidden"
-              >
-                {/* Large Quotation Mark */}
-                <div className="absolute top-6 left-8 text-[120px] font-serif leading-none select-none pointer-events-none text-[#8bc34a]/10">
-                  “
-                </div>
+          {/* Cards + Arrows Row: Scroll container with absolute arrows */}
+          <div className="relative px-0 sm:px-2 md:px-6">
 
-                <div className="flex text-amber-400 mb-6 relative z-10 pt-4">
-                  {[...Array(5)].map((_, k) => <Star key={k} size={15} fill="currentColor" className="text-amber-400 border-none" />)}
-                </div>
-                <p className="text-neutral-600 leading-relaxed font-light mb-8 flex-grow text-sm relative z-10">
-                  "{r.t}"
-                </p>
-                <div className="flex items-center gap-4 mt-auto relative z-10 border-t border-neutral-100/60 pt-5">
-                  <img
-                    src={r.img}
-                    alt={r.n}
-                    className="w-12 h-12 rounded-full object-cover shadow-sm border border-neutral-100"
-                  />
-                  <div>
-                    <div className="font-bold text-sm text-neutral-800">{r.n}</div>
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 mt-0.5">
-                      <MapPin size={11} className="text-emerald-700" />
-                      <span>{r.l}</span>
+            {/* Scrollable Cards */}
+            <div
+              ref={testimonialsRef}
+              className="testimonials-scroll flex gap-6 overflow-x-auto overflow-y-hidden pb-6 scroll-smooth snap-x snap-mandatory w-full"
+            >
+              {[
+                {
+                  n: "Priya S.",
+                  l: "Indore",
+                  t: "The Nimari sev tastes EXACTLY like the one from my nani's house in Khandwa. Brought tears to my eyes.",
+                  img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+                {
+                  n: "Rahul J.",
+                  l: "Mumbai",
+                  t: "Their festive hamper was a hit at Diwali. Beautiful packaging, and every snack was flawless.",
+                  img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+                {
+                  n: "Anita V.",
+                  l: "Bangalore",
+                  t: "The cold-pressed groundnut oil is now a kitchen staple. Authentic, aromatic and absolutely pure.",
+                  img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+                {
+                  n: "Meena K.",
+                  l: "Bhopal",
+                  t: "Maine pehli baar yahan se organic gehun liya — quality aur swaad dono exceptional hain. Ab regular customer hoon!",
+                  img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+                {
+                  n: "Arjun P.",
+                  l: "Pune",
+                  t: "The Nimari chutney and pickles are absolutely divine. Took me straight back to my Madhya Pradesh roots.",
+                  img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+                {
+                  n: "Sunita R.",
+                  l: "Delhi",
+                  t: "Gifted the organic dry fruit hamper to my family — everyone loved it. Pure, fresh and beautifully packed.",
+                  img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80",
+                },
+              ].map((r, i) => (
+                <motion.div
+                  key={r.n}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
+                  className="bg-white p-10 rounded-[28px] shadow-[0_15px_50px_rgba(0,0,0,0.025)] border border-neutral-100 flex flex-col flex-shrink-0 w-[80vw] sm:w-[55vw] md:w-[38vw] lg:w-[30%] relative overflow-hidden snap-start"
+                >
+                  <p className="text-neutral-600 leading-relaxed font-light mb-6 flex-grow text-sm relative z-10 pt-4">
+                    "{r.t}"
+                  </p>
+
+                  {/* Stars */}
+                  <div className="flex text-amber-400 mb-5 relative z-10">
+                    {[...Array(5)].map((_, k) => <Star key={k} size={15} fill="currentColor" className="text-amber-400 border-none" />)}
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-auto relative z-10 border-t border-neutral-100/60 pt-5">
+                    <img
+                      src={r.img}
+                      alt={r.n}
+                      className="w-12 h-12 rounded-full object-cover shadow-sm border border-neutral-100"
+                    />
+                    <div>
+                      <div className="font-bold text-sm text-neutral-800">{r.n}</div>
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700 mt-0.5">
+                        <MapPin size={11} className="text-emerald-700" />
+                        <span>{r.l}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Left Arrow */}
+            <button
+              onClick={() => scrollTestimonials("left")}
+              className="absolute left-2 sm:-left-2 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-emerald-700 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-300"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={20} strokeWidth={2} />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={() => scrollTestimonials("right")}
+              className="absolute right-2 sm:-right-2 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-emerald-700 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-300"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={20} strokeWidth={2} />
+            </button>
+
           </div>
+
         </div>
       </section>
-
-
-      {/* NEWSLETTER & FEATURES */}
-      <section className="relative overflow-visible bg-[#FAFAFA] pb-16">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-20">
-
-          {/* Newsletter Banner Container - Beautiful Rounded Card */}
-          <div className="relative bg-[#eceded] border border-neutral-200/50 rounded-[32px] overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.03)] min-h-[180px] lg:min-h-[220px] flex items-center">
-            {/* Botanical leaf pattern background */}
-            <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")', backgroundSize: '400px' }} />
-
-            {/* Left and Right Botanical branch decorations inside banner */}
-            <div className="absolute top-0 left-0 w-24 h-full pointer-events-none select-none opacity-20">
-              <img
-                src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=200&q=80"
-                alt=""
-                className="w-full h-full object-contain -translate-x-8 mix-blend-multiply"
-              />
-            </div>
-            <div className="absolute bottom-0 right-0 w-24 h-full pointer-events-none select-none opacity-20">
-              <img
-                src="https://images.unsplash.com/photo-1596547609652-9cb5fb4bcb5f?auto=format&fit=crop&w=200&q=80"
-                alt=""
-                className="w-full h-full object-contain translate-x-8 -scale-x-100 mix-blend-multiply"
-              />
-            </div>
-
-            {/* Content Flex Grid */}
-            <div className="w-full px-8 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-8 z-10 relative">
-              
-              {/* Left side: Tea cup illustration & text */}
-              <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left flex-1">
-                {/* Real tea cup image */}
-                <div className="w-[120px] md:w-[150px] flex-shrink-0">
-                  <img
-                    src="/images/tea-cup.png"
-                    alt="Premium Nimari Tea"
-                    className="w-full h-auto object-contain mix-blend-multiply filter drop-shadow-md"
-                  />
-                </div>
-                
-                <div>
-                  <h3 className="font-serif font-bold text-2xl md:text-3xl lg:text-4xl text-[#133121] mb-2 tracking-tight">
-                    Join the Tea Club
-                  </h3>
-                  <p className="text-neutral-600 text-xs md:text-sm font-medium flex items-center justify-center sm:justify-start gap-1.5">
-                    <span>Exclusive offers, early access & more</span>
-                    <Leaf size={14} className="text-emerald-700 fill-emerald-700/10" />
-                  </p>
-                </div>
-              </div>
-
-              {/* Right side: Join Now Button */}
-              <div className="w-full sm:w-auto flex-shrink-0">
-                <Link
-                  to="/shop"
-                  className="inline-flex items-center gap-3 bg-[#133121] hover:bg-[#1a3626] text-white font-bold tracking-[0.1em] uppercase text-xs sm:text-sm py-4 px-8 rounded-full shadow-[0_8px_25px_rgba(19,49,33,0.15)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 group"
-                >
-                  <span>Join Now</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
+      {/* FEATURES & NEWSLETTER */}
+      <section className="relative overflow-visible bg-[#FAFAFA] pb-12 pt-0">
+        
         {/* Features Row */}
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 mt-12 bg-transparent z-10">
+        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 bg-transparent z-10 mb-6">
           <div className="bg-white border border-neutral-100 rounded-3xl p-8 lg:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
@@ -598,6 +571,52 @@ export function Home() {
                 );
               })}
             </div>
+          </div>
+        </div>
+
+        {/* Newsletter Banner Container - Beautiful full-width banner */}
+        <div className="relative py-8 lg:py-10 w-full overflow-visible bg-white border-y border-neutral-200 mt-6">
+          {/* Leaf pattern background */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leaves.png")' }} />
+          
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+            
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 w-full lg:w-auto">
+              {/* Tea Cup Image - Large & Overlapping borders */}
+              <div className="relative w-44 h-44 lg:w-56 lg:h-56 -ml-4 lg:-ml-12 flex-shrink-0 z-20">
+                <img 
+                  src="/images/tea-cup.png" 
+                  alt="Premium Nimari Tea" 
+                  className="w-full h-full object-contain drop-shadow-2xl" 
+                />
+              </div>
+              <div className="text-center lg:text-left max-w-sm">
+                <h3 className="font-serif font-bold text-3xl lg:text-4xl text-[#1a3626] mb-3">
+                  Join the Tea Club
+                </h3>
+                <p className="text-neutral-600 text-[13px] leading-relaxed">
+                  You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.
+                </p>
+              </div>
+            </div>
+
+            <div className="w-full max-w-lg lg:w-[500px]">
+              <form className="flex w-full bg-white rounded-sm overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-neutral-200">
+                <input
+                  type="email"
+                  required
+                  placeholder="Your email address"
+                  className="flex-1 bg-transparent px-6 py-4 text-neutral-800 text-sm focus:outline-none placeholder:text-neutral-400"
+                />
+                <button 
+                  type="submit"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold tracking-wider uppercase text-xs px-8 py-4 transition-colors"
+                >
+                  SUBSCRIBE
+                </button>
+              </form>
+            </div>
+
           </div>
         </div>
       </section>
