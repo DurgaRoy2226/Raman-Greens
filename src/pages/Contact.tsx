@@ -316,119 +316,62 @@ export function Contact() {
       </div>
 
       {/* Map & Location Section */}
-      <section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft">
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-10 sm:mb-12">
-            <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mx-auto mb-3">
-              <MapPin size={20} />
-            </div>
-            <h2 className="text-2xl font-bold text-neutral-800 mb-2">Find Us on the Map</h2>
-            <p className="text-neutral-500 text-sm mb-6">Visit our production office in the heart of Nimar, Khandwa.</p>
-          </div>
+<section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft bg-gray-50">
+  <div className="max-w-5xl mx-auto px-4 lg:px-8">
+    {/* Header */}
+    <div className="flex items-center justify-center mb-10">
+      <MapPin className="text-emerald-brand mr-2" size={24} />
+      <h2 className="text-3xl font-bold text-neutral-800">Find Us On Map</h2>
+    </div>
 
-          {/* Two-column: Map + Location Details */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            {/* Google Map */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="rounded-3xl overflow-hidden border border-beige-soft shadow-sm hover:shadow-lg transition-shadow duration-300 min-h-[350px] lg:min-h-[420px]"
-            >
-              <iframe
-                title="Raman Greens Location - Khandwa"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d76.3523!3d21.8263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd89f6e0f000001%3A0x1234567890abcdef!2sPadava%20Rd%2C%20Khandwa%2C%20Madhya%20Pradesh%20450001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: "350px" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </motion.div>
+    {/* Glass Card */}
+    <div className="bg-white/30 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl p-6 md:p-8 flex flex-col gap-6">
+      {/* Map container */}
+      <div className="relative rounded-xl overflow-hidden shadow-lg">
+        <iframe
+          title="Raman Greens Location - Khandwa"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d76.3523!3d21.8263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd89f6e0f000001%3A0x1234567890abcdef!2sPadava%20Rd%2C%20Khandwa%2C%20Madhya%20Pradesh%20450001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+          width="100%"
+          height="400"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+        {/* Open in Maps button */}
+        <a
+          href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-3 left-3 bg-white/70 hover:bg-white transition-colors rounded-md px-3 py-1 text-sm text-neutral-800 shadow"
+        >
+          Open in Maps
+        </a>
+      </div>
 
-            {/* Location Details Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl border border-beige-soft p-6 md:p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
-            >
-              <div>
-                <h3 className="text-xl font-bold text-neutral-800 mb-1">Our Location</h3>
-                <p className="text-neutral-500 text-xs mb-6">Come visit us — we'd love to show you around!</p>
+      {/* Address */}
+      <div className="text-center">
+        <p className="text-neutral-700 text-lg font-medium">
+          Padava Rd, Khandwa, Madhya Pradesh 450001
+        </p>
+      </div>
 
-                <div className="space-y-5">
-                  {/* Address */}
-                  <div className="flex items-start gap-4 group">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
-                      <MapPin size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-neutral-800 text-sm">Address</h4>
-                      <p className="text-neutral-600 text-xs mt-1 leading-relaxed">Padava Rd, Khandwa,<br />Madhya Pradesh 450001, India</p>
-                    </div>
-                  </div>
+      {/* Get Directions button */}
+      <div className="flex justify-center">
+        <a
+          href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold py-2 px-4 rounded-xl shadow-md transform transition-transform duration-200 hover:scale-105"
+        >
+          <MapPin size={20} />
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-                  {/* Phone */}
-                  <div className="flex items-start gap-4 group">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
-                      <Phone size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-neutral-800 text-sm">Phone</h4>
-                      <p className="text-neutral-600 text-xs mt-1">+91 98765 43210</p>
-                      <a href="tel:+919876543210" className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-1">
-                        Call now →
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div className="flex items-start gap-4 group">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
-                      <Mail size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-neutral-800 text-sm">Email</h4>
-                      <p className="text-neutral-600 text-xs mt-1">hello@ramangreens-knw.in</p>
-                      <a href="mailto:hello@ramangreens-knw.in" className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-1">
-                        Send email →
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Working Hours */}
-                  <div className="flex items-start gap-4 group">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center shrink-0 group-hover:bg-emerald-brand group-hover:text-white transition-colors duration-300">
-                      <Clock size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-neutral-800 text-sm">Working Hours</h4>
-                      <p className="text-neutral-600 text-xs mt-1 leading-relaxed">Monday – Saturday: 9:00 AM – 7:00 PM</p>
-                      <p className="text-neutral-400 text-[10px] mt-0.5">Sundays: Closed for farm visits</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Directions Button */}
-              <a
-                href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 w-full py-3 bg-emerald-brand hover:bg-emerald-brand-dark text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm flex items-center justify-center gap-2 active:scale-98"
-              >
-                <MapPin size={15} />
-                <span>Get Directions</span>
-              </a>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ Section */}
       <section className="bg-beige-warm/60 py-12 sm:py-16 md:py-20 border-t border-beige-soft">
