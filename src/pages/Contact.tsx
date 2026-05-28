@@ -102,17 +102,18 @@ export function Contact() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+        {/* Centered Heading and Subtitle across both columns */}
+        <div className="w-full flex flex-col items-center justify-center text-center mb-12 mx-auto">
+          <h2 className="text-3xl font-bold text-neutral-800 mb-3 text-center mx-auto">Contact Information</h2>
+          <p className="text-neutral-500 text-sm sm:text-base max-w-xl leading-relaxed text-center mx-auto">
+            Reach out to us directly or visit our production office.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
 
           {/* Left Column: Contact Cards */}
           <div className="lg:col-span-5 space-y-6 flex flex-col">
-            <div className="flex flex-col items-center text-center w-full">
-              <h2 className="text-2xl font-bold text-neutral-800 mb-2">Contact Information</h2>
-              <p className="text-neutral-500 text-sm mb-6 max-w-md">
-                Reach out to us directly or visit our production office.
-              </p>
-            </div>
-
             {/* Info Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {[
@@ -179,7 +180,7 @@ export function Contact() {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 lg:pt-[5.25rem] flex flex-col mt-4">
+          <div className="lg:col-span-7 flex flex-col">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
