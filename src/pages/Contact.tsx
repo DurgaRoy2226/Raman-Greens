@@ -105,10 +105,10 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
 
           {/* Left Column: Contact Cards */}
-          <div className="lg:col-span-5 space-y-6 flex flex-col items-center text-center">
-            <div className="text-center mx-auto">
+          <div className="lg:col-span-5 space-y-6 flex flex-col">
+            <div className="flex flex-col items-center text-center w-full">
               <h2 className="text-2xl font-bold text-neutral-800 mb-2">Contact Information</h2>
-              <p className="text-neutral-500 text-sm mb-6">
+              <p className="text-neutral-500 text-sm mb-6 max-w-md">
                 Reach out to us directly or visit our production office.
               </p>
             </div>
@@ -158,21 +158,21 @@ export function Contact() {
                       <Icon size={20} className="text-emerald-brand" />
                       <h3 className="font-bold text-neutral-800 text-sm">{item.title}</h3>
                     </div>
-                      <div className="flex flex-col">
-    <p className="text-neutral-600 text-xs mt-1.5 leading-relaxed">{item.content}</p>
-    {item.subtext && <p className="text-neutral-400 text-[10px] mt-0.5">{item.subtext}</p>}
-    {item.link && (
-      <a
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-2"
-      >
-        {item.linkText} →
-      </a>
-    )}
-  </div>
-                    </motion.div>
+                    <p className="text-neutral-600 text-xs mt-1.5 leading-relaxed ml-7">
+                      {item.content}
+                    </p>
+                    {item.subtext && <p className="text-neutral-400 text-[10px] mt-0.5 ml-7">{item.subtext}</p>}
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors inline-block mt-2 ml-7"
+                      >
+                        {item.linkText} →
+                      </a>
+                    )}
+                  </motion.div>
                 );
               })}
             </div>
@@ -350,7 +350,7 @@ export function Contact() {
 
             {/* Address and contact info */}
             <div className="flex flex-col items-center space-y-2">
-              <p className="text-neutral-700 text-lg font-medium">Padava Rd, Khandwa, Madhya Pradesh 450001</p>
+              <p className="text-neutral-700 text-lg font-medium ml-4">Padava Rd, Khandwa, Madhya Pradesh 450001</p>
               <p className="text-neutral-600 text-sm">Email: hello@ramangreens-knw.in</p>
               <p className="text-neutral-600 text-sm">Support: +91 98765 43210</p>
               <p className="text-neutral-600 text-sm">Office Hours: Mon‑Sat 9:00 AM – 7:00 PM</p>
