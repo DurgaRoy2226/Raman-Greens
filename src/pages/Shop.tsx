@@ -17,6 +17,7 @@ import {
   Sun,
   RotateCw,
   Package,
+  ChevronDown,
 } from "lucide-react";
 import { PRODUCTS, CATEGORIES } from "../data/products";
 import type { Product } from "../data/products";
@@ -269,6 +270,23 @@ export function Shop() {
   const [minRating,           setMinRating]           = useState<number | null>(null);
   const [isMobileFilterOpen,  setIsMobileFilterOpen]  = useState(false);
 
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    categories: true,
+    price: true,
+    weight: false,
+    discount: false,
+    availability: false,
+    sort: false,
+    reviews: false,
+  });
+
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
   /* sync URL */
   useEffect(() => {
     const next: Record<string, string> = {};
@@ -316,6 +334,7 @@ export function Shop() {
       case "price-low":  list.sort((a, b) => a.price - b.price); break;
       case "price-high": list.sort((a, b) => b.price - a.price); break;
       case "rating":     list.sort((a, b) => b.rating - a.rating); break;
+      case "newest":     list.sort((a, b) => b.id.localeCompare(a.id)); break;
       default:           list.sort((a, b) => Number(!!b.bestseller) - Number(!!a.bestseller));
     }
     return list;
@@ -381,9 +400,56 @@ export function Shop() {
     },
   ];
 
+  const AccordionSection = ({
+    id,
+    title,
+    icon: Icon,
+    children,
+  }: {
+    id: string;
+    title: string;
+    icon?: any;
+    children: React.ReactNode;
+  }) => {
+    const isOpen = openSections[id];
+    return (
+      <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)]">
+        <button
+          type="button"
+          onClick={() => toggleSection(id)}
+          className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-neutral-50/30 text-left transition-colors duration-150 cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            {Icon && <Icon size={13} className="text-emerald-brand-light" />}
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-700">{title}</span>
+          </div>
+          <ChevronDown
+            size={14}
+            className={`text-neutral-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-emerald-brand-light" : ""}`}
+          />
+        </button>
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="px-4 pb-4 pt-1 border-t border-neutral-50/60">
+                {children}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  };
+
   /* ── Sidebar content (always open layout, no collapses, no scrollbars) ── */
   const SidebarFilters = () => (
-    <div className="flex flex-col gap-5 text-neutral-800">
+    <div className="flex flex-col gap-3.5 text-neutral-800">
       <style dangerouslySetInnerHTML={{__html: `
         .price-slider-input::-webkit-slider-thumb {
           pointer-events: auto;
@@ -416,32 +482,31 @@ export function Shop() {
         }
       `}} />
 
-      {/* Search Filter */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Search Catalog</h3>
-        <div className="relative">
+      {/* Search Filter - wrapped in a premium card */}
+      <div className="bg-white rounded-2xl border border-neutral-100 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col gap-2">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-neutral-100">Search Catalog</h3>
+        <div className="relative mt-1">
           <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search keywords..."
-            className="w-full pl-9 pr-8 py-1.5 bg-neutral-50 rounded-xl border border-neutral-200/80
+            className="w-full pl-9 pr-8 py-1.5 bg-neutral-50/50 rounded-xl border border-neutral-200/80
                        hover:border-emerald-brand-light/40 focus:border-emerald-brand focus:ring-4 focus:ring-emerald-brand-light/5 focus:bg-white focus:outline-none
                        text-xs font-semibold text-neutral-700 transition-all duration-200"
           />
           {q && (
-            <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700">
+            <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 cursor-pointer">
               <X size={12} />
             </button>
           )}
         </div>
       </div>
 
-      {/* Categories (No dropdown collapse) */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Categories</h3>
-        <div className="flex flex-col gap-0.5">
+      {/* Categories Dropdown (Default: Open) */}
+      <AccordionSection id="categories" title="Categories" icon={Sprout}>
+        <div className="flex flex-col gap-0.5 mt-1">
           {CATEGORIES.map((c) => {
             const active = cat === c;
             const info = CAT_INFO[c] || { label: c, image: CAT_INFO["All"].image };
@@ -467,12 +532,11 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Price Range */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Price Range</h3>
-        <div className="space-y-2">
+      {/* Price Range Dropdown (Default: Open) */}
+      <AccordionSection id="price" title="Price Range" icon={SlidersHorizontal}>
+        <div className="space-y-2 mt-1">
           <div className="flex justify-between text-[10px] font-extrabold text-neutral-500">
             <span>₹{minPrice}</span>
             <span className="text-emerald-brand-light font-extrabold">₹{maxPrice}</span>
@@ -525,12 +589,11 @@ export function Shop() {
             </div>
           </div>
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Weight Selector */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Weight</h3>
-        <div className="flex flex-wrap gap-1.5 pt-0.5">
+      {/* Weight Dropdown (Default: Closed) */}
+      <AccordionSection id="weight" title="Weight" icon={Package}>
+        <div className="flex flex-wrap gap-1.5 pt-1 mt-1">
           {["100g", "250g", "500g", "1kg", "5kg"].map((w) => {
             const active = selectedWeights.includes(w);
             return (
@@ -547,12 +610,11 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Discount Selector */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Discount</h3>
-        <div className="flex flex-wrap gap-1.5 pt-0.5">
+      {/* Discount Dropdown (Default: Closed) */}
+      <AccordionSection id="discount" title="Discount" icon={Sparkles}>
+        <div className="flex flex-wrap gap-1.5 pt-1 mt-1">
           {[10, 20, 30, 40, 50].map((pct) => {
             const active = minDiscount === pct;
             return (
@@ -569,12 +631,11 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Availability Filter */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Availability</h3>
-        <div className="flex flex-wrap gap-1.5 pt-0.5">
+      {/* Availability Dropdown (Default: Closed) */}
+      <AccordionSection id="availability" title="Availability" icon={Sun}>
+        <div className="flex flex-wrap gap-1.5 pt-1 mt-1">
           {[
             { value: "in-stock",     label: "In Stock" },
             { value: "out-of-stock", label: "Out of Stock" },
@@ -596,14 +657,14 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Sort By Filter */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Sort Options</h3>
-        <div className="flex flex-wrap gap-1.5 pt-0.5">
+      {/* Sort By Dropdown (Default: Closed) */}
+      <AccordionSection id="sort" title="Sort Options" icon={RotateCw}>
+        <div className="flex flex-wrap gap-1.5 pt-1 mt-1">
           {[
             { value: "popular",    label: "Popular" },
+            { value: "newest",     label: "Newest" },
             { value: "price-low",  label: "Price: Low-High" },
             { value: "price-high", label: "Price: High-Low" },
             { value: "rating",     label: "Rating" },
@@ -623,12 +684,11 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
-      {/* Customer Reviews Rating Filter */}
-      <div className="flex flex-col">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 pb-1 border-b border-beige-soft/60 mb-2.5">Customer Reviews</h3>
-        <div className="flex flex-col gap-0.5">
+      {/* Customer Reviews Dropdown (Default: Closed) */}
+      <AccordionSection id="reviews" title="Customer Reviews" icon={Star}>
+        <div className="flex flex-col gap-0.5 mt-1">
           {[4, 3, 2, 1].map((stars) => {
             const active = minRating === stars;
             return (
@@ -664,7 +724,7 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </AccordionSection>
 
       {/* Clear All Filters Button */}
       {hasFilters && (
