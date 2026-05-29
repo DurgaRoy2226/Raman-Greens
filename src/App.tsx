@@ -14,6 +14,9 @@ import { Admin } from "./pages/Admin";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
 import { Wishlist } from "./pages/Wishlist";
+import { Login } from "./pages/Login";
+import { Signup } from "./pages/Signup";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -41,7 +44,16 @@ function AppLayout() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<Home />} />
         </Routes>

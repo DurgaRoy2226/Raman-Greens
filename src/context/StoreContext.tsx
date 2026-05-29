@@ -17,7 +17,7 @@ type State = {
   wishlist: string[];
   orders: Order[];
   coupon: string | null;
-  user: { name: string; email: string } | null;
+  user: { name: string; email: string; phone?: string } | null;
 };
 
 type Action =
@@ -29,7 +29,7 @@ type Action =
   | { type: "APPLY_COUPON"; code: string | null }
   | { type: "PLACE_ORDER"; order: Order }
   | { type: "UPDATE_ORDER_STATUS"; id: string; status: Order["status"] }
-  | { type: "LOGIN"; user: { name: string; email: string } }
+  | { type: "LOGIN"; user: { name: string; email: string; phone?: string } }
   | { type: "LOGOUT" };
 
 const initialState: State = {
@@ -54,7 +54,7 @@ const initialState: State = {
     },
   ],
   coupon: null,
-  user: { name: "Aarav Patil", email: "aarav@nimar.in" },
+  user: null,
 };
 
 function reducer(state: State, action: Action): State {
@@ -126,6 +126,7 @@ function init(initialState: State): State {
         cart,
         wishlist: parsed.wishlist || [],
         coupon: parsed.coupon || null,
+        user: parsed.user || null,
       };
     } catch {}
   }
@@ -143,9 +144,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         cart: state.cart.map((c) => ({ id: c.product.id, qty: c.qty })),
         wishlist: state.wishlist,
         coupon: state.coupon,
+        user: state.user,
       })
     );
-  }, [state.cart, state.wishlist, state.coupon]);
+  }, [state.cart, state.wishlist, state.coupon, state.user]);
 
   return <StoreCtx.Provider value={{ state, dispatch }}>{children}</StoreCtx.Provider>;
 }

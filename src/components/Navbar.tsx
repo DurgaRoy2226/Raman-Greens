@@ -11,7 +11,9 @@ import {
   Headphones,
   Smartphone,
   ChevronRight,
-  Sprout
+  Sprout,
+  ChevronDown,
+  LogOut
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +29,15 @@ function AccountMenuContent({
   closeMenu: () => void;
   onDownloadAppClick: () => void;
 }) {
+  const { state, dispatch } = useStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    closeMenu();
+    navigate("/");
+  };
+
   const menuItems = [
     { label: "My Profile", icon: User, to: "/dashboard" },
     { label: "My Orders", icon: ShoppingBag, to: "/dashboard" },
@@ -55,30 +66,34 @@ function AccountMenuContent({
 
           <div className="flex-1 min-w-0">
             <div className="text-[9px] font-extrabold tracking-widest text-emerald-400 uppercase leading-none mb-1">Namaste</div>
-            <h4 className="font-serif font-semibold text-[15px] text-white tracking-wide leading-tight">Welcome to Raman Greens</h4>
-            <p className="text-[10px] text-emerald-200/70 mt-1 leading-relaxed font-light">
-              Manage your organic orders & wishlist
+            <h4 className="font-serif font-semibold text-[15px] text-white tracking-wide leading-tight truncate">
+              {state.user ? state.user.name : "Welcome to Raman Greens"}
+            </h4>
+            <p className="text-[10px] text-emerald-200/70 mt-1 leading-relaxed font-light truncate">
+              {state.user ? state.user.email : "Manage your organic orders & wishlist"}
             </p>
           </div>
         </div>
 
-        {/* Sign In / Sign Up Buttons */}
-        <div className="mt-4.5 flex gap-2 relative z-10">
-          <Link
-            to="/dashboard"
-            onClick={closeMenu}
-            className="flex-1 bg-white hover:bg-emerald-50 text-[#0c2d17] text-center font-bold tracking-wide text-[10px] uppercase py-2 px-3 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
-          >
-            Sign In
-          </Link>
-          <Link
-            to="/dashboard"
-            onClick={closeMenu}
-            className="flex-1 bg-[#1a4f2d] hover:bg-[#205f37] text-white border border-[#2e6d42]/30 text-center font-bold tracking-wide text-[10px] uppercase py-2 px-3 rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-95"
-          >
-            Sign Up
-          </Link>
-        </div>
+        {/* Sign In / Sign Up Buttons (only if not logged in) */}
+        {!state.user && (
+          <div className="mt-4.5 flex gap-2 relative z-10">
+            <Link
+              to="/login"
+              onClick={closeMenu}
+              className="flex-1 bg-white hover:bg-emerald-50 text-[#0c2d17] text-center font-bold tracking-wide text-[10px] uppercase py-2 px-3 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/signup"
+              onClick={closeMenu}
+              className="flex-1 bg-[#1a4f2d] hover:bg-[#205f37] text-white border border-[#2e6d42]/30 text-center font-bold tracking-wide text-[10px] uppercase py-2 px-3 rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-95"
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Menu List */}
@@ -131,6 +146,24 @@ function AccountMenuContent({
             </Link>
           );
         })}
+
+        {/* Logout button (only if logged in) */}
+        {state.user && (
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl text-left text-xs font-semibold
+                       text-neutral-500 hover:text-red-700 hover:bg-red-50 group
+                       transition-all duration-200 cursor-pointer border border-transparent"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-neutral-50 text-neutral-400 group-hover:bg-red-100 group-hover:text-red-700 transition-colors duration-200">
+                <LogOut size={14} className="stroke-[2.25]" />
+              </div>
+              <span className="text-[11px] font-semibold transition-colors">Logout</span>
+            </div>
+            <ChevronRight size={12} className="text-neutral-400 group-hover:text-red-700 group-hover:translate-x-0.5 transition-all duration-200" />
+          </button>
+        )}
       </div>
 
       {/* App Promo Banner at the bottom */}
@@ -395,34 +428,68 @@ export function Navbar() {
               </AnimatePresence>
             </Link>
 
-            {/* User Account */}
-            <div className="relative flex" ref={accountRef}>
-              <button
-                onClick={() => setAccountOpen((v) => !v)}
-                className="flex items-center gap-2 p-2.5 rounded-full text-neutral-700 hover:text-emerald-700 hover:bg-neutral-50 transition-all duration-200 cursor-pointer"
-                aria-label="Account"
-              >
-                <User size={19} />
-              </button>
+            {/* User Account / Login Buttons */}
+            {state.user ? (
+              <div className="relative flex" ref={accountRef}>
+                <button
+                  onClick={() => setAccountOpen((v) => !v)}
+                  className="flex items-center gap-2 p-1.5 pl-2.5 pr-3 rounded-full text-neutral-700 hover:text-emerald-brand hover:bg-neutral-50 border border-neutral-100/80 transition-all duration-200 cursor-pointer"
+                  aria-label="Account"
+                >
+                  <div className="w-7 h-7 rounded-full bg-emerald-brand text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+                    {state.user.name[0]}
+                  </div>
+                  <span className="text-xs font-semibold max-w-[100px] truncate hidden md:inline">
+                    {state.user.name.split(" ")[0]}
+                  </span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${accountOpen ? "rotate-180" : ""}`} />
+                </button>
 
-              {/* Dropdown for Desktop */}
-              <AnimatePresence>
-                {accountOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="hidden lg:block absolute right-0 mt-3 w-80 bg-white shadow-[0_20px_50px_rgba(12,59,27,0.15)] rounded-2xl border border-neutral-100/80 overflow-hidden z-50"
+                {/* Dropdown for Desktop */}
+                <AnimatePresence>
+                  {accountOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="hidden lg:block absolute right-0 mt-3 w-80 bg-white shadow-[0_20px_50px_rgba(12,59,27,0.15)] rounded-2xl border border-neutral-100/80 overflow-hidden z-50"
+                    >
+                      <AccountMenuContent
+                        closeMenu={() => setAccountOpen(false)}
+                        onDownloadAppClick={() => setAppDownloadOpen(true)}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <>
+                {/* Desktop Login / Signup */}
+                <div className="hidden lg:flex items-center gap-3">
+                  <Link
+                    to="/login"
+                    className="text-xs font-bold text-neutral-700 hover:text-emerald-brand transition-colors px-3 py-2 rounded-lg hover:bg-neutral-50"
                   >
-                    <AccountMenuContent
-                      closeMenu={() => setAccountOpen(false)}
-                      onDownloadAppClick={() => setAppDownloadOpen(true)}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="bg-emerald-brand hover:bg-emerald-brand-dark text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+                {/* Mobile User Icon - redirects to Login */}
+                <Link
+                  to="/login"
+                  className="lg:hidden p-2.5 rounded-full text-neutral-700 hover:text-emerald-700 hover:bg-neutral-50 transition-colors"
+                  aria-label="Login"
+                >
+                  <User size={19} />
+                </Link>
+              </>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -501,15 +568,54 @@ export function Navbar() {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setOpen(false)}
-                    className="block px-3 py-2.5 rounded-xl hover:bg-neutral-50 text-sm font-semibold text-neutral-700 hover:text-emerald-700 transition-colors"
-                  >
-                    Account Dashboard
-                  </Link>
-                </li>
+                
+                {state.user ? (
+                  <>
+                    <li>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-2.5 rounded-xl hover:bg-neutral-50 text-sm font-semibold text-neutral-700 hover:text-emerald-700 transition-colors"
+                      >
+                        Account Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => {
+                          setOpen(false);
+                          dispatch({ type: "LOGOUT" });
+                          navigate("/");
+                        }}
+                        className="w-full text-left block px-3 py-2.5 rounded-xl hover:bg-red-50 text-sm font-semibold text-red-600 transition-colors cursor-pointer"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        to="/login"
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-2.5 rounded-xl hover:bg-emerald-50/50 text-sm font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors"
+                      >
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/signup"
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-2.5 rounded-xl hover:bg-emerald-50/50 text-sm font-semibold text-emerald-brand hover:text-emerald-brand-dark transition-colors"
+                      >
+                        Sign Up
+                      </Link>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   <Link
                     to="/admin"

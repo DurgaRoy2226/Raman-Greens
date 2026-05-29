@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Package, MapPin, User, Heart, LogOut, Truck, Check, Clock } from "lucide-react";
 import { useStore } from "../context/StoreContext";
 import { PRODUCTS } from "../data/products";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const TABS = [
   { k: "orders", l: "Orders", icon: Package },
@@ -13,7 +13,8 @@ const TABS = [
 ];
 
 export function Dashboard() {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
+  const navigate = useNavigate();
   const [tab, setTab] = useState("orders");
 
   const wishProducts = PRODUCTS.filter((p) => state.wishlist.includes(p.id));
@@ -55,7 +56,13 @@ export function Dashboard() {
                 </li>
               ))}
               <li className="shrink-0 lg:shrink">
-                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-neutral-500 hover:bg-beige-warm whitespace-nowrap">
+                <button
+                  onClick={() => {
+                    dispatch({ type: "LOGOUT" });
+                    navigate("/");
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-neutral-500 hover:bg-beige-warm whitespace-nowrap cursor-pointer"
+                >
                   <LogOut size={16} /> Logout
                 </button>
               </li>
