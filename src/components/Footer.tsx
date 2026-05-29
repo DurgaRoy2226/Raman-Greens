@@ -100,7 +100,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-darkGreen mt-0.5 shrink-0" />
                 <span className="text-base text-neutral-500 leading-snug">
-                  Padava Rd, Khandwa,<br />Madhya Pradesh 450001
+                  Khasara No. 81/1, University Campus,<br />Dr CV Raman University, Khandwa Pincode - 450771
                 </span>
               </li>
               <li className="flex items-center gap-3">
