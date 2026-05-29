@@ -120,8 +120,8 @@ export function Contact() {
                 {
                   icon: MapPin,
                   title: "Our Address",
-                  content: "Padava Rd, Khandwa, Madhya Pradesh 450001",
-                  link: "https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001",
+                  content: "Khasara No. 81/1, University Campus, Dr CV Raman University, Khandwa Pincode - 450771",
+                  link: "https://maps.google.com/?q=Dr+CV+Raman+University,+Khandwa+450771",
                   linkText: "Get directions on map"
                 },
                 {
@@ -331,7 +331,7 @@ export function Contact() {
             <div className="relative rounded-xl overflow-hidden shadow-lg">
               <iframe
                 title="Raman Greens Location - Khandwa"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d76.3523!3d21.8263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd89f6e0f000001%3A0x1234567890abcdef!2sPadava%20Rd%2C%20Khandwa%2C%20Madhya%20Pradesh%20450001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d76.3523!3d21.8263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd89f6e0f000001%3A0x1234567890abcdef!2sDr%20CV%20Raman%20University%2C%20Khandwa!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
@@ -340,7 +340,7 @@ export function Contact() {
               />
               {/* Open in Maps button */}
               <a
-                href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
+                href="https://maps.google.com/?q=Dr+CV+Raman+University,+Khandwa+450771"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="absolute top-3 left-3 bg-white/70 hover:bg-white transition-colors rounded-md px-3 py-1 text-sm text-neutral-800 shadow"
@@ -351,7 +351,7 @@ export function Contact() {
 
             {/* Address and contact info */}
             <div className="flex flex-col items-center space-y-2">
-              <p className="text-neutral-700 text-lg font-medium ml-4">Padava Rd, Khandwa, Madhya Pradesh 450001</p>
+              <p className="text-neutral-700 text-lg font-medium ml-4">Khasara No. 81/1, University Campus, Dr CV Raman University, Khandwa Pincode - 450771</p>
               <p className="text-neutral-600 text-sm">Email: hello@ramangreens-knw.in</p>
               <p className="text-neutral-600 text-sm">Support: +91 98765 43210</p>
               <p className="text-neutral-600 text-sm">Office Hours: Mon‑Sat 9:00 AM – 7:00 PM</p>
@@ -361,7 +361,7 @@ export function Contact() {
             {/* Get Directions button */}
             <div className="flex justify-center mt-4">
               <a
-                href="https://maps.google.com/?q=Padava+Rd,+Khandwa,+Madhya+Pradesh+450001"
+                href="https://maps.google.com/?q=Dr+CV+Raman+University,+Khandwa+450771"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold py-2 px-4 rounded-xl shadow-md transform transition-transform duration-200 hover:scale-105"
