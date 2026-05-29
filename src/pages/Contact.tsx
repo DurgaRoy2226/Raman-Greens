@@ -317,7 +317,7 @@ export function Contact() {
       </div>
 
       {/* Map & Location Section */}
-      <section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft">
         <div className="max-w-5xl mx-auto px-4 lg:px-8">
           {/* Header */}
           <div className="flex items-center justify-center mb-10">
@@ -375,7 +375,7 @@ export function Contact() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-beige-warm/60 py-12 sm:py-16 md:py-20 border-t border-beige-soft">
+      <section className="py-12 sm:py-16 md:py-20 border-t border-beige-soft">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-10 sm:mb-12">
             <div className="w-10 h-10 rounded-xl bg-emerald-brand/10 text-emerald-brand flex items-center justify-center mx-auto mb-3">
