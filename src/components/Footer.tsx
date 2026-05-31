@@ -10,7 +10,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="bg-offWhite border-t border-neutral-100">
+    <footer className="bg-neutral-50 border-t border-neutral-100">
 
       {/* Main grid */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16">
@@ -31,7 +31,7 @@ export function Footer() {
                   key={label}
                   href="#"
                   aria-label={label}
-                  className="w-9 h-9 rounded-full border border-neutral-200 flex items-center justify-center text-darkGreen hover:border-darkGreen hover:text-darkGreen hover:bg-darkGreen-50 transition-all duration-200"
+                  className="w-9 h-9 rounded-full border border-neutral-200 flex items-center justify-center text-emerald-brand hover:bg-emerald-brand hover:text-white hover:border-emerald-brand hover:-translate-y-1 hover:shadow-sm transition-all duration-300 ease-out"
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                     <path d={path} />
@@ -57,7 +57,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
-                    className="text-base text-neutral-500 hover:text-darkGreen transition-colors duration-200"
+                    className="inline-block text-base text-neutral-500 hover:text-emerald-brand hover:translate-x-1.5 transition-all duration-200 ease-out"
                   >
                     {l.label}
                   </Link>
@@ -82,7 +82,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
-                    className="text-base text-neutral-500 hover:text-darkGreen transition-colors duration-200"
+                    className="inline-block text-base text-neutral-500 hover:text-emerald-brand hover:translate-x-1.5 transition-all duration-200 ease-out"
                   >
                     {l.label}
                   </Link>
@@ -97,19 +97,36 @@ export function Footer() {
               Reach Us
             </h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin size={15} className="text-darkGreen mt-0.5 shrink-0" />
-                <span className="text-base text-neutral-500 leading-snug">
-                  Khasara No. 81/1, University Campus,<br />Dr CV Raman University, Khandwa Pincode - 450771
-                </span>
+              <li>
+                <a
+                  href="https://maps.google.com/?q=Khasara+No.+81/1,+University+Campus,+Dr+CV+Raman+University,+Khandwa+Pincode+-+450771"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-3 text-base text-neutral-500 hover:text-emerald-brand transition-colors duration-200"
+                >
+                  <MapPin size={15} className="text-emerald-brand mt-1 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <span className="leading-snug">
+                    Khasara No. 81/1, University Campus,<br />Dr CV Raman University, Khandwa Pincode - 450771
+                  </span>
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={15} className="text-darkGreen shrink-0" />
-                <span className="text-base text-neutral-500">+91 98765 43210</span>
+              <li>
+                <a
+                  href="tel:+919876543210"
+                  className="group flex items-center gap-3 text-base text-neutral-500 hover:text-emerald-brand transition-colors duration-200"
+                >
+                  <Phone size={15} className="text-emerald-brand shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <span>+91 98765 43210</span>
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={15} className="text-darkGreen shrink-0" />
-                <span className="text-base text-neutral-500">hello@ramangreens-knw.in</span>
+              <li>
+                <a
+                  href="mailto:hello@ramangreens-knw.in"
+                  className="group flex items-center gap-3 text-base text-neutral-500 hover:text-emerald-brand transition-colors duration-200"
+                >
+                  <Mail size={15} className="text-emerald-brand shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <span>hello@ramangreens-knw.in</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -123,7 +140,7 @@ export function Footer() {
             © 2026 Raman Greens KNW · The Heart of Nimar, Delivered Fresh.
           </p>
           <p className="text-xs text-neutral-400 flex items-center gap-1.5">
-            <Leaf size={11} className="text-darkGreen" />
+            <Leaf size={11} className="text-emerald-brand" />
             Crafted with ♥ in Khandwa, Madhya Pradesh
           </p>
         </div>

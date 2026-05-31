@@ -46,11 +46,9 @@ export function About() {
   ];
 
   const processedItems = [
-    { name: "Tomato", emoji: "🍅" }, { name: "Onion", emoji: "🧅" },
-    { name: "Beetroot", emoji: "🫒" }, { name: "Ginger", emoji: "🫚" },
-    { name: "Banana", emoji: "🍌" }, { name: "Papaya", emoji: "🥭" },
-    { name: "Garlic", emoji: "🧄" }, { name: "Leafy Veg", emoji: "🥬" },
-    { name: "Taro (Arbi)", emoji: "🥔" },
+    "Tomato", "Onion", "Beetroot", "Ginger",
+    "Banana", "Papaya", "Garlic", "Leafy Veg",
+    "Taro (Arbi)"
   ];
 
   const incubation = [
@@ -251,8 +249,8 @@ export function About() {
           <p className="text-[11px] text-neutral-400 font-light mb-6">Pure agricultural ingredients carefully sourced and prepared.</p>
           <div className="flex flex-wrap gap-2.5">
             {processedItems.map((item, idx) => (
-              <span key={idx} className="inline-flex items-center gap-1.5 bg-white border border-neutral-100 hover:border-[#c8e6c9] px-4 py-2 rounded-full text-[11px] font-medium text-neutral-700 hover:bg-[#f1f8e9] transition-colors cursor-default shadow-sm">
-                <span className="text-[13px]">{item.emoji}</span> {item.name}
+              <span key={idx} className="inline-flex items-center bg-white border border-neutral-100 hover:border-[#c8e6c9] px-4 py-2 rounded-full text-[11px] font-medium text-neutral-700 hover:bg-[#f1f8e9] transition-colors cursor-default shadow-sm">
+                {item}
               </span>
             ))}
             <span className="inline-flex items-center gap-1 bg-white border border-neutral-100 px-4 py-2 rounded-full text-[11px] font-semibold text-neutral-400 cursor-default">+ More</span>
