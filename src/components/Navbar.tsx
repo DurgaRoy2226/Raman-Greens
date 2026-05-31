@@ -230,6 +230,7 @@ export function Navbar() {
   const links = [
     { to: "/", label: "Home" },
     { to: "/shop", label: "Shop" },
+    { to: "/organic", label: "Organic Luxe" },
     { to: "/about", label: "About Us" },
     { to: "/contact", label: "Contact Us" },
   ];

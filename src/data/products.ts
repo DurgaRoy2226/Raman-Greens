@@ -1069,6 +1069,143 @@ export const PRODUCTS: Product[] = [
     ingredients: ["Organic Fruit Pulp (Amla & Mango)", "Raw Sugarcane Jaggery", "Citric Acid", "Pectin", "Natural Plant Colors"],
     farmStory: "Amla and mangoes are wild-harvested from organic orchards in Nimar forest boundaries."
   },
+  {
+    id: "p30",
+    name: "Ceremonial Matcha",
+    category: "Herbs",
+    price: 1499,
+    oldPrice: 1899,
+    rating: 4.9,
+    reviews: 142,
+    image: "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1605352582109-17d4576dfa1e?auto=format&fit=crop&w=900&q=80",
+    ],
+    description: "Sourced from the misty hills of Uji, Japan. A stone-ground, vibrant green ceremonial grade matcha of exceptional purity. Whisked into a creamy, nutrient-rich froth with notes of sweet umami.",
+    benefits: ["100% Ceremonial Grade", "Rich in L-Theanine", "Stone-ground", "Organic & Pure"],
+    nutrition: [
+      { label: "Energy", value: "3.2 kcal" },
+      { label: "L-Theanine", value: "36 mg" },
+      { label: "Catechins", value: "105 mg" },
+    ],
+    tags: ["matcha", "organic", "luxury", "tea"],
+    bestseller: true,
+    trending: true,
+    stock: 45,
+    weight: "100g",
+    origin: "Uji, Japan",
+    sizes: [
+      { size: "100g", price: 1499, oldPrice: 1899 },
+      { size: "250g", price: 3499, oldPrice: 4299 },
+      { size: "500g", price: 6499, oldPrice: 7999 }
+    ],
+    story: "Deep in the misty valleys of Uji, Japan, the green tea leaves are shaded for three weeks before harvest, boosting their chlorophyll and L-theanine content. They are handpicked and ground using traditional granite stones into a powder of exceptional purity and emerald color. A single cup provides sustained, jitter-free energy and calm focus.",
+    ingredients: ["100% Organic Stone-Ground Matcha Green Tea Leaves"],
+    farmStory: "Harvested by multi-generational tea masters on pesticide-free hillsides in Uji, Japan."
+  },
+  {
+    id: "p31",
+    name: "Artisan Avocado Oil",
+    category: "Dairy",
+    price: 899,
+    oldPrice: 1199,
+    rating: 4.8,
+    reviews: 96,
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=900&q=80",
+    ],
+    description: "Cold-pressed from the pulp of handpicked avocados. A buttery, emerald-green oil with a high smoke point (520°F), perfect for high-heat cooking, dressing, or skin nourishment.",
+    benefits: ["Cold Pressed & Unrefined", "High Smoke Point (520°F)", "Rich in Oleic Acid", "Zero Preservatives"],
+    nutrition: [
+      { label: "Energy", value: "120 kcal" },
+      { label: "Monounsaturated Fat", value: "10 g" },
+      { label: "Vitamin E", value: "2.5 mg" },
+    ],
+    tags: ["oil", "avocado", "organic", "luxury"],
+    bestseller: true,
+    stock: 60,
+    weight: "250ml",
+    origin: "Nimar Valley Greenhouse, MP",
+    sizes: [
+      { size: "100ml", price: 420, oldPrice: 550 },
+      { size: "250ml", price: 899, oldPrice: 1199 },
+      { size: "500ml", price: 1699, oldPrice: 2199 }
+    ],
+    story: "Wood-pressed at low temperatures from the fleshy pulp of tree-ripened, organically cultivated avocados. Filtering is done naturally via sedimentation to maintain the rich green color, delicate buttery aroma, and health-protecting monounsaturated fatty acids.",
+    ingredients: ["100% Pure Cold-Pressed Avocado Oil"],
+    farmStory: "Sourced from greenhouse avocado groves in Khandwa using sustainable drip-irrigation."
+  },
+  {
+    id: "p32",
+    name: "Himalayan Salt Rocks",
+    category: "Spices",
+    price: 399,
+    oldPrice: 499,
+    rating: 4.7,
+    reviews: 118,
+    image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=900&q=80",
+    ],
+    description: "Raw, unrefined pink salt crystals hand-mined from ancient deep sea deposits. Packed with 84+ essential minerals and trace elements, containing absolutely zero anti-caking agents.",
+    benefits: ["84+ Trace Minerals", "Hand-mined & Raw", "No Anti-Caking Agents", "100% Organic & Clean"],
+    nutrition: [
+      { label: "Sodium Chloride", value: "98%" },
+      { label: "Calcium", value: "0.2%" },
+      { label: "Magnesium", value: "0.1%" },
+    ],
+    tags: ["salt", "himalayan", "mineral", "organic"],
+    bestseller: false,
+    stock: 80,
+    weight: "500g",
+    origin: "Himalayan Foot-hills",
+    sizes: [
+      { size: "100g", price: 99, oldPrice: 129 },
+      { size: "250g", price: 219, oldPrice: 279 },
+      { size: "500g", price: 399, oldPrice: 499 }
+    ],
+    story: "Mined by hand from ancient, deep-earth deposits in the Himalayan region, these pristine pink crystals are washed in clean spring water and sun-dried. Untouched by modern pollution and chemical refining, they preserve their mineral structure.",
+    ingredients: ["100% Natural Pink Himalayan Rock Salt Crystals"],
+    farmStory: "Sourced from smallholder mineral collectives in the pristine foothills of the Himalayas."
+  },
+  {
+    id: "p33",
+    name: "Golden Latte Blend",
+    category: "Herbs",
+    price: 599,
+    oldPrice: 749,
+    rating: 4.9,
+    reviews: 86,
+    image: "https://images.unsplash.com/photo-1612203987220-7fbd8701d58d?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1612203987220-7fbd8701d58d?auto=format&fit=crop&w=900&q=80",
+    ],
+    description: "A warming Ayurvedic blend of heirloom Nimari turmeric, organic ginger, cinnamon, and black pepper. Perfect for preparing golden milk to support immunity, joints, and digestion.",
+    benefits: ["Ayurvedic Formula", "5%+ Curcumin Turmeric", "Boosts Immunity", "Zero Refined Sugar"],
+    nutrition: [
+      { label: "Curcumin", value: "5.4%" },
+      { label: "Piperine", value: "0.12%" },
+    ],
+    tags: ["turmeric", "latte", "ayurveda", "organic"],
+    bestseller: true,
+    trending: true,
+    stock: 50,
+    weight: "200g",
+    origin: "Khandwa, MP",
+    sizes: [
+      { size: "100g", price: 320, oldPrice: 399 },
+      { size: "200g", price: 599, oldPrice: 749 },
+      { size: "500g", price: 1299, oldPrice: 1599 }
+    ],
+    story: "Our Golden Latte Blend is crafted from our premium high-curcumin heirloom turmeric, blended precisely with stone-ground ginger, sweet cinnamon, and black pepper. The black pepper contains piperine, which boosts curcumin absorption by up to 2000%, yielding a powerful wellness tonic.",
+    ingredients: ["Organic Heirloom Turmeric", "Organic Ginger", "Organic Cinnamon", "Organic Black Pepper", "Green Cardamom"],
+    farmStory: "Crafted in small batches by women self-help collectives in East Nimar using locally grown spices."
+  },
 ];
 
 export const CATEGORIES = ["All", "Snacks", "Spices", "Seeds", "Dairy", "Grains", "Herbs", "Farming Products"] as const;
