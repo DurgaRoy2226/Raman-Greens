@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Leaf, ShieldCheck, Star, Sparkles, ChevronLeft, ChevronRight, Activity, Heart, MapPin, Truck, Package, CreditCard, Award, Headphones } from "lucide-react";
 import { PRODUCTS } from "../data/products";
@@ -44,6 +44,14 @@ export function Home() {
   const [previousSlide, setPreviousSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+  const essenceSectionRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: essenceSectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const essenceBgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   const scrollTestimonials = (direction: "left" | "right") => {
     if (testimonialsRef.current) {
@@ -368,35 +376,267 @@ export function Home() {
       </section>
 
       {/* PROMOTIONAL HERO BANNER */}
-      <section className="relative h-[280px] sm:h-[350px] lg:h-[500px] w-full overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0">
+      <section
+        ref={essenceSectionRef}
+        className="relative h-auto py-12 lg:py-0 lg:h-[500px] w-full overflow-hidden flex items-center justify-center z-10 m-0 p-0"
+      >
+        {/* Parallax Background Image */}
+        <motion.div
+          style={{ y: essenceBgY, height: "130%", top: "-15%" }}
+          className="absolute inset-x-0 z-0"
+        >
           <img
-            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1920&q=80"
-            alt="Organic Farm"
-            className="w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80"
+            alt="Premium Organic Farm"
+            className="w-full h-full object-cover select-none pointer-events-none"
           />
-          <div className="absolute inset-0 bg-neutral-900/40 mix-blend-multiply" />
-        </div>
-        <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+        </motion.div>
+
+        {/* Subtle Dark & Sunrise Gradient Overlay (Fixed, z-10) */}
+        <div className="absolute inset-0 bg-neutral-950/45 mix-blend-multiply z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-amber-950/20 to-black/70 z-10 pointer-events-none" />
+        <div 
+          style={{ background: "radial-gradient(circle at 50% 30%, rgba(245,158,11,0.06) 0%, rgba(0,0,0,0) 80%)" }}
+          className="absolute inset-0 z-10 pointer-events-none" 
+        />
+
+        {/* Floating Organic Particles/Leaves */}
+        <motion.div
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 8, -4, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
+          className="absolute top-[18%] left-[8%] text-emerald-400/25 pointer-events-none hidden md:block z-10"
+        >
+          <Leaf size={24} />
+        </motion.div>
+
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, -12, 6, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut", delay: 0.5 }}
+          className="absolute bottom-[28%] left-[15%] text-emerald-500/20 pointer-events-none hidden md:block z-10"
+        >
+          <Leaf size={18} />
+        </motion.div>
+
+        <motion.div
+          animate={{
+            y: [0, -12, 0],
+            rotate: [0, 10, -8, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 1 }}
+          className="absolute top-[22%] right-[10%] text-emerald-400/20 pointer-events-none hidden md:block z-10"
+        >
+          <Leaf size={20} />
+        </motion.div>
+
+        <motion.div
+          animate={{
+            y: [0, -18, 0],
+            rotate: [0, -6, 12, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 1.5 }}
+          className="absolute bottom-[22%] right-[18%] text-emerald-500/25 pointer-events-none hidden md:block z-10"
+        >
+          <Leaf size={26} />
+        </motion.div>
+
+        <div className="relative z-20 max-w-[1100px] w-full mx-auto px-6 lg:px-12 flex flex-col items-center justify-center">
+          {/* Subtle Golden Sunrise Glow */}
+          <div
+            style={{ background: "radial-gradient(circle, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0) 70%)" }}
+            className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] blur-[90px] pointer-events-none -z-10"
+          />
+          
+          {/* Main content wrapper (Badge, Title, Subtitle, Buttons) */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.12,
+                  delayChildren: 0.1,
+                }
+              }
+            }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="flex flex-col items-center text-center max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase mb-6">
-              <Sparkles size={14} /> Explore Our Range
-            </span>
-            <h2 className="font-serif font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 sm:mb-10 drop-shadow-md">
-              The Essence of Nimar
-            </h2>
-            <Link
-              to="/shop"
-              className="inline-flex items-center gap-3 px-9 py-4 bg-white text-neutral-900 hover:bg-emerald-50 hover:text-emerald-800 rounded-full font-bold text-[11px] uppercase tracking-[0.15em] transition-all duration-300 shadow-xl group"
+            {/* 1. Small Premium Badge */}
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }
+                }
+              }}
+              className="inline-flex items-center gap-2 bg-emerald-600/90 text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.25em] uppercase mb-6 shadow-lg shadow-emerald-950/30 border border-emerald-500/20"
             >
-              Explore Collection <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+              🌱 ROOTED IN NIMAR
+            </motion.span>
+
+            {/* 2. Large Luxury Heading */}
+            <motion.h2
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }
+                }
+              }}
+              className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-white leading-tight mb-5 tracking-tight drop-shadow-sm select-none"
+            >
+              The Essence of <span className="font-serif italic text-emerald-300">Nimar</span>
+            </motion.h2>
+
+            {/* 3. Subheading */}
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.75, ease: [0.215, 0.61, 0.355, 1] }
+                }
+              }}
+              className="text-neutral-200/95 text-sm sm:text-base md:text-lg max-w-2xl mb-8 leading-relaxed font-light select-none"
+            >
+              Experience authentic organic farming, farm-fresh produce, and sustainable agriculture from the heart of Madhya Pradesh.
+            </motion.p>
+
+            {/* 4. Buttons Row */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }
+                }
+              }}
+              className="flex flex-wrap gap-4 justify-center items-center mb-8 lg:mb-10"
+            >
+              {/* Primary Button */}
+              <Link
+                to="/shop"
+                className="relative inline-flex items-center gap-3 px-8 py-3.5 bg-white text-neutral-900 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase overflow-hidden transition-all duration-300 shadow-xl hover:shadow-emerald-950/20 hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <span className="absolute inset-0 bg-emerald-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+                  Explore Collection 
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </Link>
+
+              {/* Secondary Button */}
+              <Link
+                to="/about"
+                className="relative inline-flex items-center gap-3 px-8 py-3.5 bg-transparent text-white border border-white/40 hover:border-white rounded-full font-bold text-[11px] tracking-[0.2em] uppercase overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                <span className="relative z-10 flex items-center gap-2 transition-colors duration-300">
+                  Our Story 
+                  <ArrowRight size={14} className="opacity-60 group-hover:translate-x-1 group-hover:opacity-100 transition-all duration-300" />
+                </span>
+              </Link>
+            </motion.div>
           </motion.div>
+
+          {/* 5. Stats Cards (Bottom Row) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-0 z-20">
+            
+            {/* Card 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-3 flex items-center justify-center gap-3 shadow-lg hover:bg-white/15 transition-colors cursor-default"
+              >
+                <span className="text-lg select-none">🌱</span>
+                <div className="text-left">
+                  <div className="text-[11px] font-bold tracking-wide text-white">100% Organic</div>
+                  <div className="text-[9px] text-neutral-300 font-light mt-0.5 leading-none">Pure soil to table</div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Card 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.div
+                animate={{ y: [0, -9, 0] }}
+                transition={{ repeat: Infinity, duration: 4.4, ease: "easeInOut", delay: 0.2 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-3 flex items-center justify-center gap-3 shadow-lg hover:bg-white/15 transition-colors cursor-default"
+              >
+                <span className="text-lg select-none">🚚</span>
+                <div className="text-left">
+                  <div className="text-[11px] font-bold tracking-wide text-white">Farm Fresh</div>
+                  <div className="text-[9px] text-neutral-300 font-light mt-0.5 leading-none">Directly from Khandwa</div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Card 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <motion.div
+                animate={{ y: [0, -7, 0] }}
+                transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut", delay: 0.4 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-3 flex items-center justify-center gap-3 shadow-lg hover:bg-white/15 transition-colors cursor-default"
+              >
+                <span className="text-lg select-none">❤️</span>
+                <div className="text-left">
+                  <div className="text-[11px] font-bold tracking-wide text-white">Trusted by Families</div>
+                  <div className="text-[9px] text-neutral-300 font-light mt-0.5 leading-none">Loved by thousands</div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Card 4 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 0.6 }}
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-3 flex items-center justify-center gap-3 shadow-lg hover:bg-white/15 transition-colors cursor-default"
+              >
+                <span className="text-lg select-none">🏆</span>
+                <div className="text-left">
+                  <div className="text-[11px] font-bold tracking-wide text-white">Premium Quality</div>
+                  <div className="text-[9px] text-neutral-300 font-light mt-0.5 leading-none">Certified excellence</div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+          </div>
+          
         </div>
       </section>
 
