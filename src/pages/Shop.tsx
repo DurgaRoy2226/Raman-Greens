@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback, memo, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -72,9 +72,348 @@ function getWeightCategory(weightStr: string): string {
   return "other";
 }
 
+/* ─── Price Range Slider Component (Optimized) ───────────────────────── */
+interface PriceRangeSliderProps {
+  minPrice: number;
+  maxPrice: number;
+  onApplyFilters: (min: number, max: number) => void;
+}
+
+const PriceRangeSlider = memo(({ minPrice, maxPrice, onApplyFilters }: PriceRangeSliderProps) => {
+  const [localMin, setLocalMin] = useState(minPrice);
+  const [localMax, setLocalMax] = useState(maxPrice);
+  const [lastMoved, setLastMoved] = useState<"min" | "max">("min");
+
+  // Local state for text input boxes to allow unconstrained typing
+  const [minInputVal, setMinInputVal] = useState<string>(String(minPrice));
+  const [maxInputVal, setMaxInputVal] = useState<string>(String(maxPrice));
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sync state if reset from parent
+  useEffect(() => {
+    setLocalMin(minPrice);
+    setLocalMax(maxPrice);
+    setMinInputVal(String(minPrice));
+    setMaxInputVal(String(maxPrice));
+  }, [minPrice, maxPrice]);
+
+  // Debounce the callback to parent filter state (minPrice/maxPrice)
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localMin !== minPrice || localMax !== maxPrice) {
+        onApplyFilters(localMin, localMax);
+      }
+    }, 120); // 120ms delay is extremely responsive yet smooth
+
+    return () => clearTimeout(handler);
+  }, [localMin, localMax, minPrice, maxPrice, onApplyFilters]);
+
+  const handleMinChange = (val: number) => {
+    const nextMin = Math.min(val, localMax - 50);
+    setLocalMin(nextMin);
+  };
+
+  const handleMaxChange = (val: number) => {
+    const nextMax = Math.max(val, localMin + 50);
+    setLocalMax(nextMax);
+  };
+
+  // Click on the track to move the closest thumb
+  const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, clickX / rect.width));
+    const val = Math.round((pct * 2000) / 10) * 10; // round to nearest step of 10
+
+    const distMin = Math.abs(val - localMin);
+    const distMax = Math.abs(val - localMax);
+
+    if (distMin < distMax) {
+      handleMinChange(val);
+      setLastMoved("min");
+    } else {
+      handleMaxChange(val);
+      setLastMoved("max");
+    }
+  };
+
+  // Text inputs validation on Blur or Enter
+  const handleMinInputBlur = () => {
+    let num = Number(minInputVal);
+    if (isNaN(num) || minInputVal.trim() === "") {
+      num = 0;
+    }
+    const nextMin = Math.max(0, Math.min(num, localMax - 50));
+    setLocalMin(nextMin);
+    setMinInputVal(String(nextMin));
+    setLastMoved("min");
+  };
+
+  const handleMaxInputBlur = () => {
+    let num = Number(maxInputVal);
+    if (isNaN(num) || maxInputVal.trim() === "") {
+      num = 2000;
+    }
+    const nextMax = Math.min(2000, Math.max(num, localMin + 50));
+    setLocalMax(nextMax);
+    setMaxInputVal(String(nextMax));
+    setLastMoved("max");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      (e.target as HTMLInputElement).blur();
+    }
+  };
+
+  return (
+    <div className="space-y-2.5 px-1 pt-1 select-none">
+      <div className="flex justify-between text-[10px] font-extrabold text-neutral-500">
+        <span>₹{localMin}</span>
+        <span className="text-emerald-800">₹{localMax}</span>
+      </div>
+      <div 
+        ref={containerRef}
+        onClick={handleTrackClick}
+        className="relative w-full h-1 bg-[#ebdcc0]/60 rounded-full my-4 cursor-pointer"
+      >
+        <div
+          className="absolute h-full rounded-full bg-emerald-700 pointer-events-none"
+          style={{
+            left: `${(localMin / 2000) * 100}%`,
+            right: `${100 - (localMax / 2000) * 100}%`
+          }}
+        />
+        <input
+          type="range" min={0} max={2000} step={10} value={localMin}
+          onChange={(e) => {
+            handleMinChange(Number(e.target.value));
+            setLastMoved("min");
+          }}
+          style={{ zIndex: lastMoved === "min" ? 20 : 10 }}
+          className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
+        />
+        <input
+          type="range" min={0} max={2000} step={10} value={localMax}
+          onChange={(e) => {
+            handleMaxChange(Number(e.target.value));
+            setLastMoved("max");
+          }}
+          style={{ zIndex: lastMoved === "max" ? 20 : 10 }}
+          className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
+        />
+      </div>
+      <div className="flex items-center gap-1.5">
+        <div className="relative flex-1">
+          <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Min</label>
+          <input
+            type="text"
+            value={minInputVal}
+            onChange={(e) => setMinInputVal(e.target.value)}
+            onBlur={handleMinInputBlur}
+            onKeyDown={handleKeyDown}
+            className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-[#FAF8F5] rounded-lg border border-neutral-200 text-xs font-bold text-neutral-800 focus:outline-none focus:border-emerald-700"
+          />
+        </div>
+        <span className="text-neutral-300 text-xs">—</span>
+        <div className="relative flex-1">
+          <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Max</label>
+          <input
+            type="text"
+            value={maxInputVal}
+            onChange={(e) => setMaxInputVal(e.target.value)}
+            onBlur={handleMaxInputBlur}
+            onKeyDown={handleKeyDown}
+            className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-[#FAF8F5] rounded-lg border border-neutral-200 text-xs font-bold text-neutral-800 focus:outline-none focus:border-emerald-700"
+          />
+        </div>
+      </div>
+    </div>
+  );
+});
+
+/* ─── Product Card Component (Memoized) ────────────────────────────────── */
+interface ProductCardProps {
+  product: Product;
+  wished: boolean;
+  viewMode: "grid" | "list";
+  onToggleWishlist: (id: string) => void;
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductCardComponent = memo(({
+  product,
+  wished,
+  viewMode,
+  onToggleWishlist,
+  onAddToCart,
+}: ProductCardProps) => {
+  const discount = product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+
+  if (viewMode === "list") {
+    return (
+      <motion.article
+        layout
+        variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+        className="bg-[#faf9f6]/40 hover:bg-white rounded-2xl p-4 border border-[#ebdcc0]/30 hover:border-emerald-700/20 hover:shadow-[0_12px_28px_rgba(21,128,61,0.05)] hover:-translate-y-1 transition-all duration-300 flex flex-col sm:flex-row gap-5 items-stretch relative"
+      >
+        {/* Left: Image Box */}
+        <Link to={`/product/${product.id}`} className="block relative w-full sm:w-44 shrink-0 aspect-[4/3] sm:aspect-square rounded-xl overflow-hidden bg-neutral-50 shadow-inner">
+          <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
+          
+          {/* Wishlist toggle */}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onToggleWishlist(product.id);
+            }}
+            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition-all active:scale-95 duration-200
+                        ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
+          >
+            <Heart size={12} className={wished ? "fill-white" : ""} />
+          </button>
+        </Link>
+
+        {/* Middle: Details */}
+        <div className="flex-1 flex flex-col justify-between min-w-0">
+          <div>
+            <span className="text-[9px] uppercase tracking-wider font-extrabold text-emerald-800 block mb-1">{product.category} · {product.origin}</span>
+            <Link to={`/product/${product.id}`} className="hover:text-emerald-850">
+              <h3 className="font-serif font-bold text-neutral-900 text-base leading-snug line-clamp-1 mb-1">{product.name}</h3>
+            </Link>
+            <p className="text-xs text-neutral-500 font-light line-clamp-2 mb-3 leading-relaxed">{product.description}</p>
+          </div>
+          
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-1">
+              <StarRow rating={product.rating} />
+              <span className="text-[10px] font-bold text-neutral-400">({product.reviews} reviews)</span>
+            </div>
+            <span className="bg-[#FAF8F5] border border-[#ebdcc0]/60 px-2 py-0.5 rounded-md text-[9px] font-bold text-[#8a7f6a]">{product.weight}</span>
+          </div>
+        </div>
+
+        {/* Right: Pricing Box */}
+        <div className="w-full sm:w-44 shrink-0 flex sm:flex-col justify-between items-center sm:items-end border-t sm:border-t-0 sm:border-l border-[#ebdcc0]/20 pt-4 sm:pt-0 sm:pl-5 mt-3 sm:mt-0">
+          <div className="text-left sm:text-right">
+            <div className="flex items-baseline gap-1.5 justify-start sm:justify-end">
+              <span className="text-lg font-bold text-neutral-950">₹{product.price}</span>
+              {product.oldPrice && (
+                <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
+              )}
+            </div>
+            {discount > 0 && (
+              <span className="inline-block bg-emerald-50 border border-emerald-100 text-[8px] font-extrabold text-emerald-800 px-2 py-0.5 rounded-full uppercase mt-0.5">
+                Save {discount}%
+              </span>
+            )}
+          </div>
+
+          <button
+            onClick={() => onAddToCart(product)}
+            className="bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-2.5 rounded-full shadow-sm hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 flex items-center gap-2"
+          >
+            <ShoppingCart size={13} />
+            <span>Add To Cart</span>
+          </button>
+        </div>
+      </motion.article>
+    );
+  }
+
+  // Grid Layout
+  return (
+    <motion.article
+      layout
+      variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
+      className="group relative bg-white rounded-2xl overflow-hidden border border-[#ebdcc0]/30 hover:border-emerald-700/20 hover:shadow-[0_16px_36px_rgba(21,128,61,0.08)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full w-full"
+    >
+      <Link to={`/product/${product.id}`} className="block relative w-full aspect-square overflow-hidden bg-[#FAF8F5]">
+        <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        
+        {/* Overlay Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
+          {product.bestseller && (
+            <span className="bg-amber-500 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Bestseller</span>
+          )}
+          {product.tags.includes("organic") && (
+            <span className="bg-emerald-700 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Certified Organic</span>
+          )}
+        </div>
+
+        {/* Wishlist Icon */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggleWishlist(product.id);
+          }}
+          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition-all active:scale-95 duration-200 z-10
+                      ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
+        >
+          <Heart size={12} className={wished ? "fill-white" : ""} />
+        </button>
+      </Link>
+
+      <div className="p-4 flex flex-col flex-grow">
+        <span className="text-[8px] uppercase tracking-widest font-extrabold text-[#8a7f6a] mb-1 block">
+          {product.category} · {product.origin}
+        </span>
+        
+        <Link to={`/product/${product.id}`} className="block mb-1.5">
+          <h3 className="font-serif font-bold text-neutral-900 text-[13px] sm:text-[14px] leading-snug line-clamp-2 min-h-[38px] hover:text-emerald-850 transition-colors">
+            {product.name}
+          </h3>
+        </Link>
+
+        <div className="flex items-center gap-1.5 mb-3">
+          <StarRow rating={product.rating} />
+          <span className="text-[9px] font-bold text-neutral-400">({product.reviews})</span>
+        </div>
+
+        <div className="mt-auto pt-3 border-t border-[#ebdcc0]/30 flex items-center justify-between">
+          <div>
+            <div className="flex items-baseline gap-1 flex-wrap">
+              <span className="text-[15px] font-bold text-neutral-950">₹{product.price}</span>
+              {product.oldPrice && (
+                <span className="text-[10px] line-through text-neutral-400">₹{product.oldPrice}</span>
+              )}
+            </div>
+            <span className="text-[9px] text-neutral-400 font-semibold block mt-0.5">{product.weight}</span>
+          </div>
+
+          <button
+            onClick={() => onAddToCart(product)}
+            className="w-8.5 h-8.5 bg-emerald-800 hover:bg-emerald-950 text-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md hover:scale-110 active:scale-95 cursor-pointer transition-all duration-200"
+          >
+            <ShoppingCart size={13} />
+          </button>
+        </div>
+      </div>
+    </motion.article>
+  );
+});
+
 /* ─── Main Shop Component ────────────────────────────────────────────────────── */
 export function Shop() {
   const { state, dispatch } = useStore();
+
+  const handleToggleWishlist = useCallback((id: string) => {
+    dispatch({ type: "TOGGLE_WISHLIST", id });
+  }, [dispatch]);
+
+  const handleAddToCart = useCallback((product: Product) => {
+    dispatch({ type: "ADD_TO_CART", product });
+  }, [dispatch]);
+
+  const handlePriceFilter = useCallback((min: number, max: number) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+  }, []);
+
   const [params, setParams] = useSearchParams();
   const initCat = params.get("cat") || "All";
   const initQ   = params.get("q") || "";
@@ -331,70 +670,45 @@ export function Shop() {
       <style dangerouslySetInnerHTML={{__html: `
         .price-slider-input::-webkit-slider-thumb {
           pointer-events: auto;
-          width: 14px;
-          height: 14px;
+          width: 15px;
+          height: 15px;
           border-radius: 50%;
           background: #15803d;
           border: 2px solid #FFFFFF;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
           cursor: pointer;
           -webkit-appearance: none;
-          transition: transform 0.1s ease;
+          transition: transform 0.15s ease, background-color 0.15s ease;
         }
         .price-slider-input::-webkit-slider-thumb:hover {
-          transform: scale(1.12);
+          transform: scale(1.2);
+          background: #166534;
+        }
+        .price-slider-input::-webkit-slider-thumb:active {
+          transform: scale(1.35);
+          background: #14532d;
         }
         .price-slider-input::-moz-range-thumb {
           pointer-events: auto;
-          width: 14px;
-          height: 14px;
+          width: 15px;
+          height: 15px;
           border-radius: 50%;
           background: #15803d;
           border: 2px solid #FFFFFF;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
           cursor: pointer;
-          transition: transform 0.1s ease;
+          transition: transform 0.15s ease, background-color 0.15s ease;
         }
         .price-slider-input::-moz-range-thumb:hover {
-          transform: scale(1.12);
+          transform: scale(1.2);
+          background: #166534;
+        }
+        .price-slider-input::-moz-range-thumb:active {
+          transform: scale(1.35);
+          background: #14532d;
         }
       `}} />
 
-      {/* ── Dashboard Views Navigation Menu ── */}
-      <div className="bg-[#FAF8F5] rounded-xl border border-[#ebdcc0] p-2.5 flex flex-col gap-0.5">
-        <h4 className="text-[10px] font-extrabold tracking-widest text-[#8a7f6a] uppercase px-2 py-1 mb-1 border-b border-[#ebdcc0]/50">Shop Console</h4>
-        {[
-          { id: "marketplace", label: "Marketplace", icon: Sprout },
-          { id: "orders",      label: "My Orders",   icon: Package },
-          { id: "wishlist",    label: "My Wishlist", icon: Heart },
-          { id: "coupons",     label: "Active Coupons", icon: Tag },
-          { id: "help",        label: "Help & Support", icon: Headphones },
-        ].map((tab) => {
-          const active = activeTab === tab.id;
-          const TabIcon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => {
-                setActiveTab(tab.id);
-                setIsMobileFilterOpen(false);
-              }}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-left text-xs font-bold transition-all cursor-pointer
-                          ${active
-                            ? "bg-emerald-800 text-white shadow-sm"
-                            : "text-neutral-600 hover:bg-emerald-50 hover:text-emerald-800"}`}
-            >
-              <TabIcon size={14} className={active ? "text-emerald-300" : "text-neutral-400 group-hover:text-emerald-700"} />
-              <span>{tab.label}</span>
-              {tab.id === "wishlist" && state.wishlist.length > 0 && (
-                <span className={`ml-auto px-1.5 py-0.5 rounded-full text-[9px] font-extrabold ${active ? "bg-white text-emerald-850" : "bg-emerald-100 text-emerald-800"}`}>
-                  {state.wishlist.length}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
 
       {/* ── Filters Section (only active/visible on Marketplace tab) ── */}
       <div className={`${activeTab === "marketplace" ? "block" : "hidden"} flex flex-col gap-1`}>
@@ -438,56 +752,11 @@ export function Shop() {
 
         {/* Price Slider */}
         <AccordionSection id="price" title="Price Range" icon={SlidersHorizontal}>
-          <div className="space-y-2.5 px-1 pt-1">
-            <div className="flex justify-between text-[10px] font-extrabold text-neutral-500">
-              <span>₹{minPrice}</span>
-              <span className="text-emerald-800">₹{maxPrice}</span>
-            </div>
-            <div className="relative w-full h-1 bg-[#ebdcc0]/60 rounded-full my-2">
-              <div
-                className="absolute h-full rounded-full bg-emerald-700"
-                style={{
-                  left: `${(minPrice / 2000) * 100}%`,
-                  right: `${100 - (maxPrice / 2000) * 100}%`
-                }}
-              />
-              <input
-                type="range" min={0} max={2000} step={50} value={minPrice}
-                onChange={(e) => setMinPrice(Math.min(Number(e.target.value), maxPrice - 50))}
-                className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
-              />
-              <input
-                type="range" min={0} max={2000} step={50} value={maxPrice}
-                onChange={(e) => setMaxPrice(Math.max(Number(e.target.value), minPrice + 50))}
-                className="price-slider-input absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none cursor-pointer"
-              />
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="relative flex-1">
-                <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Min</label>
-                <input
-                  type="number"
-                  min={0}
-                  max={2000}
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(Math.min(Number(e.target.value), maxPrice - 50))}
-                  className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-[#FAF8F5] rounded-lg border border-neutral-200 text-xs font-bold text-neutral-800 focus:outline-none focus:border-emerald-700"
-                />
-              </div>
-              <span className="text-neutral-300 text-xs">—</span>
-              <div className="relative flex-1">
-                <label className="absolute left-2.5 top-0.5 text-[6.5px] uppercase tracking-wider text-neutral-400 font-extrabold">Max</label>
-                <input
-                  type="number"
-                  min={0}
-                  max={2000}
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(Math.max(Number(e.target.value), minPrice + 50))}
-                  className="w-full pl-2.5 pr-1.5 pt-3 pb-0.5 bg-[#FAF8F5] rounded-lg border border-neutral-200 text-xs font-bold text-neutral-800 focus:outline-none focus:border-emerald-700"
-                />
-              </div>
-            </div>
-          </div>
+          <PriceRangeSlider
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onApplyFilters={handlePriceFilter}
+          />
         </AccordionSection>
 
         {/* Weights */}
@@ -584,10 +853,11 @@ export function Shop() {
               >
                 {opt.label}
               </button>
-            );
-          })}
-        </div>
-      </AccordionSection>
+              );
+            })}
+          </div>
+        </AccordionSection>
+      </div>
 
       {/* Quick Filters switches */}
       <div className="mt-4 pt-3 border-t border-[#ebdcc0] space-y-2.5">
@@ -611,159 +881,9 @@ export function Shop() {
         ))}
       </div>
     </div>
-  </div>
   );
 
-  /* ── 1. MARKETPLACE PRODUCT CARD ── */
-  const ProductCardComponent = ({ product }: { product: Product }) => {
-    const wished = state.wishlist.includes(product.id);
-    const discount = product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
 
-    if (viewMode === "list") {
-      // List Row Layout
-      return (
-        <motion.article
-          layout
-          variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
-          className="bg-[#faf9f6]/40 hover:bg-white rounded-2xl p-4 border border-[#ebdcc0]/40 hover:border-emerald-800/20 hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row gap-5 items-stretch relative"
-        >
-          {/* Left: Image Box */}
-          <Link to={`/product/${product.id}`} className="block relative w-full sm:w-44 shrink-0 aspect-[4/3] sm:aspect-square rounded-xl overflow-hidden bg-neutral-50 shadow-inner">
-            <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-            
-            {/* Wishlist toggle */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
-              }}
-              className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition active:scale-95
-                          ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
-            >
-              <Heart size={12} className={wished ? "fill-white" : ""} />
-            </button>
-          </Link>
-
-          {/* Middle: Details */}
-          <div className="flex-1 flex flex-col justify-between min-w-0">
-            <div>
-              <span className="text-[9px] uppercase tracking-wider font-extrabold text-emerald-800 block mb-1">{product.category} · {product.origin}</span>
-              <Link to={`/product/${product.id}`} className="hover:text-emerald-850">
-                <h3 className="font-serif font-bold text-neutral-900 text-base leading-snug line-clamp-1 mb-1">{product.name}</h3>
-              </Link>
-              <p className="text-xs text-neutral-500 font-light line-clamp-2 mb-3 leading-relaxed">{product.description}</p>
-            </div>
-            
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-1">
-                <StarRow rating={product.rating} />
-                <span className="text-[10px] font-bold text-neutral-400">({product.reviews} reviews)</span>
-              </div>
-              <span className="bg-[#FAF8F5] border border-[#ebdcc0] px-2 py-0.5 rounded-md text-[9px] font-bold text-[#8a7f6a]">{product.weight}</span>
-            </div>
-          </div>
-
-          {/* Right: Pricing Box */}
-          <div className="w-full sm:w-44 shrink-0 flex sm:flex-col justify-between items-center sm:items-end border-t sm:border-t-0 sm:border-l border-[#ebdcc0]/30 pt-4 sm:pt-0 sm:pl-5 mt-3 sm:mt-0">
-            <div className="text-left sm:text-right">
-              <div className="flex items-baseline gap-1.5 justify-start sm:justify-end">
-                <span className="text-lg font-bold text-neutral-950">₹{product.price}</span>
-                {product.oldPrice && (
-                  <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
-                )}
-              </div>
-              {discount > 0 && (
-                <span className="inline-block bg-emerald-50 border border-emerald-100 text-[8px] font-extrabold text-emerald-800 px-2 py-0.5 rounded-full uppercase mt-0.5">
-                  Save {discount}%
-                </span>
-              )}
-            </div>
-
-            <button
-              onClick={() => dispatch({ type: "ADD_TO_CART", product })}
-              className="bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-2.5 rounded-full shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center gap-2"
-            >
-              <ShoppingCart size={13} />
-              <span>Add To Cart</span>
-            </button>
-          </div>
-        </motion.article>
-      );
-    }
-
-    // Grid Layout (Standard visual organic card)
-    return (
-      <motion.article
-        layout
-        variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
-        className="group relative bg-white rounded-2xl overflow-hidden border border-[#ebdcc0]/40 hover:border-emerald-800/20 hover:shadow-[0_12px_24px_rgba(21,128,61,0.06)] transition-all duration-300 flex flex-col h-full w-full"
-      >
-        <Link to={`/product/${product.id}`} className="block relative w-full aspect-square overflow-hidden bg-[#FAF8F5]">
-          <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          
-          {/* Overlay Badges */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
-            {product.bestseller && (
-              <span className="bg-amber-500 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Bestseller</span>
-            )}
-            {product.tags.includes("organic") && (
-              <span className="bg-emerald-700 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Certified Organic</span>
-            )}
-          </div>
-
-          {/* Wishlist Icon */}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
-            }}
-            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition active:scale-95 z-10
-                        ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
-          >
-            <Heart size={12} className={wished ? "fill-white" : ""} />
-          </button>
-        </Link>
-
-        <div className="p-4 flex flex-col flex-grow">
-          <span className="text-[8px] uppercase tracking-widest font-extrabold text-[#8a7f6a] mb-1 block">
-            {product.category} · {product.origin}
-          </span>
-          
-          <Link to={`/product/${product.id}`} className="block mb-1.5">
-            <h3 className="font-serif font-bold text-neutral-900 text-[13px] sm:text-[14px] leading-snug line-clamp-2 min-h-[38px] hover:text-emerald-850 transition-colors">
-              {product.name}
-            </h3>
-          </Link>
-
-          <div className="flex items-center gap-1.5 mb-3">
-            <StarRow rating={product.rating} />
-            <span className="text-[9px] font-bold text-neutral-400">({product.reviews})</span>
-          </div>
-
-          <div className="mt-auto pt-3 border-t border-[#ebdcc0]/30 flex items-center justify-between">
-            <div>
-              <div className="flex items-baseline gap-1 flex-wrap">
-                <span className="text-[15px] font-bold text-neutral-950">₹{product.price}</span>
-                {product.oldPrice && (
-                  <span className="text-[10px] line-through text-neutral-400">₹{product.oldPrice}</span>
-                )}
-              </div>
-              <span className="text-[9px] text-neutral-400 font-semibold block mt-0.5">{product.weight}</span>
-            </div>
-
-            <button
-              onClick={() => dispatch({ type: "ADD_TO_CART", product })}
-              className="w-8.5 h-8.5 bg-emerald-800 hover:bg-emerald-950 text-white rounded-full flex items-center justify-center shadow-sm cursor-pointer transition"
-            >
-              <ShoppingCart size={13} />
-            </button>
-          </div>
-        </div>
-      </motion.article>
-    );
-  };
 
   /* ── 2. VIEW: PRODUCT CATALOG (Marketplace Grid) ── */
   const renderMarketplace = () => (
@@ -824,6 +944,53 @@ export function Shop() {
         </div>
       </div>
 
+      {/* ── Marketplace Promo Banners ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-2">
+        {/* Banner 1: Combos & Discounts */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#fdfbf7] to-[#ebdcc0]/30 border border-[#ebdcc0]/50 p-5 flex items-center justify-between group shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-2.5 z-10 max-w-[65%]">
+            <span className="bg-amber-500 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">Seasonal Combo</span>
+            <h4 className="font-serif font-bold text-neutral-900 text-sm sm:text-base leading-snug">Traditional Masala Sev &amp; Ghee Combo</h4>
+            <p className="text-[10px] text-neutral-500 leading-normal font-medium font-sans">Get 15% off on our hand-churned A2 cow ghee and garlic sev pack.</p>
+            <button 
+              onClick={() => {
+                setCat("Snacks");
+                document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center gap-1 text-emerald-800 hover:text-emerald-950 font-black text-[10px] uppercase tracking-wider cursor-pointer"
+            >
+              <span>Get Offer</span>
+              <ChevronRight size={10} />
+            </button>
+          </div>
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-[#ebdcc0]/20 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300">
+            <span className="text-3xl">🥨</span>
+          </div>
+        </div>
+
+        {/* Banner 2: Healthy Lifestyle Deals */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#fafcfb] to-[#15803d]/10 border border-emerald-800/10 p-5 flex items-center justify-between group shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-2.5 z-10 max-w-[65%]">
+            <span className="bg-emerald-700 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">Health Special</span>
+            <h4 className="font-serif font-bold text-neutral-900 text-sm sm:text-base leading-snug">Organic Cold Pressed Seeds &amp; Oils</h4>
+            <p className="text-[10px] text-neutral-500 leading-normal font-medium font-sans">100% pure, chemical-free cold-pressed groundnut &amp; mustard seeds oils.</p>
+            <button 
+              onClick={() => {
+                setCat("Oils");
+                document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center gap-1 text-emerald-800 hover:text-emerald-950 font-black text-[10px] uppercase tracking-wider cursor-pointer"
+            >
+              <span>Shop Oils</span>
+              <ChevronRight size={10} />
+            </button>
+          </div>
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-emerald-700/5 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300">
+            <span className="text-3xl">🧴</span>
+          </div>
+        </div>
+      </div>
+
       {/* Catalog items display */}
       <div className="flex-grow pt-5">
         {paginated.length === 0 ? (
@@ -858,10 +1025,37 @@ export function Shop() {
             className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5" : "flex flex-col gap-4"}
           >
             {paginated.map((p) => (
-              <ProductCardComponent key={p.id} product={p} />
+              <ProductCardComponent
+                key={p.id}
+                product={p}
+                wished={state.wishlist.includes(p.id)}
+                viewMode={viewMode}
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={handleAddToCart}
+              />
             ))}
           </motion.div>
         )}
+
+        {/* ── Full Width Promo Card: Seasonal Specials ── */}
+        <div className="mt-8 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-900 to-emerald-850 text-white p-5 sm:p-6 border border-emerald-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+          <div className="space-y-1.5 text-center sm:text-left">
+            <span className="text-[8px] font-black uppercase tracking-widest text-[#ebdcc0]">Healthy Lifestyle Collection</span>
+            <h4 className="font-serif font-bold text-base sm:text-lg text-neutral-50">Empowering Khandwa Self-Help Groups</h4>
+            <p className="text-[10px] sm:text-xs text-neutral-300 font-light max-w-xl font-sans">
+              Every purchase supports rural women farmers who handcraft these recipes using traditional techniques. Fresh, pure, and socio-economically conscious.
+            </p>
+          </div>
+          <button 
+            onClick={() => {
+              setFilterOrganic(true);
+              document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="bg-white hover:bg-[#ebdcc0] text-emerald-950 font-extrabold text-[10px] uppercase tracking-wider px-4 py-2.5 rounded-full shrink-0 shadow-sm transition active:scale-95 cursor-pointer duration-200"
+          >
+            Explore Organic Picks
+          </button>
+        </div>
       </div>
 
       {/* Centered Pagination controls */}
@@ -1035,7 +1229,14 @@ export function Shop() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
             {wishlistProducts.map((p) => (
-              <ProductCardComponent key={p.id} product={p} />
+              <ProductCardComponent
+                key={p.id}
+                product={p}
+                wished={true}
+                viewMode="grid"
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={handleAddToCart}
+              />
             ))}
           </div>
         )}
@@ -1158,15 +1359,113 @@ export function Shop() {
   return (
     <div className="min-h-screen w-full bg-[#FAF8F5] flex flex-col relative overflow-x-hidden">
       
-      {/* ── Top Trust Banner Strip ── */}
-      <section className="bg-emerald-900/10 border-b border-[#ebdcc0]/50 text-emerald-850 text-[10px] font-bold py-2.5 px-4 z-10 shrink-0">
-        <div className="max-w-[1500px] mx-auto flex flex-wrap justify-between items-center gap-2">
-          <span className="tracking-wide">🌱 Nimari Soils · 100% Certified Organic Farm Sourced Produce</span>
-          <div className="flex items-center gap-5">
-            <span>📞 Help Desk: +91 98765 43210</span>
-            <span className="text-[#ebdcc0]">|</span>
-            <span>📍 Sourced from Khandwa, MP</span>
+      {/* ── Premium Hero Banner Section ── */}
+      <section className="w-full max-w-[1550px] mx-auto px-4 mt-4 shrink-0">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-[#1e3f20] text-white p-6 sm:p-8 md:p-12 shadow-[0_10px_30px_rgba(21,128,61,0.15)] flex flex-col md:flex-row items-center justify-between gap-8 border border-emerald-800/30">
+          
+          {/* Decorative floating organic elements */}
+          <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-10 left-[10%] text-4xl">🌿</motion.div>
+            <motion.div animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute bottom-10 left-[25%] text-3xl">🧄</motion.div>
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }} className="absolute top-1/4 right-[20%] text-5xl">🌾</motion.div>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }} className="absolute bottom-12 right-[40%] text-2xl">🌱</motion.div>
+            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 25, ease: "linear" }} className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-dashed border-emerald-500/20" />
+            <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="absolute -top-10 -right-10 w-48 h-48 rounded-full border border-dashed border-emerald-500/20" />
           </div>
+
+          <div className="flex-1 max-w-xl z-10 space-y-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-850/60 border border-emerald-700/50 backdrop-blur-md text-[10px] font-black uppercase tracking-wider text-emerald-300">
+              <Sparkles size={11} className="text-emerald-400" />
+              <span>100% Pure &amp; Organic Sourced</span>
+            </div>
+            <h1 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-neutral-50 leading-tight">
+              Bring the Purity of <br className="hidden sm:inline" />
+              <span className="text-[#ebdcc0] bg-clip-text">Nimar Valley</span> to Your Kitchen
+            </h1>
+            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-lg">
+              Handcrafted, slow-batch products direct from the fertile farms of Khandwa, MP. Clean eating made delicious with traditional recipes.
+            </p>
+            <div className="flex items-center gap-3 pt-2">
+              <button 
+                onClick={() => {
+                  document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="bg-[#ebdcc0] hover:bg-white text-emerald-950 font-extrabold text-xs uppercase px-5 py-3 rounded-full shadow-md cursor-pointer transition-all hover:scale-105 active:scale-95 duration-200"
+              >
+                Shop Fresh Produce
+              </button>
+              <button 
+                onClick={() => {
+                  setFilterOrganic(true);
+                  document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="bg-transparent border border-emerald-500/50 hover:bg-emerald-800/30 text-white font-extrabold text-xs uppercase px-5 py-3 rounded-full cursor-pointer transition-all hover:border-white duration-200"
+              >
+                Certified Organic
+              </button>
+            </div>
+          </div>
+
+          {/* Right image section */}
+          <div className="relative w-full md:w-80 h-48 md:h-64 rounded-2xl overflow-hidden shrink-0 z-10 flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent z-10" />
+            <img 
+              src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop" 
+              alt="Organic farm produce" 
+              className="w-full h-full object-cover rounded-2xl transform hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute bottom-3 left-3 right-3 bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-xl text-center z-20">
+              <span className="text-[10px] font-black tracking-wider uppercase text-[#ebdcc0]">Farm to Home Express</span>
+              <p className="text-[9px] text-neutral-200 font-medium">Free Shipping on Orders above ₹499</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Horizontal Category Carousel ── */}
+      <section className="w-full max-w-[1550px] mx-auto px-4 mt-6 shrink-0">
+        <div className="flex items-center justify-between mb-3.5">
+          <div>
+            <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#8a7f6a]">Browse Categories</span>
+            <h3 className="font-serif font-bold text-neutral-900 text-lg sm:text-xl mt-0.5">Explore Sourced Produce</h3>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] text-neutral-400 font-semibold select-none">Swipe to explore</span>
+            <ChevronRight size={12} className="text-neutral-400 animate-pulse" />
+          </div>
+        </div>
+        
+        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-3 snap-x scroll-smooth">
+          {[
+            { label: "All", emoji: "🌿", desc: "All Produce" },
+            { label: "Organic Powders", emoji: "🍵", desc: "Pure Powders" },
+            { label: "Masale", emoji: "🌶️", desc: "Nimar Spices" },
+            { label: "Herbal Products", emoji: "🍃", desc: "Traditional Herbs" },
+            { label: "Snacks", emoji: "🥨", desc: "Healthy Munchies" },
+            { label: "Oils", emoji: "🧴", desc: "Cold Pressed Oils" },
+            { label: "Seeds", emoji: "🌻", desc: "Organic Seeds" },
+            { label: "Dry Fruits", emoji: "🌰", desc: "Premium Nuts" },
+          ].map((item) => {
+            const active = cat === item.label;
+            return (
+              <button
+                key={item.label}
+                onClick={() => setCat(item.label)}
+                className={`snap-start shrink-0 flex flex-col items-center justify-between p-3.5 rounded-2xl w-24 sm:w-28 h-28 sm:h-30 border cursor-pointer transition-all duration-300 select-none
+                            ${active 
+                              ? "bg-emerald-800 border-emerald-800 text-white shadow-[0_8px_20px_rgba(21,128,61,0.15)] scale-105" 
+                              : "bg-white hover:bg-[#FAF8F5] border-[#ebdcc0]/50 text-neutral-700 shadow-sm hover:shadow-md hover:-translate-y-1"}`}
+              >
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl shadow-inner transition-transform duration-300 ${active ? "bg-white/20 scale-110" : "bg-neutral-50"}`}>
+                  {item.emoji}
+                </div>
+                <div className="text-center w-full">
+                  <h4 className="text-[10px] sm:text-xs font-black truncate max-w-full leading-tight">{item.label}</h4>
+                  <span className={`text-[8px] block mt-0.5 ${active ? "text-emerald-200" : "text-neutral-400 font-semibold"}`}>{item.desc}</span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -1195,7 +1494,7 @@ export function Shop() {
         className="lg:hidden fixed bottom-6 right-6 z-40 bg-emerald-850 hover:bg-emerald-900 text-white shadow-xl px-5 py-3 rounded-full flex items-center gap-2 font-bold text-xs cursor-pointer transition border border-emerald-700/20"
       >
         <SlidersHorizontal size={13} />
-        <span>Dashboard Console</span>
+        <span>Shop Filters</span>
       </button>
 
       {/* ── Mobile Filter Drawer overlay ── */}
@@ -1217,7 +1516,7 @@ export function Shop() {
               className="fixed inset-y-0 left-0 w-[290px] sm:w-[320px] bg-white z-50 p-5 shadow-2xl flex flex-col h-full lg:hidden border-r border-[#ebdcc0]"
             >
               <div className="flex items-center justify-between pb-3 border-b border-[#ebdcc0] mb-4 shrink-0">
-                <h2 className="font-serif font-bold text-neutral-800 text-base">Dashboard Filters</h2>
+                <h2 className="font-serif font-bold text-neutral-800 text-base">Shop Filters</h2>
                 <button onClick={() => setIsMobileFilterOpen(false)} className="p-1 rounded-full hover:bg-neutral-100 text-neutral-400 hover:text-neutral-700">
                   <X size={18} />
                 </button>

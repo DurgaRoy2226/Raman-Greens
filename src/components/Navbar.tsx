@@ -193,12 +193,10 @@ export function Navbar() {
   const [accountOpen, setAccountOpen] = useState(false);
   const [appDownloadOpen, setAppDownloadOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
-  const categoriesDropdownRef = useRef<HTMLDivElement>(null);
 
   const [notifications, setNotifications] = useState([
     { id: 1, text: "Your order ORD-4820 has been shipped! 🚚", time: "2 hrs ago", read: false },
@@ -252,16 +250,7 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close categories dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (categoriesDropdownRef.current && !categoriesDropdownRef.current.contains(event.target as Node)) {
-        setCategoriesDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
 
   const cartCount = state.cart.reduce((s, c) => s + c.qty, 0);
 
@@ -319,54 +308,9 @@ export function Navbar() {
             <Logo />
           </Link>
 
-          {/* Categories & Search Bar (Desktop Center) */}
+          {/* Search Bar (Desktop Center) */}
           <div className="hidden md:flex items-center gap-2 flex-1 max-w-lg mx-6 relative">
             
-            {/* Categories Dropdown */}
-            <div className="relative shrink-0" ref={categoriesDropdownRef}>
-              <button
-                type="button"
-                onClick={() => setCategoriesDropdownOpen((v) => !v)}
-                className="flex items-center gap-1.5 bg-neutral-100 hover:bg-emerald-50 text-neutral-700 hover:text-emerald-800 font-bold px-3.5 py-2.5 rounded-full text-xs transition duration-200 cursor-pointer"
-              >
-                <span>Categories</span>
-                <ChevronDown size={14} className={`transition-transform duration-200 ${categoriesDropdownOpen ? "rotate-180" : ""}`} />
-              </button>
-
-              <AnimatePresence>
-                {categoriesDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute left-0 mt-2 w-48 bg-white rounded-xl border border-neutral-100 shadow-lg overflow-hidden z-50 py-1"
-                  >
-                    {[
-                      { label: "Organic Powders", cat: "Organics" },
-                      { label: "Masale",           cat: "Spices" },
-                      { label: "Herbal Products",  cat: "Herbs" },
-                      { label: "Snacks",           cat: "Snacks" },
-                      { label: "Oils",             cat: "Dairy" },
-                      { label: "Seeds",            cat: "Seeds" },
-                      { label: "Dry Fruits",       cat: "Snacks" },
-                    ].map((c) => (
-                      <button
-                        key={c.label}
-                        type="button"
-                        onClick={() => {
-                          setCategoriesDropdownOpen(false);
-                          navigate(`/shop?cat=${encodeURIComponent(c.label)}`);
-                        }}
-                        className="w-full text-left px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-50 hover:text-emerald-700 transition cursor-pointer"
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             {/* Search Input Box */}
             <div className="flex-1 relative" ref={searchRef}>
               <form onSubmit={handleSearchSubmit} className="relative">
