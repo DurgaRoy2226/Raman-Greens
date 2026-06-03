@@ -40,13 +40,13 @@ function getReply(input: string, orders: { id: string; status: string }[]): Msg 
     filter = (p) => p.category === "Snacks" || p.tags.includes("tea-time");
     intro = "Perfect tea-time companions from Khandwa ☕";
   } else if (q.includes("gift") || q.includes("hamper") || q.includes("present")) {
-    filter = (p) => p.category === "Gifting";
+    filter = (p) => p.tags.includes("gift");
     intro = "Beautifully curated hampers — handcrafted love from Nimar 🎁";
   } else if (q.includes("organic") || q.includes("healthy") || q.includes("natural")) {
-    filter = (p) => p.category === "Organics" || p.tags.includes("healthy");
+    filter = (p) => p.tags.includes("organic") || p.tags.includes("healthy");
     intro = "Pure, unprocessed and farm-fresh from Nimar 🌱";
   } else if (q.includes("sweet") || q.includes("winter") || q.includes("dessert")) {
-    filter = (p) => p.category === "Sweets" || p.tags.includes("sweet");
+    filter = (p) => p.tags.includes("sweet");
     intro = "Grandma-approved sweets to warm your soul 🍬";
   } else if (q.includes("oil") || q.includes("cooking")) {
     filter = (p) => p.tags.includes("cooking") || p.tags.includes("oil");

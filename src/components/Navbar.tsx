@@ -185,7 +185,7 @@ function AccountMenuContent({
 }
 
 export function Navbar() {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -268,7 +268,6 @@ export function Navbar() {
   const links = [
     { to: "/", label: "Home" },
     { to: "/shop", label: "Shop" },
-    { to: "/organic", label: "Organic Luxe" },
     { to: "/about", label: "About Us" },
     { to: "/contact", label: "Contact Us" },
   ];

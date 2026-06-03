@@ -7,7 +7,6 @@ import { AIChatbot } from "./components/AIChatbot";
 import { Home } from "./pages/Home";
 import { Shop } from "./pages/Shop";
 import { ProductDetail } from "./pages/ProductDetail";
-import { PremiumOrganic } from "./pages/PremiumOrganic";
 import { Cart } from "./pages/Cart";
 import { Checkout } from "./pages/Checkout";
 import { Dashboard } from "./pages/Dashboard";
@@ -43,7 +42,6 @@ function AppLayout() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/organic" element={<PremiumOrganic />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />

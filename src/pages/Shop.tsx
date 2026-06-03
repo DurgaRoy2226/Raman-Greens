@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import type { Product } from "../data/products";
-import { useStore } from "../context/StoreContext";
+import { useStore, type Order } from "../context/StoreContext";
 
 /* ─── Constants ─────────────────────────────────────────────────────────────── */
 const PER_PAGE = 8;
@@ -911,11 +911,37 @@ export function Shop() {
   /* ── 3. VIEW: MY ORDERS ── */
   const renderOrders = () => {
     // Merge actual context orders with a simulated history for complete visual fidelity
-    const defaultOrders = [
-      { id: "ORD-9824", date: "2026-06-01", total: 340, status: "Delivered", carrier: "Delhivery", items: [{ name: "Nimari Masala Sev", qty: 1, price: 180 }, { name: "Khandwa Garlic Chivda", qty: 1, price: 160 }] },
-      { id: "ORD-2849", date: "2026-06-03", total: 680, status: "In Transit", carrier: "Express Post", items: [{ name: "A2 Desi Cow Ghee", qty: 1, price: 680 }] },
+    type ExtendedOrder = Order & { carrier?: string };
+    
+    const defaultOrders: ExtendedOrder[] = [
+      {
+        id: "ORD-9824",
+        date: "2026-06-01",
+        total: 340,
+        status: "Delivered",
+        address: "12 Padava Road, Khandwa",
+        carrier: "Delhivery",
+        items: [
+          { product: PRODUCTS[0], qty: 1 },
+          { product: PRODUCTS[1], qty: 1 }
+        ]
+      },
+      {
+        id: "ORD-2849",
+        date: "2026-06-03",
+        total: 680,
+        status: "Shipped",
+        address: "12 Padava Road, Khandwa",
+        carrier: "Express Post",
+        items: [
+          { product: PRODUCTS[6], qty: 1 }
+        ]
+      },
     ];
-    const finalOrders = state.orders.length > 0 ? [...state.orders, ...defaultOrders] : defaultOrders;
+    
+    const finalOrders: ExtendedOrder[] = state.orders.length > 0 
+      ? [...state.orders.map(o => o as ExtendedOrder), ...defaultOrders] 
+      : defaultOrders;
 
     return (
       <div className="space-y-6">
@@ -948,10 +974,10 @@ export function Shop() {
                   <div key={idx} className="flex justify-between items-center text-xs font-semibold">
                     <div className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                      <span className="text-neutral-850">{"product" in item ? (item.product as any).name : item.name}</span>
+                      <span className="text-neutral-850">{item.product.name}</span>
                       <span className="text-neutral-400">× {item.qty}</span>
                     </div>
-                    <span className="text-neutral-900">₹{item.price * item.qty}</span>
+                    <span className="text-neutral-900">₹{item.product.price * item.qty}</span>
                   </div>
                 ))}
               </div>
