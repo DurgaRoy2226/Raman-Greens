@@ -192,9 +192,25 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [appDownloadOpen, setAppDownloadOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+  const categoriesDropdownRef = useRef<HTMLDivElement>(null);
+
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "Your order ORD-4820 has been shipped! 🚚", time: "2 hrs ago", read: false },
+    { id: 2, text: "New Arrival: Masala Sev is back in stock! 🌿", time: "5 hrs ago", read: false },
+    { id: 3, text: "Use coupon FRESH20 for 20% off your next order! 🏷️", time: "1 day ago", read: true },
+  ]);
+
+  const markAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -219,6 +235,28 @@ export function Navbar() {
     function handleClickOutside(event: MouseEvent) {
       if (accountRef.current && !accountRef.current.contains(event.target as Node)) {
         setAccountOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close notifications dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setNotificationsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close categories dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (categoriesDropdownRef.current && !categoriesDropdownRef.current.contains(event.target as Node)) {
+        setCategoriesDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -282,68 +320,119 @@ export function Navbar() {
             <Logo />
           </Link>
 
-          {/* Premium Organic Search Bar (Desktop Center) */}
-          <div className="hidden md:block flex-1 max-w-md mx-6 relative" ref={searchRef}>
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search for masala sev, cow ghee, spices..."
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setSearchOpen(true);
-                }}
-                onFocus={() => setSearchOpen(true)}
-                className="w-full bg-neutral-50/70 border border-neutral-200/80 focus:bg-white focus:border-emerald-600 rounded-full pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-4 focus:ring-emerald-600/5 transition-all duration-300 font-medium text-neutral-700 placeholder-neutral-400"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery("");
-                    setSearchOpen(false);
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 p-0.5"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </form>
+          {/* Categories & Search Bar (Desktop Center) */}
+          <div className="hidden md:flex items-center gap-2 flex-1 max-w-lg mx-6 relative">
+            
+            {/* Categories Dropdown */}
+            <div className="relative shrink-0" ref={categoriesDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setCategoriesDropdownOpen((v) => !v)}
+                className="flex items-center gap-1.5 bg-neutral-100 hover:bg-emerald-50 text-neutral-700 hover:text-emerald-800 font-bold px-3.5 py-2.5 rounded-full text-xs transition duration-200 cursor-pointer"
+              >
+                <span>Categories</span>
+                <ChevronDown size={14} className={`transition-transform duration-200 ${categoriesDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
 
-            {/* Suggestions Dropdown */}
-            <AnimatePresence>
-              {searchOpen && suggestions.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute left-0 right-0 mt-2 bg-white rounded-2xl border border-neutral-100 shadow-xl overflow-hidden z-50 p-2"
-                >
-                  <div className="text-[10px] font-bold text-neutral-400 px-3 py-1.5 uppercase tracking-wider">Suggested Products</div>
-                  <ul className="space-y-0.5">
-                    {suggestions.map((p) => (
-                      <li key={p.id}>
-                        <button
-                          onClick={() => {
-                            navigate(`/product/${p.id}`);
-                            setSearchOpen(false);
-                            setQuery("");
-                          }}
-                          className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-neutral-50 text-left transition-colors duration-150"
-                        >
-                          <img src={p.image} alt="" className="w-10 h-10 rounded-lg object-cover bg-neutral-50" />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs font-semibold text-neutral-800 truncate">{p.name}</div>
-                            <div className="text-[10px] text-neutral-500 font-medium">{p.category} · ₹{p.price}</div>
-                          </div>
-                        </button>
-                      </li>
+              <AnimatePresence>
+                {categoriesDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute left-0 mt-2 w-48 bg-white rounded-xl border border-neutral-100 shadow-lg overflow-hidden z-50 py-1"
+                  >
+                    {[
+                      { label: "Organic Powders", cat: "Organics" },
+                      { label: "Masale",           cat: "Spices" },
+                      { label: "Herbal Products",  cat: "Herbs" },
+                      { label: "Snacks",           cat: "Snacks" },
+                      { label: "Oils",             cat: "Dairy" },
+                      { label: "Seeds",            cat: "Seeds" },
+                      { label: "Dry Fruits",       cat: "Snacks" },
+                    ].map((c) => (
+                      <button
+                        key={c.label}
+                        type="button"
+                        onClick={() => {
+                          setCategoriesDropdownOpen(false);
+                          navigate(`/shop?cat=${encodeURIComponent(c.label)}`);
+                        }}
+                        className="w-full text-left px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-50 hover:text-emerald-700 transition cursor-pointer"
+                      >
+                        {c.label}
+                      </button>
                     ))}
-                  </ul>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Search Input Box */}
+            <div className="flex-1 relative" ref={searchRef}>
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Search for masala sev, cow ghee, spices..."
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setSearchOpen(true);
+                  }}
+                  onFocus={() => setSearchOpen(true)}
+                  className="w-full bg-neutral-50/70 border border-neutral-200/80 focus:bg-white focus:border-emerald-600 rounded-full pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-4 focus:ring-emerald-600/5 transition-all duration-300 font-medium text-neutral-700 placeholder-neutral-400"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuery("");
+                      setSearchOpen(false);
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 p-0.5"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </form>
+
+              {/* Suggestions Dropdown */}
+              <AnimatePresence>
+                {searchOpen && suggestions.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute left-0 right-0 mt-2 bg-white rounded-2xl border border-neutral-100 shadow-xl overflow-hidden z-50 p-2"
+                  >
+                    <div className="text-[10px] font-bold text-neutral-400 px-3 py-1.5 uppercase tracking-wider">Suggested Products</div>
+                    <ul className="space-y-0.5">
+                      {suggestions.map((p) => (
+                        <li key={p.id}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigate(`/product/${p.id}`);
+                              setSearchOpen(false);
+                              setQuery("");
+                            }}
+                            className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-neutral-50 text-left transition-colors duration-150 cursor-pointer"
+                          >
+                            <img src={p.image} alt="" className="w-10 h-10 rounded-lg object-cover bg-neutral-50" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-xs font-semibold text-neutral-800 truncate">{p.name}</div>
+                              <div className="text-[10px] text-neutral-500 font-medium">{p.category} · ₹{p.price}</div>
+                            </div>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
           </div>
 
           {/* Desktop Navigation Links */}
@@ -386,6 +475,67 @@ export function Navbar() {
             >
               <Search size={19} />
             </button>
+
+            {/* Notifications */}
+            <div className="relative flex" ref={notificationsRef}>
+              <button
+                type="button"
+                onClick={() => setNotificationsOpen(v => !v)}
+                className="relative p-2.5 rounded-full text-neutral-700 hover:text-emerald-700 hover:bg-neutral-50 transition-colors cursor-pointer"
+                aria-label="Notifications"
+              >
+                <Bell size={19} />
+                <AnimatePresence>
+                  {unreadCount > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[8px] min-w-[15px] h-[15px] rounded-full flex items-center justify-center font-bold px-0.5 border border-white"
+                    >
+                      {unreadCount}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+              
+              <AnimatePresence>
+                {notificationsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-12 w-80 bg-white rounded-2xl border border-neutral-100 shadow-xl overflow-hidden z-50 p-3"
+                  >
+                    <div className="flex items-center justify-between pb-2 border-b border-neutral-100 mb-2">
+                      <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Notifications</span>
+                      {unreadCount > 0 && (
+                        <button
+                          type="button"
+                          onClick={markAllAsRead}
+                          className="text-[9px] font-bold text-emerald-700 hover:text-emerald-900 uppercase tracking-wider cursor-pointer"
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+                    <div className="space-y-1.5 max-h-60 overflow-y-auto no-scrollbar">
+                      {notifications.map((n) => (
+                        <div
+                          key={n.id}
+                          className={`p-2.5 rounded-xl text-left text-xs transition duration-200 border border-transparent
+                                      ${n.read ? "bg-neutral-50/50 text-neutral-500" : "bg-emerald-50/20 text-neutral-800 font-semibold border-emerald-500/10"}`}
+                        >
+                          <p className="leading-snug">{n.text}</p>
+                          <span className="text-[9px] text-neutral-400 font-medium block mt-1">{n.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Wishlist */}
             <Link
