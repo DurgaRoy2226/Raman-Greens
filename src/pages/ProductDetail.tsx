@@ -30,7 +30,8 @@ import {
   Truck,
   RotateCcw,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  X
 } from "lucide-react";
 import { PRODUCTS, type Product } from "../data/products";
 import { useStore } from "../context/StoreContext";
@@ -64,6 +65,60 @@ export function ProductDetail() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   
   const relatedSliderRef = useRef<HTMLDivElement>(null);
+
+  // Review modal states
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewForm, setReviewForm] = useState({
+    name: "",
+    rating: 5,
+    title: "",
+    comment: "",
+  });
+  const [reviewImage, setReviewImage] = useState<string | null>(null);
+  const [reviewFormErrors, setReviewFormErrors] = useState<Record<string, string>>({});
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errors: Record<string, string> = {};
+    if (!reviewForm.name.trim()) errors.name = "Name is required.";
+    if (!reviewForm.title.trim()) errors.title = "Review title is required.";
+    if (!reviewForm.comment.trim()) {
+      errors.comment = "Review description is required.";
+    } else if (reviewForm.comment.trim().length < 10) {
+      errors.comment = "Review must be at least 10 characters.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setReviewFormErrors(errors);
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    setTimeout(() => {
+      setIsSubmittingReview(false);
+      setReviewSubmitted(true);
+      setTimeout(() => {
+        setReviewModalOpen(false);
+        setReviewSubmitted(false);
+        setReviewForm({ name: "", rating: 5, title: "", comment: "" });
+        setReviewImage(null);
+        setReviewFormErrors({});
+      }, 1500);
+    }, 1200);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setReviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Sync state on product change
   useEffect(() => {
@@ -714,7 +769,10 @@ export function ProductDetail() {
               <p className="text-xs text-neutral-400 font-semibold mt-1">Verified customers ratings breakdown and attachments.</p>
             </div>
             
-            <button className="bg-emerald-955 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-3 rounded-xl shadow-xs transition">
+            <button
+              onClick={() => setReviewModalOpen(true)}
+              className="bg-emerald-brand hover:bg-[#006B43] text-white font-bold text-xs uppercase px-5 py-3 rounded-xl shadow-xs hover:shadow-md transition cursor-pointer active:scale-98"
+            >
               Write a Review
             </button>
           </div>
@@ -754,6 +812,16 @@ export function ProductDetail() {
                     <span className="w-7 text-right text-neutral-400">{row.pct}%</span>
                   </div>
                 ))}
+              </div>
+
+              {/* Prominent Write a Review Button */}
+              <div className="pt-4 border-t border-neutral-200/40 mt-auto">
+                <button
+                  onClick={() => setReviewModalOpen(true)}
+                  className="w-full bg-emerald-brand hover:bg-[#006B43] text-white font-bold py-3.5 px-4 rounded-[10px] md:rounded-[12px] shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-98 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer text-xs md:text-sm font-semibold tracking-wide"
+                >
+                  ⭐ Write a Review
+                </button>
               </div>
             </div>
 
@@ -815,6 +883,210 @@ export function ProductDetail() {
         </section>
 
       </div>
+
+      {/* Review Submission Modal */}
+      <AnimatePresence>
+        {reviewModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setReviewModalOpen(false)}
+              className="fixed inset-0 bg-neutral-900/60 backdrop-blur-xs"
+            />
+            
+            {/* Modal Dialog */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white dark:bg-[#1E293B] border border-neutral-100 dark:border-[#334155] rounded-3xl p-6 md:p-8 max-w-lg w-full relative overflow-hidden shadow-2xl z-10 max-h-[90vh] overflow-y-auto no-scrollbar"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setReviewModalOpen(false)}
+                className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-neutral-100 dark:hover:bg-[#334155]/60 text-neutral-400 hover:text-neutral-700 dark:hover:text-[#F8FAFC] transition duration-200 cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+
+              <h3 className="font-serif font-black text-xl md:text-2xl text-neutral-900 dark:text-[#F8FAFC] mb-2">
+                Write a Review
+              </h3>
+              <p className="text-xs text-neutral-500 dark:text-[#CBD5E1] mb-6">
+                Share your experience with <b>{product.name}</b> and help other shoppers!
+              </p>
+
+              {reviewSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-8"
+                >
+                  <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-100 dark:border-emerald-900/30">
+                    <Check size={28} className="text-emerald-700 dark:text-emerald-400" />
+                  </div>
+                  <h4 className="font-bold text-lg text-neutral-800 dark:text-[#F8FAFC] mb-1">Review Submitted!</h4>
+                  <p className="text-xs text-neutral-500 dark:text-[#CBD5E1]">
+                    Thank you! Your feedback has been received.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleReviewSubmit} className="space-y-4 text-left">
+                  {/* Name Field */}
+                  <div>
+                    <label htmlFor="rev-name" className="text-xs font-semibold text-neutral-600 dark:text-[#CBD5E1] mb-1.5 block">
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="rev-name"
+                      placeholder="e.g., Priya Sharma"
+                      value={reviewForm.name}
+                      onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                      className={`w-full px-4 py-2.5 rounded-xl border bg-neutral-50 dark:bg-[#0F172A] text-xs md:text-sm text-neutral-800 dark:text-[#F8FAFC] outline-none focus:ring-1 focus:ring-emerald-brand focus:border-emerald-brand transition
+                        ${reviewFormErrors.name ? "border-red-400 focus:border-red-400" : "border-neutral-200 dark:border-[#334155] focus:border-emerald-brand"}`}
+                    />
+                    {reviewFormErrors.name && (
+                      <p className="text-red-500 text-[10px] mt-1">{reviewFormErrors.name}</p>
+                    )}
+                  </div>
+
+                  {/* Rating Selector */}
+                  <div>
+                    <label className="text-xs font-semibold text-neutral-600 dark:text-[#CBD5E1] mb-1.5 block">
+                      Overall Rating *
+                    </label>
+                    <div className="flex items-center gap-1.5 text-2xl text-amber-400">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          type="button"
+                          key={star}
+                          onClick={() => setReviewForm({ ...reviewForm, rating: star })}
+                          className="cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                          aria-label={`Rate ${star} Stars`}
+                        >
+                          <Star
+                            size={26}
+                            className={
+                              star <= reviewForm.rating
+                                ? "fill-amber-500 text-amber-500"
+                                : "text-neutral-200 dark:text-neutral-700"
+                            }
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Review Title */}
+                  <div>
+                    <label htmlFor="rev-title" className="text-xs font-semibold text-neutral-600 dark:text-[#CBD5E1] mb-1.5 block">
+                      Review Title *
+                    </label>
+                    <input
+                      type="text"
+                      id="rev-title"
+                      placeholder="e.g., Delicious sev, highly recommend!"
+                      value={reviewForm.title}
+                      onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
+                      className={`w-full px-4 py-2.5 rounded-xl border bg-neutral-50 dark:bg-[#0F172A] text-xs md:text-sm text-neutral-800 dark:text-[#F8FAFC] outline-none focus:ring-1 focus:ring-emerald-brand focus:border-emerald-brand transition
+                        ${reviewFormErrors.title ? "border-red-400 focus:border-red-400" : "border-neutral-200 dark:border-[#334155] focus:border-emerald-brand"}`}
+                    />
+                    {reviewFormErrors.title && (
+                      <p className="text-red-500 text-[10px] mt-1">{reviewFormErrors.title}</p>
+                    )}
+                  </div>
+
+                  {/* Review Description */}
+                  <div>
+                    <label htmlFor="rev-desc" className="text-xs font-semibold text-neutral-600 dark:text-[#CBD5E1] mb-1.5 block">
+                      Review Description *
+                    </label>
+                    <textarea
+                      id="rev-desc"
+                      placeholder="What did you like or dislike? Write your detailed review here..."
+                      rows={4}
+                      value={reviewForm.comment}
+                      onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
+                      className={`w-full px-4 py-2.5 rounded-xl border bg-neutral-50 dark:bg-[#0F172A] text-xs md:text-sm text-neutral-800 dark:text-[#F8FAFC] outline-none resize-none focus:ring-1 focus:ring-emerald-brand focus:border-emerald-brand transition
+                        ${reviewFormErrors.comment ? "border-red-400 focus:border-red-400" : "border-neutral-200 dark:border-[#334155] focus:border-emerald-brand"}`}
+                    />
+                    {reviewFormErrors.comment && (
+                      <p className="text-red-500 text-[10px] mt-1">{reviewFormErrors.comment}</p>
+                    )}
+                  </div>
+
+                  {/* Upload Image */}
+                  <div>
+                    <label className="text-xs font-semibold text-neutral-600 dark:text-[#CBD5E1] mb-1.5 block">
+                      Upload Product Photo (Optional)
+                    </label>
+                    <div className="relative border-2 border-dashed border-neutral-200 dark:border-[#334155] hover:border-emerald-brand rounded-2xl p-4 transition duration-200 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-[#0F172A]/50">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      />
+                      {reviewImage ? (
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden shadow">
+                          <img src={reviewImage} alt="Uploaded" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              setReviewImage(null);
+                            }}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 shadow hover:bg-red-600 z-20 cursor-pointer"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="text-neutral-400 dark:text-neutral-500 text-lg">📸</div>
+                          <span className="text-xs font-semibold text-neutral-500 dark:text-[#CBD5E1]">
+                            Drag or click to upload image
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setReviewModalOpen(false)}
+                      className="flex-1 py-3 border border-neutral-200 dark:border-[#334155] text-neutral-700 dark:text-[#CBD5E1] rounded-xl text-xs md:text-sm font-semibold transition hover:bg-neutral-50 dark:hover:bg-[#334155]/60 cursor-pointer active:scale-98"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmittingReview}
+                      className="flex-1 py-3 bg-emerald-brand hover:bg-[#006B43] text-white rounded-xl text-xs md:text-sm font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 shadow-md hover:shadow-lg"
+                    >
+                      {isSubmittingReview ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <span>Submit Review</span>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
       
     </div>
   );
