@@ -64,14 +64,16 @@ interface ArrowButtonProps {
   onClick: (e: React.MouseEvent) => void;
   className?: string;
   size?: number;
+  disabled?: boolean;
 }
 
-export function ArrowButton({ direction, onClick, className = "", size = 15 }: ArrowButtonProps) {
+export function ArrowButton({ direction, onClick, className = "", size = 20, disabled = false }: ArrowButtonProps) {
   const Icon = direction === "left" ? ChevronLeft : ChevronRight;
   return (
     <button
       onClick={onClick}
-      className={`w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm border border-neutral-100/80 shadow-md transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center text-neutral-500 hover:bg-white hover:text-emerald-600 cursor-pointer ${className}`}
+      disabled={disabled}
+      className={`w-12 h-12 rounded-full bg-white border border-[#EAEAEA] shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center text-neutral-800 hover:bg-[#0B5D3B] hover:text-white cursor-pointer disabled:opacity-30 disabled:pointer-events-none disabled:cursor-not-allowed ${className}`}
       aria-label={direction === "left" ? "Slide Left" : "Slide Right"}
     >
       <Icon size={size} />

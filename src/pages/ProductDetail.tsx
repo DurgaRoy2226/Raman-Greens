@@ -60,6 +60,8 @@ export function ProductDetail() {
   const [pincodeChecked, setPincodeChecked] = useState(false);
   const [pincodeError, setPincodeError] = useState("");
   const [deliveryEstimate, setDeliveryEstimate] = useState("");
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   
   const relatedSliderRef = useRef<HTMLDivElement>(null);
 
@@ -204,6 +206,27 @@ export function ProductDetail() {
 
   // Find related products in same category
   const relatedProducts = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id);
+
+  const checkScrollLimits = () => {
+    if (relatedSliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = relatedSliderRef.current;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+    }
+  };
+
+  useEffect(() => {
+    const slider = relatedSliderRef.current;
+    if (slider) {
+      checkScrollLimits();
+      slider.addEventListener("scroll", checkScrollLimits);
+      window.addEventListener("resize", checkScrollLimits);
+      return () => {
+        slider.removeEventListener("scroll", checkScrollLimits);
+        window.removeEventListener("resize", checkScrollLimits);
+      };
+    }
+  }, [relatedProducts]);
 
   return (
     <div className="min-h-screen bg-white pb-16 font-sans">
@@ -594,6 +617,93 @@ export function ProductDetail() {
         </section>
 
         {/* ==================================================
+            RELATED PRODUCTS (Horizontal Slider)
+            ================================================== */}
+        {relatedProducts.length > 0 && (
+          <section className="space-y-5 bg-white rounded-3xl border border-[#EAEAEA] p-6 shadow-xs">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <h3 className="font-serif font-black text-xl text-neutral-900">Explore Related Produce</h3>
+                <p className="text-[10px] text-neutral-450 font-bold mt-1 uppercase">Nimari Traditional Goods</p>
+              </div>
+
+              {/* Slider arrow buttons */}
+              <div className="flex gap-3">
+                <ArrowButton direction="left" onClick={() => scrollRelated("left")} disabled={!canScrollLeft} />
+                <ArrowButton direction="right" onClick={() => scrollRelated("right")} disabled={!canScrollRight} />
+              </div>
+            </div>
+
+            {/* Slider scroll box container */}
+            <div
+              ref={relatedSliderRef}
+              className="flex gap-5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pt-2 pb-2 px-1 items-stretch"
+            >
+              {relatedProducts.map((p) => {
+                const itemWished = state.wishlist.includes(p.id);
+                const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
+                return (
+                  <Link
+                    key={p.id}
+                    to={`/product/${p.id}`}
+                    className="w-[230px] sm:w-[260px] bg-white rounded-2xl border border-[#EAEAEA] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between shrink-0 snap-start snap-always hover:-translate-y-1 group relative cursor-pointer"
+                  >
+                    
+                    {/* Related product card photo */}
+                    <div className="relative aspect-square rounded-t-2xl overflow-hidden bg-neutral-50">
+                      <img src={p.image} alt={p.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      
+                      {/* Wishlist toggle */}
+                      <WishlistButton
+                        wished={itemWished}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          dispatch({ type: "TOGGLE_WISHLIST", id: p.id });
+                        }}
+                        className="absolute top-2 right-2"
+                      />
+                    </div>
+
+                    {/* Card details body */}
+                    <div className="p-3.5 flex flex-col flex-grow justify-between">
+                      <div className="space-y-1">
+                        <span className="text-[8px] uppercase tracking-wider font-extrabold text-neutral-400 block">{p.category}</span>
+                        <h4 className="font-serif font-bold text-neutral-805 text-xs sm:text-sm leading-snug line-clamp-2 transition-colors duration-300 group-hover:text-[#0B5D3B] block">
+                          {p.name}
+                        </h4>
+                      </div>
+
+                      <div className="mt-4 pt-2 border-t border-neutral-100 flex items-center justify-between">
+                        <div>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-xs sm:text-sm font-sans font-black text-neutral-900">₹{p.price}</span>
+                            {p.oldPrice && (
+                              <span className="text-[9px] text-neutral-400 line-through">₹{p.oldPrice}</span>
+                            )}
+                          </div>
+                          <span className="text-[8px] text-neutral-450 font-semibold block">{p.weight}</span>
+                        </div>
+
+                        {/* Add to Cart quick button */}
+                        <CartButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            dispatch({ type: "ADD_TO_CART", product: p });
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* ==================================================
             CUSTOMER REVIEWS DASHBOARD (Analytics review grid)
             ================================================== */}
         <section className="bg-white rounded-3xl border border-[#EAEAEA] p-6 sm:p-8 shadow-xs space-y-6">
@@ -604,7 +714,7 @@ export function ProductDetail() {
               <p className="text-xs text-neutral-400 font-semibold mt-1">Verified customers ratings breakdown and attachments.</p>
             </div>
             
-            <button className="bg-emerald-950 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-3 rounded-xl shadow-xs transition">
+            <button className="bg-emerald-955 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-3 rounded-xl shadow-xs transition">
               Write a Review
             </button>
           </div>
@@ -637,7 +747,7 @@ export function ProductDetail() {
                   { star: 1, pct: 1 }
                 ].map((row) => (
                   <div key={row.star} className="flex items-center gap-2.5 text-[10px] font-bold text-neutral-600">
-                    <span className="w-3 text-right">{row.star} ★</span>
+                     <span className="w-3 text-right">{row.star} ★</span>
                     <div className="flex-1 h-2 bg-neutral-200/60 rounded-full overflow-hidden">
                       <div className="h-full bg-emerald-800 rounded-full" style={{ width: `${row.pct}%` }} />
                     </div>
@@ -703,88 +813,6 @@ export function ProductDetail() {
           </div>
 
         </section>
-
-
-        {/* ==================================================
-            RELATED PRODUCTS (Horizontal Slider)
-            ================================================== */}
-        {relatedProducts.length > 0 && (
-          <section className="space-y-5 bg-white rounded-3xl border border-[#EAEAEA] p-6 shadow-xs">
-            <div className="flex items-center justify-between flex-wrap gap-3">
-              <div>
-                <h3 className="font-serif font-black text-xl text-neutral-900">Explore Related Produce</h3>
-                <p className="text-[10px] text-neutral-450 font-bold mt-1 uppercase">Nimari Traditional Goods</p>
-              </div>
-
-              {/* Slider arrow buttons */}
-              <div className="flex gap-2">
-                <ArrowButton direction="left" onClick={() => scrollRelated("left")} />
-                <ArrowButton direction="right" onClick={() => scrollRelated("right")} />
-              </div>
-            </div>
-
-            {/* Slider scroll box container */}
-            <div
-              ref={relatedSliderRef}
-              className="flex gap-5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pt-2 pb-2 px-1 items-stretch"
-            >
-              {relatedProducts.map((p) => {
-                const itemWished = state.wishlist.includes(p.id);
-                const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
-                return (
-                  <div
-                    key={p.id}
-                    className="w-[230px] sm:w-[260px] bg-white rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between shrink-0 snap-start snap-always hover:-translate-y-0.5 group relative"
-                  >
-                    
-                    {/* Related product card photo */}
-                    <div className="relative aspect-square rounded-t-2xl overflow-hidden bg-neutral-50">
-                      <img src={p.image} alt={p.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      
-                      {/* Wishlist toggle */}
-                      <WishlistButton
-                        wished={itemWished}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          dispatch({ type: "TOGGLE_WISHLIST", id: p.id });
-                        }}
-                        className="absolute top-2 right-2"
-                      />
-                    </div>
-
-                    {/* Card details body */}
-                    <div className="p-3.5 flex flex-col flex-grow justify-between">
-                      <div className="space-y-1">
-                        <span className="text-[8px] uppercase tracking-wider font-extrabold text-neutral-400 block">{p.category}</span>
-                        <Link to={`/product/${p.id}`} className="hover:text-emerald-850 font-serif font-bold text-neutral-805 text-xs sm:text-sm leading-snug line-clamp-2 truncate block">
-                          {p.name}
-                        </Link>
-                      </div>
-
-                      <div className="mt-4 pt-2 border-t border-neutral-100 flex items-center justify-between">
-                        <div>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-xs sm:text-sm font-sans font-black text-neutral-900">₹{p.price}</span>
-                            {p.oldPrice && (
-                              <span className="text-[9px] text-neutral-400 line-through">₹{p.oldPrice}</span>
-                            )}
-                          </div>
-                          <span className="text-[8px] text-neutral-450 font-semibold block">{p.weight}</span>
-                        </div>
-
-                        {/* Add to Cart quick button */}
-                        <CartButton
-                          onClick={() => dispatch({ type: "ADD_TO_CART", product: p })}
-                        />
-                      </div>
-                    </div>
-
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
 
       </div>
       
