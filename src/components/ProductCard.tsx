@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import type { Product } from "../data/products";
 import { useStore } from "../context/StoreContext";
+import { WishlistButton, CartButton } from "./SharedUI";
 
 export function ProductCard({ product, idx = 0 }: { product: Product; idx?: number }) {
   const { state, dispatch } = useStore();
@@ -23,18 +24,15 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
         />
 
         {/* Wishlist Button (permanently visible on top-right corner) */}
-        <button
+        <WishlistButton
+          wished={wished}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             dispatch({ type: "TOGGLE_WISHLIST", id: product.id });
           }}
-          className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 active:scale-95 z-20
-            ${wished ? "bg-emerald-600 text-white" : "bg-white/90 backdrop-blur-sm text-neutral-500 hover:bg-white hover:text-emerald-600"}`}
-          aria-label="Toggle wishlist"
-        >
-          <Heart size={15} className={wished ? "fill-white" : ""} />
-        </button>
+          className="absolute top-3 right-3"
+        />
       </Link>
 
       {/* ── Body ── */}
@@ -58,17 +56,13 @@ export function ProductCard({ product, idx = 0 }: { product: Product; idx?: numb
           </div>
 
           {/* Add to Cart Button (permanently visible at the bottom) */}
-          <button
+          <CartButton
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               dispatch({ type: "ADD_TO_CART", product });
             }}
-            className="w-10 h-10 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-emerald-600/30 hover:shadow-lg active:scale-90"
-            aria-label="Add to cart"
-          >
-            <ShoppingCart size={15} />
-          </button>
+          />
         </div>
       </div>
     </div>

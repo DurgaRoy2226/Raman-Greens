@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { PRODUCTS, type Product } from "../data/products";
 import { useStore } from "../context/StoreContext";
+import { WishlistButton, CartButton, ArrowButton, ShareButton } from "../components/SharedUI";
 
 export function ProductDetail() {
   const { id } = useParams();
@@ -205,10 +206,10 @@ export function ProductDetail() {
   const relatedProducts = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id);
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] pb-16 font-sans">
+    <div className="min-h-screen bg-white pb-16 font-sans">
       
       {/* Breadcrumb strip */}
-      <div className="border-b border-neutral-200/50 bg-[#FAF8F5] py-3.5 z-10 shrink-0">
+      <div className="border-b border-neutral-100 bg-white py-3.5 z-10 shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs font-semibold text-neutral-500 flex items-center gap-1.5 flex-wrap">
           <Link to="/" className="hover:text-emerald-800 transition-colors">Home</Link>
           <ChevronRight size={12} className="text-neutral-350" />
@@ -243,7 +244,7 @@ export function ProductDetail() {
                   className={`aspect-square w-full rounded-xl overflow-hidden border-2 transition-all duration-300 shadow-sm hover:scale-[1.03] ${
                     activeImgIdx === i
                       ? "border-emerald-800 ring-2 ring-emerald-800/10 scale-102"
-                      : "border-[#ebdcc0]/40 bg-white hover:border-emerald-800/40"
+                      : "border-[#EAEAEA] bg-white hover:border-emerald-800/40"
                   }`}
                 >
                   <img src={g} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
@@ -252,26 +253,12 @@ export function ProductDetail() {
             </div>
 
             {/* Main large display hero image with hover zoom */}
-            <div className="relative aspect-square rounded-3xl overflow-hidden bg-white border border-[#ebdcc0]/50 shadow-[0_16px_40px_-20px_rgba(12,59,27,0.08)] flex-grow group">
+            <div className="relative aspect-square rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow-[0_16px_40px_-20px_rgba(12,59,27,0.08)] flex-grow group">
               
               {/* Share & Wishlist overlay buttons */}
               <div className="absolute top-4 right-4 flex items-center gap-2.5 z-10">
-                <button
-                  onClick={handleShare}
-                  className="w-9.5 h-9.5 rounded-full bg-[#FAF8F5]/70 backdrop-blur-md border border-white/40 shadow-sm text-neutral-700 hover:text-emerald-800 hover:bg-[#FAF8F5]/90 transition-all duration-300 flex items-center justify-center active:scale-95 cursor-pointer"
-                  title="Copy Page Link"
-                >
-                  <Share2 size={14} />
-                </button>
-                <button
-                  onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })}
-                  className={`w-9.5 h-9.5 rounded-full flex items-center justify-center border shadow-sm active:scale-95 transition-all duration-300 cursor-pointer backdrop-blur-md
-                              ${wished 
-                                ? "bg-red-500/90 border-red-500 text-white hover:bg-red-500" 
-                                : "bg-[#FAF8F5]/70 border-white/40 text-neutral-700 hover:text-red-500 hover:bg-[#FAF8F5]/90"}`}
-                >
-                  <Heart size={14} className={wished ? "fill-white" : ""} />
-                </button>
+                <ShareButton onClick={handleShare} />
+                <WishlistButton wished={wished} onClick={() => dispatch({ type: "TOGGLE_WISHLIST", id: product.id })} />
               </div>
 
               {/* Share Toast */}
@@ -315,7 +302,7 @@ export function ProductDetail() {
             {/* ==================================================
                 PRODUCT DESCRIPTION (A Tale of Tradition) - Compact Left-Side
                 ================================================== */}
-            <div className="bg-white rounded-3xl border border-[#ebdcc0]/50 p-4 sm:p-4.5 shadow-xs">
+            <div className="bg-white rounded-3xl border border-[#EAEAEA] p-4 sm:p-4.5 shadow-xs">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4.5 items-center">
                 
                 {/* Left Column: Story content */}
@@ -336,7 +323,7 @@ export function ProductDetail() {
                       <span className="text-[9px] uppercase tracking-wider font-extrabold text-neutral-400 block">Ingredients</span>
                       <div className="flex flex-wrap gap-1.5">
                         {product.ingredients.map((ing) => (
-                          <span key={ing} className="bg-[#FAF8F5] border border-[#ebdcc0]/60 px-2.5 py-1 rounded-full text-[10px] font-semibold text-neutral-700 shadow-xs">
+                          <span key={ing} className="bg-neutral-50 border border-[#EAEAEA] px-2.5 py-1 rounded-full text-[10px] font-semibold text-neutral-700 shadow-xs">
                             {ing}
                           </span>
                         ))}
@@ -346,14 +333,14 @@ export function ProductDetail() {
                 </div>
 
                 {/* Right Column: Lifestyle image */}
-                <div className="md:col-span-5 h-[160px] md:h-[190px] rounded-2xl overflow-hidden border border-[#ebdcc0]/45 shadow-inner relative bg-[#FAF8F5]">
+                <div className="md:col-span-5 h-[160px] md:h-[190px] rounded-2xl overflow-hidden border border-[#EAEAEA] shadow-inner relative bg-white">
                   <img
                     src={product.gallery[4] || product.gallery[1] || product.image}
                     alt="Traditional lifestyle illustration"
                     className="w-full h-full object-cover hover:scale-103 transition-transform duration-[1.5s]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-2.5 left-2.5 bg-white/90 backdrop-blur-sm border border-[#ebdcc0]/40 px-2 py-0.5 rounded text-[8px] font-extrabold text-emerald-950">
+                  <div className="absolute bottom-2.5 left-2.5 bg-white/90 backdrop-blur-sm border border-[#EAEAEA] px-2 py-0.5 rounded text-[8px] font-extrabold text-emerald-950">
                     100% ARTISANAL HARVEST
                   </div>
                 </div>
@@ -380,10 +367,13 @@ export function ProductDetail() {
               <h1 className="font-serif font-black text-3xl sm:text-4xl text-neutral-900 leading-tight">
                 {product.name}
               </h1>
+              <p className="text-neutral-500 text-sm sm:text-base leading-relaxed font-medium">
+                {product.description}
+              </p>
             </div>
 
-            {/* Price Card */}
-            <div className="bg-white p-5 rounded-3xl border border-[#ebdcc0]/50 shadow-xs space-y-2">
+            {/* Price Info */}
+            <div className="space-y-2">
               <div className="flex items-baseline gap-3 flex-wrap">
                 <span className="font-sans font-black text-3xl text-neutral-950">₹{currentPrice}</span>
                 {oldPrice && (
@@ -418,7 +408,7 @@ export function ProductDetail() {
                       className={`py-3.5 px-1 rounded-2xl border-2 transition-all duration-300 font-bold flex flex-col justify-center items-center shadow-xs cursor-pointer hover:shadow-sm ${
                         isActive
                           ? "border-emerald-950 bg-emerald-950 text-white scale-102"
-                          : "border-[#ebdcc0]/50 bg-white hover:border-emerald-800/40 text-neutral-600 hover:bg-neutral-50/50"
+                          : "border-[#EAEAEA] bg-white hover:border-emerald-800/40 text-neutral-600 hover:bg-neutral-50/50"
                       }`}
                     >
                       <span className="text-xs sm:text-sm tracking-wide">{chip.size}</span>
@@ -431,28 +421,8 @@ export function ProductDetail() {
               </div>
             </div>
 
-            {/* Description & Benefits */}
-            <div className="space-y-3.5">
-              <p className="text-neutral-600 text-sm leading-relaxed font-medium">
-                {product.description}
-              </p>
-              
-              <div className="flex flex-wrap gap-2">
-                {product.benefits.map((b) => (
-                  <span
-                    key={b}
-                    className="text-xs bg-[#FAF8F5] border border-[#ebdcc0]/45 text-neutral-700 px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5 shadow-xs"
-                  >
-                    <Check size={11} className="text-emerald-800 font-bold" /> {b}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <hr className="border-neutral-200/65" />
-
             {/* Buybox Add to Cart & Buy Now block */}
-            <div className="space-y-4 bg-white p-5 rounded-3xl border border-[#ebdcc0]/50 shadow-xs">
+            <div className="space-y-4 bg-white p-5 rounded-3xl border border-[#EAEAEA] shadow-xs">
               <div className="flex items-center justify-between text-xs font-bold text-neutral-500">
                 <span>Select Quantity</span>
                 <span>In Stock: <b className="text-neutral-800">{product.stock}</b></span>
@@ -460,28 +430,29 @@ export function ProductDetail() {
               
               <div className="flex items-center gap-3">
                 {/* Quantity adjuster */}
-                <div className="flex items-center bg-[#FAF8F5] border border-[#ebdcc0]/60 rounded-2xl p-1.5 shrink-0 shadow-xs">
+                <div className="flex items-center bg-white border border-[#EAEAEA] rounded-full p-1.5 shrink-0 shadow-xs gap-1">
                   <button
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-9 h-9 flex items-center justify-center hover:bg-white rounded-xl active:scale-90 transition text-neutral-700 cursor-pointer disabled:opacity-50"
+                    className="w-9 h-9 rounded-full bg-white border border-neutral-100/80 shadow-xs flex items-center justify-center text-neutral-700 hover:text-emerald-850 hover:bg-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
                     disabled={qty <= 1}
                   >
-                    <Minus size={14} />
+                    <Minus size={13} />
                   </button>
                   <span className="w-9 text-center font-black text-neutral-800 text-sm select-none">{qty}</span>
                   <button
                     onClick={() => setQty(qty + 1)}
-                    className="w-9 h-9 flex items-center justify-center hover:bg-white rounded-xl active:scale-90 transition text-neutral-700 cursor-pointer"
+                    className="w-9 h-9 rounded-full bg-white border border-neutral-100/80 shadow-xs flex items-center justify-center text-neutral-700 hover:text-emerald-855 hover:bg-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
                   >
-                    <Plus size={14} />
+                    <Plus size={13} />
                   </button>
                 </div>
 
                 {/* Add to Cart button */}
-                <button
+                <CartButton
                   onClick={handleAddToCart}
                   disabled={isAdding}
-                  className="flex-1 relative overflow-hidden bg-emerald-950 hover:bg-emerald-900 text-white font-bold py-4 rounded-2xl active:scale-98 transition duration-300 flex items-center justify-center gap-2 shadow-md disabled:opacity-85 text-xs tracking-wider uppercase cursor-pointer"
+                  showIcon={!isAdding && !addedSuccess}
+                  className="flex-1 py-4 text-xs tracking-wider uppercase font-bold"
                 >
                   <AnimatePresence mode="wait">
                     {isAdding ? (
@@ -501,25 +472,39 @@ export function ProductDetail() {
                         <Check size={14} /> Added to Cart
                       </motion.span>
                     ) : (
-                      <motion.span key="idle" className="flex items-center gap-2 font-bold">
-                        <ShoppingBag size={14} /> Add to Cart
+                      <motion.span key="idle" className="font-bold">
+                        Add to Cart
                       </motion.span>
                     )}
                   </AnimatePresence>
-                </button>
+                </CartButton>
               </div>
 
               {/* Buy Now button */}
               <button
                 onClick={handleBuyNow}
-                className="w-full bg-[#FAF8F5] hover:bg-[#FAF8F5]/80 text-emerald-950 border-2 border-emerald-950 font-bold py-4 rounded-2xl active:scale-98 transition duration-300 text-xs tracking-wider uppercase flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                className="w-full bg-white hover:bg-neutral-50 text-emerald-955 border-2 border-emerald-955 font-bold py-4 rounded-full active:scale-98 transition duration-300 text-xs tracking-wider uppercase flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 Instant Buy Now
               </button>
             </div>
 
+            {/* Benefits */}
+            <div className="flex flex-wrap gap-2">
+              {product.benefits.map((b) => (
+                <span
+                  key={b}
+                  className="text-xs bg-neutral-50 border border-[#EAEAEA] text-neutral-700 px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5 shadow-xs"
+                >
+                  <Check size={11} className="text-emerald-800 font-bold" /> {b}
+                </span>
+              ))}
+            </div>
+
+            <hr className="border-neutral-200/65" />
+
             {/* Pincode checker card */}
-            <div className="bg-white p-5 rounded-3xl border border-[#ebdcc0]/50 shadow-xs space-y-3.5">
+            <div className="bg-white p-5 rounded-3xl border border-[#EAEAEA] shadow-xs space-y-3.5">
               <div className="flex items-center gap-2 text-xs font-bold text-neutral-600 uppercase tracking-wider">
                 <MapPin size={15} className="text-emerald-800" />
                 <span>Estimate Shipping Delivery</span>
@@ -532,7 +517,7 @@ export function ProductDetail() {
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value.replace(/\D/g, ""))}
                   placeholder="Enter 6-digit Pincode"
-                  className="flex-grow pl-3.5 pr-2 py-3 bg-[#FAF8F5] border border-[#ebdcc0]/60 rounded-xl focus:border-emerald-800 focus:bg-white focus:outline-none text-xs transition-all placeholder-neutral-400 font-semibold"
+                  className="flex-grow pl-3.5 pr-2 py-3 bg-neutral-50 border border-[#EAEAEA] rounded-xl focus:border-emerald-800 focus:bg-white focus:outline-none text-xs transition-all placeholder-neutral-400 font-semibold"
                 />
                 <button
                   type="submit"
@@ -611,7 +596,7 @@ export function ProductDetail() {
         {/* ==================================================
             CUSTOMER REVIEWS DASHBOARD (Analytics review grid)
             ================================================== */}
-        <section className="bg-white rounded-3xl border border-[#ebdcc0]/50 p-6 sm:p-8 shadow-xs space-y-6">
+        <section className="bg-white rounded-3xl border border-[#EAEAEA] p-6 sm:p-8 shadow-xs space-y-6">
           
           <div className="flex items-center justify-between flex-wrap gap-4 border-b border-neutral-100 pb-4">
             <div>
@@ -627,7 +612,7 @@ export function ProductDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             
             {/* Average Rating block (Col-span 4) */}
-            <div className="lg:col-span-4 bg-[#FAF8F5] border border-[#ebdcc0]/45 p-5 rounded-2xl flex flex-col justify-between space-y-6">
+            <div className="lg:col-span-4 bg-white border border-[#EAEAEA] p-5 rounded-2xl flex flex-col justify-between space-y-6">
               <div className="space-y-1.5">
                 <span className="text-[10px] font-black text-[#8a7f6a] uppercase tracking-wider">Average Rating</span>
                 <div className="flex items-baseline gap-1.5">
@@ -684,9 +669,9 @@ export function ProductDetail() {
                   img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=150&h=150&q=80"
                 }
               ].map((rev, idx) => (
-                <div key={idx} className="bg-[#FAF8F5]/30 border border-[#ebdcc0]/35 rounded-2xl p-4.5 flex flex-col justify-between text-left space-y-4 hover:border-emerald-800/20 transition">
+                <div key={idx} className="bg-white border border-[#EAEAEA] rounded-2xl p-4.5 flex flex-col justify-between text-left space-y-4 hover:border-emerald-800/20 transition">
                   <div className="space-y-2.5">
-                    <div className="flex items-center justify-between border-b border-[#ebdcc0]/30 pb-2">
+                    <div className="flex items-center justify-between border-b border-[#EAEAEA] pb-2">
                       <div>
                         <h4 className="font-extrabold text-xs text-neutral-805">{rev.name}</h4>
                         <span className="text-[8px] text-neutral-400 font-semibold">{rev.date}</span>
@@ -708,7 +693,7 @@ export function ProductDetail() {
                   </div>
 
                   {/* Customer Product usage photo attachment */}
-                  <div className="h-16 w-full rounded-xl overflow-hidden border border-[#ebdcc0]/40 shadow-inner bg-neutral-100">
+                  <div className="h-16 w-full rounded-xl overflow-hidden border border-[#EAEAEA] shadow-inner bg-neutral-100">
                     <img src={rev.img} alt="User upload" className="w-full h-full object-cover hover:scale-105 transition duration-300" />
                   </div>
                 </div>
@@ -724,7 +709,7 @@ export function ProductDetail() {
             RELATED PRODUCTS (Horizontal Slider)
             ================================================== */}
         {relatedProducts.length > 0 && (
-          <section className="space-y-5 bg-white rounded-3xl border border-[#ebdcc0]/50 p-6 shadow-xs">
+          <section className="space-y-5 bg-white rounded-3xl border border-[#EAEAEA] p-6 shadow-xs">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h3 className="font-serif font-black text-xl text-neutral-900">Explore Related Produce</h3>
@@ -733,20 +718,8 @@ export function ProductDetail() {
 
               {/* Slider arrow buttons */}
               <div className="flex gap-2">
-                <button
-                  onClick={() => scrollRelated("left")}
-                  className="w-9 h-9 rounded-full bg-white border border-[#ebdcc0]/60 shadow-xs flex items-center justify-center text-neutral-500 hover:text-emerald-800 hover:border-emerald-800 transition duration-200 cursor-pointer"
-                  aria-label="Slide Left"
-                >
-                  <ChevronLeft size={16} />
-                </button>
-                <button
-                  onClick={() => scrollRelated("right")}
-                  className="w-9 h-9 rounded-full bg-white border border-[#ebdcc0]/60 shadow-xs flex items-center justify-center text-neutral-500 hover:text-emerald-800 hover:border-emerald-800 transition duration-200 cursor-pointer"
-                  aria-label="Slide Right"
-                >
-                  <ChevronRight size={16} />
-                </button>
+                <ArrowButton direction="left" onClick={() => scrollRelated("left")} />
+                <ArrowButton direction="right" onClick={() => scrollRelated("right")} />
               </div>
             </div>
 
@@ -765,30 +738,18 @@ export function ProductDetail() {
                   >
                     
                     {/* Related product card photo */}
-                    <div className="relative aspect-square rounded-t-2xl overflow-hidden bg-[#FAF8F5]">
+                    <div className="relative aspect-square rounded-t-2xl overflow-hidden bg-neutral-50">
                       <img src={p.image} alt={p.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                       
-                      {/* Badges overlay */}
-                      <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
-                        {p.bestseller && (
-                          <span className="bg-amber-500 text-white text-[7px] font-black uppercase px-2 py-0.5 rounded shadow-xs">★ Best</span>
-                        )}
-                        {discount > 0 && (
-                          <span className="bg-emerald-800 text-white text-[7px] font-black uppercase px-2 py-0.5 rounded shadow-xs">-{discount}%</span>
-                        )}
-                      </div>
-
                       {/* Wishlist toggle */}
-                      <button
+                      <WishlistButton
+                        wished={itemWished}
                         onClick={(e) => {
                           e.preventDefault();
                           dispatch({ type: "TOGGLE_WISHLIST", id: p.id });
                         }}
-                        className={`absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center shadow-md cursor-pointer transition active:scale-90 z-10
-                                    ${itemWished ? "bg-red-500 text-white" : "bg-white/80 text-neutral-500 hover:text-red-500"}`}
-                      >
-                        <Heart size={11} className={itemWished ? "fill-white" : ""} />
-                      </button>
+                        className="absolute top-2 right-2"
+                      />
                     </div>
 
                     {/* Card details body */}
@@ -812,13 +773,9 @@ export function ProductDetail() {
                         </div>
 
                         {/* Add to Cart quick button */}
-                        <button
+                        <CartButton
                           onClick={() => dispatch({ type: "ADD_TO_CART", product: p })}
-                          className="w-8 h-8 bg-emerald-950 hover:bg-emerald-900 text-white rounded-full flex items-center justify-center shadow-xs transition active:scale-95 cursor-pointer"
-                          aria-label="Quick Add to Cart"
-                        >
-                          <ShoppingBag size={12} />
-                        </button>
+                        />
                       </div>
                     </div>
 

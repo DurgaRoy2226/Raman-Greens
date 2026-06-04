@@ -26,10 +26,17 @@ import {
   Headphones,
   Clock,
   TrendingUp,
+  Soup,
+  Flame,
+  Flower,
+  Cookie,
+  Droplet,
+  Nut,
 } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import type { Product } from "../data/products";
 import { useStore, type Order } from "../context/StoreContext";
+import { WishlistButton, CartButton } from "../components/SharedUI";
 
 /* ─── Constants ─────────────────────────────────────────────────────────────── */
 const PER_PAGE = 8;
@@ -264,17 +271,15 @@ const ProductCardComponent = memo(({
           <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
           
           {/* Wishlist toggle */}
-          <button
+          <WishlistButton
+            wished={wished}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               onToggleWishlist(product.id);
             }}
-            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition-all active:scale-95 duration-200
-                        ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
-          >
-            <Heart size={12} className={wished ? "fill-white" : ""} />
-          </button>
+            className="absolute top-2 right-2"
+          />
         </Link>
 
         {/* Middle: Details */}
@@ -305,20 +310,14 @@ const ProductCardComponent = memo(({
                 <span className="text-xs line-through text-neutral-400">₹{product.oldPrice}</span>
               )}
             </div>
-            {discount > 0 && (
-              <span className="inline-block bg-emerald-50 border border-emerald-100 text-[8px] font-extrabold text-emerald-800 px-2 py-0.5 rounded-full uppercase mt-0.5">
-                Save {discount}%
-              </span>
-            )}
           </div>
 
-          <button
+          <CartButton
             onClick={() => onAddToCart(product)}
-            className="bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs uppercase px-5 py-2.5 rounded-full shadow-sm hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 flex items-center gap-2"
+            className="px-5 py-2.5 text-xs font-bold flex items-center gap-2"
           >
-            <ShoppingCart size={13} />
             <span>Add To Cart</span>
-          </button>
+          </CartButton>
         </div>
       </motion.article>
     );
@@ -334,28 +333,16 @@ const ProductCardComponent = memo(({
       <Link to={`/product/${product.id}`} className="block relative w-full aspect-square overflow-hidden bg-[#FAF8F5]">
         <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
         
-        {/* Overlay Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
-          {product.bestseller && (
-            <span className="bg-amber-500 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Bestseller</span>
-          )}
-          {product.tags.includes("organic") && (
-            <span className="bg-emerald-700 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm">Certified Organic</span>
-          )}
-        </div>
-
         {/* Wishlist Icon */}
-        <button
+        <WishlistButton
+          wished={wished}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onToggleWishlist(product.id);
           }}
-          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer transition-all active:scale-95 duration-200 z-10
-                      ${wished ? "bg-emerald-800 text-white" : "bg-white/80 text-neutral-500 hover:text-emerald-800 hover:bg-white"}`}
-        >
-          <Heart size={12} className={wished ? "fill-white" : ""} />
-        </button>
+          className="absolute top-2 right-2"
+        />
       </Link>
 
       <div className="p-4 flex flex-col flex-grow">
@@ -385,12 +372,9 @@ const ProductCardComponent = memo(({
             <span className="text-[9px] text-neutral-400 font-semibold block mt-0.5">{product.weight}</span>
           </div>
 
-          <button
+          <CartButton
             onClick={() => onAddToCart(product)}
-            className="w-8.5 h-8.5 bg-emerald-800 hover:bg-emerald-950 text-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md hover:scale-110 active:scale-95 cursor-pointer transition-all duration-200"
-          >
-            <ShoppingCart size={13} />
-          </button>
+          />
         </div>
       </div>
     </motion.article>
@@ -888,6 +872,118 @@ export function Shop() {
   /* ── 2. VIEW: PRODUCT CATALOG (Marketplace Grid) ── */
   const renderMarketplace = () => (
     <>
+      {/* ── Premium Hero Banner Section ── */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-[#1e3f20] text-white p-5 sm:p-7 md:p-9 shadow-[0_10px_30px_rgba(21,128,61,0.12)] flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-800/30 mb-6 w-full">
+        {/* Decorative floating organic elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+          <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-10 left-[10%] text-4xl">🌿</motion.div>
+          <motion.div animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute bottom-10 left-[25%] text-3xl">🧄</motion.div>
+          <motion.div animate={{ y: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }} className="absolute top-1/4 right-[20%] text-5xl">🌾</motion.div>
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }} className="absolute bottom-12 right-[40%] text-2xl">🌱</motion.div>
+          <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 25, ease: "linear" }} className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-dashed border-emerald-500/20" />
+          <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="absolute -top-10 -right-10 w-48 h-48 rounded-full border border-dashed border-emerald-500/20" />
+        </div>
+
+        <div className="flex-1 max-w-xl z-10 space-y-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-850/60 border border-emerald-700/50 backdrop-blur-md text-[10px] font-black uppercase tracking-wider text-emerald-300">
+            <Sparkles size={11} className="text-emerald-400" />
+            <span>100% Pure &amp; Organic Sourced</span>
+          </div>
+          <h1 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-neutral-50 leading-tight">
+            Bring the Purity of <br className="hidden sm:inline" />
+            <span className="text-[#ebdcc0] bg-clip-text">Nimar Valley</span> to Your Kitchen
+          </h1>
+          <p className="text-xs text-neutral-300 font-light leading-relaxed max-w-lg">
+            Handcrafted, slow-batch products direct from the fertile farms of Khandwa, MP. Clean eating made delicious with traditional recipes.
+          </p>
+          <div className="flex items-center gap-3 pt-1">
+            <button 
+              onClick={() => {
+                document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-[#ebdcc0] hover:bg-white text-emerald-950 font-extrabold text-[10px] uppercase px-4 py-2.5 rounded-full shadow-md cursor-pointer transition-all hover:scale-105 active:scale-95 duration-200"
+            >
+              Shop Fresh
+            </button>
+            <button 
+              onClick={() => {
+                setFilterOrganic(true);
+                document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-transparent border border-emerald-500/50 hover:bg-emerald-800/30 text-white font-extrabold text-[10px] uppercase px-4 py-2.5 rounded-full cursor-pointer transition-all hover:border-white duration-200"
+            >
+              Certified Organic
+            </button>
+          </div>
+        </div>
+
+        {/* Right image section */}
+        <div className="relative w-full md:w-64 h-36 md:h-48 rounded-2xl overflow-hidden shrink-0 z-10 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent z-10" />
+          <img 
+            src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop" 
+            alt="Organic farm produce" 
+            className="w-full h-full object-cover rounded-2xl transform hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute bottom-3 left-3 right-3 bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-xl text-center z-20">
+            <span className="text-[9px] font-black tracking-wider uppercase text-[#ebdcc0]">Farm to Home Express</span>
+            <p className="text-[8px] text-neutral-200 font-medium">Free Shipping above ₹499</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Horizontal Category Carousel ── */}
+      <div className="mb-6 w-full">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#8a7f6a]">Browse Categories</span>
+            <h3 className="font-serif font-bold text-neutral-900 text-base sm:text-lg mt-0.5">Explore Sourced Produce</h3>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] text-neutral-400 font-semibold select-none">Swipe</span>
+            <ChevronRight size={11} className="text-neutral-400 animate-pulse" />
+          </div>
+        </div>
+        
+        <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-2 snap-x scroll-smooth">
+          {[
+            { label: "All", icon: Leaf, desc: "All Produce" },
+            { label: "Organic Powders", icon: Soup, desc: "Pure Powders" },
+            { label: "Masale", icon: Flame, desc: "Nimar Spices" },
+            { label: "Herbal Products", icon: Flower, desc: "Traditional Herbs" },
+            { label: "Snacks", icon: Cookie, desc: "Healthy Munchies" },
+            { label: "Oils", icon: Droplet, desc: "Cold Pressed Oils" },
+            { label: "Seeds", icon: Sprout, desc: "Organic Seeds" },
+            { label: "Dry Fruits", icon: Nut, desc: "Premium Nuts" },
+          ].map((item) => {
+            const active = cat === item.label;
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={item.label}
+                onClick={() => setCat(item.label)}
+                className={`snap-start shrink-0 flex flex-col items-center justify-between p-3 rounded-2xl w-22 sm:w-26 h-26 sm:h-28 border cursor-pointer transition-all duration-300 select-none
+                            ${active 
+                              ? "bg-emerald-800 border-emerald-800 text-white shadow-[0_6px_15px_rgba(21,128,61,0.12)] scale-105" 
+                              : "bg-white hover:bg-[#FAF8F5] border-[#ebdcc0]/50 text-neutral-700 shadow-sm hover:shadow-md hover:-translate-y-0.5"}`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-inner transition-transform duration-300 
+                                ${active 
+                                  ? "bg-white/20 text-[#ebdcc0] scale-110" 
+                                  : "bg-emerald-50 text-emerald-800"}`}
+                >
+                  <IconComponent size={20} strokeWidth={2} />
+                </div>
+                <div className="text-center w-full mt-2">
+                  <h4 className="text-[9px] sm:text-[10px] font-black truncate max-w-full leading-tight">{item.label}</h4>
+                  <span className={`text-[7px] block mt-0.5 ${active ? "text-emerald-200" : "text-neutral-400 font-semibold"}`}>{item.desc}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Top Header Controls */}
       <div id="products-catalog-header" className="flex items-center justify-between pb-4 border-b border-[#ebdcc0]/40 flex-wrap gap-3">
         <div>
@@ -949,7 +1045,6 @@ export function Shop() {
         {/* Banner 1: Combos & Discounts */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#fdfbf7] to-[#ebdcc0]/30 border border-[#ebdcc0]/50 p-5 flex items-center justify-between group shadow-sm hover:shadow-md transition-all duration-300">
           <div className="space-y-2.5 z-10 max-w-[65%]">
-            <span className="bg-amber-500 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">Seasonal Combo</span>
             <h4 className="font-serif font-bold text-neutral-900 text-sm sm:text-base leading-snug">Traditional Masala Sev &amp; Ghee Combo</h4>
             <p className="text-[10px] text-neutral-500 leading-normal font-medium font-sans">Get 15% off on our hand-churned A2 cow ghee and garlic sev pack.</p>
             <button 
@@ -963,15 +1058,14 @@ export function Shop() {
               <ChevronRight size={10} />
             </button>
           </div>
-          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-[#ebdcc0]/20 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300">
-            <span className="text-3xl">🥨</span>
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-[#ebdcc0]/20 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300 text-emerald-800">
+            <Cookie size={36} strokeWidth={1.5} className="text-[#8a7f6a]" />
           </div>
         </div>
 
         {/* Banner 2: Healthy Lifestyle Deals */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#fafcfb] to-[#15803d]/10 border border-emerald-800/10 p-5 flex items-center justify-between group shadow-sm hover:shadow-md transition-all duration-300">
           <div className="space-y-2.5 z-10 max-w-[65%]">
-            <span className="bg-emerald-700 text-white text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">Health Special</span>
             <h4 className="font-serif font-bold text-neutral-900 text-sm sm:text-base leading-snug">Organic Cold Pressed Seeds &amp; Oils</h4>
             <p className="text-[10px] text-neutral-500 leading-normal font-medium font-sans">100% pure, chemical-free cold-pressed groundnut &amp; mustard seeds oils.</p>
             <button 
@@ -985,8 +1079,8 @@ export function Shop() {
               <ChevronRight size={10} />
             </button>
           </div>
-          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-emerald-700/5 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300">
-            <span className="text-3xl">🧴</span>
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full overflow-hidden shrink-0 z-0 bg-emerald-700/5 flex items-center justify-center relative transform group-hover:scale-110 transition-transform duration-300 text-emerald-800">
+            <Droplet size={36} strokeWidth={1.5} className="text-emerald-800" />
           </div>
         </div>
       </div>
@@ -999,7 +1093,7 @@ export function Shop() {
             animate={{ opacity: 1, scale: 1 }}
             className="bg-[#FAF8F5] rounded-3xl p-16 sm:p-20 text-center border border-[#ebdcc0]/40 shadow-inner flex flex-col items-center justify-center"
           >
-            <div className="text-5xl mb-4">🌿</div>
+            <Leaf size={48} className="text-emerald-800/80 mb-4 animate-bounce" />
             <h3 className="font-display font-bold text-lg text-neutral-800 mb-1">No products found</h3>
             <p className="text-neutral-500 text-xs max-w-xs mx-auto mb-5 leading-relaxed">
               We couldn't find matches. Try broadening your range or clearing category filters.
@@ -1051,7 +1145,7 @@ export function Shop() {
               setFilterOrganic(true);
               document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="bg-white hover:bg-[#ebdcc0] text-emerald-950 font-extrabold text-[10px] uppercase tracking-wider px-4 py-2.5 rounded-full shrink-0 shadow-sm transition active:scale-95 cursor-pointer duration-200"
+            className="bg-white border-2 border-[#0B5D3B] text-[#0B5D3B] font-extrabold text-xs uppercase tracking-wider px-6 py-3.5 rounded-full shrink-0 shadow-md hover:shadow-lg hover:bg-[#0B5D3B] hover:text-white hover:-translate-y-0.5 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             Explore Organic Picks
           </button>
@@ -1359,116 +1453,6 @@ export function Shop() {
   return (
     <div className="min-h-screen w-full bg-[#FAF8F5] flex flex-col relative overflow-x-hidden">
       
-      {/* ── Premium Hero Banner Section ── */}
-      <section className="w-full max-w-[1550px] mx-auto px-4 mt-4 shrink-0">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-[#1e3f20] text-white p-6 sm:p-8 md:p-12 shadow-[0_10px_30px_rgba(21,128,61,0.15)] flex flex-col md:flex-row items-center justify-between gap-8 border border-emerald-800/30">
-          
-          {/* Decorative floating organic elements */}
-          <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-10 left-[10%] text-4xl">🌿</motion.div>
-            <motion.div animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute bottom-10 left-[25%] text-3xl">🧄</motion.div>
-            <motion.div animate={{ y: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }} className="absolute top-1/4 right-[20%] text-5xl">🌾</motion.div>
-            <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }} className="absolute bottom-12 right-[40%] text-2xl">🌱</motion.div>
-            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 25, ease: "linear" }} className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-dashed border-emerald-500/20" />
-            <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="absolute -top-10 -right-10 w-48 h-48 rounded-full border border-dashed border-emerald-500/20" />
-          </div>
-
-          <div className="flex-1 max-w-xl z-10 space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-850/60 border border-emerald-700/50 backdrop-blur-md text-[10px] font-black uppercase tracking-wider text-emerald-300">
-              <Sparkles size={11} className="text-emerald-400" />
-              <span>100% Pure &amp; Organic Sourced</span>
-            </div>
-            <h1 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-neutral-50 leading-tight">
-              Bring the Purity of <br className="hidden sm:inline" />
-              <span className="text-[#ebdcc0] bg-clip-text">Nimar Valley</span> to Your Kitchen
-            </h1>
-            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-lg">
-              Handcrafted, slow-batch products direct from the fertile farms of Khandwa, MP. Clean eating made delicious with traditional recipes.
-            </p>
-            <div className="flex items-center gap-3 pt-2">
-              <button 
-                onClick={() => {
-                  document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="bg-[#ebdcc0] hover:bg-white text-emerald-950 font-extrabold text-xs uppercase px-5 py-3 rounded-full shadow-md cursor-pointer transition-all hover:scale-105 active:scale-95 duration-200"
-              >
-                Shop Fresh Produce
-              </button>
-              <button 
-                onClick={() => {
-                  setFilterOrganic(true);
-                  document.getElementById("products-catalog-header")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="bg-transparent border border-emerald-500/50 hover:bg-emerald-800/30 text-white font-extrabold text-xs uppercase px-5 py-3 rounded-full cursor-pointer transition-all hover:border-white duration-200"
-              >
-                Certified Organic
-              </button>
-            </div>
-          </div>
-
-          {/* Right image section */}
-          <div className="relative w-full md:w-80 h-48 md:h-64 rounded-2xl overflow-hidden shrink-0 z-10 flex items-center justify-center">
-            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent z-10" />
-            <img 
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop" 
-              alt="Organic farm produce" 
-              className="w-full h-full object-cover rounded-2xl transform hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute bottom-3 left-3 right-3 bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-xl text-center z-20">
-              <span className="text-[10px] font-black tracking-wider uppercase text-[#ebdcc0]">Farm to Home Express</span>
-              <p className="text-[9px] text-neutral-200 font-medium">Free Shipping on Orders above ₹499</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Horizontal Category Carousel ── */}
-      <section className="w-full max-w-[1550px] mx-auto px-4 mt-6 shrink-0">
-        <div className="flex items-center justify-between mb-3.5">
-          <div>
-            <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#8a7f6a]">Browse Categories</span>
-            <h3 className="font-serif font-bold text-neutral-900 text-lg sm:text-xl mt-0.5">Explore Sourced Produce</h3>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] text-neutral-400 font-semibold select-none">Swipe to explore</span>
-            <ChevronRight size={12} className="text-neutral-400 animate-pulse" />
-          </div>
-        </div>
-        
-        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-3 snap-x scroll-smooth">
-          {[
-            { label: "All", emoji: "🌿", desc: "All Produce" },
-            { label: "Organic Powders", emoji: "🍵", desc: "Pure Powders" },
-            { label: "Masale", emoji: "🌶️", desc: "Nimar Spices" },
-            { label: "Herbal Products", emoji: "🍃", desc: "Traditional Herbs" },
-            { label: "Snacks", emoji: "🥨", desc: "Healthy Munchies" },
-            { label: "Oils", emoji: "🧴", desc: "Cold Pressed Oils" },
-            { label: "Seeds", emoji: "🌻", desc: "Organic Seeds" },
-            { label: "Dry Fruits", emoji: "🌰", desc: "Premium Nuts" },
-          ].map((item) => {
-            const active = cat === item.label;
-            return (
-              <button
-                key={item.label}
-                onClick={() => setCat(item.label)}
-                className={`snap-start shrink-0 flex flex-col items-center justify-between p-3.5 rounded-2xl w-24 sm:w-28 h-28 sm:h-30 border cursor-pointer transition-all duration-300 select-none
-                            ${active 
-                              ? "bg-emerald-800 border-emerald-800 text-white shadow-[0_8px_20px_rgba(21,128,61,0.15)] scale-105" 
-                              : "bg-white hover:bg-[#FAF8F5] border-[#ebdcc0]/50 text-neutral-700 shadow-sm hover:shadow-md hover:-translate-y-1"}`}
-              >
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl shadow-inner transition-transform duration-300 ${active ? "bg-white/20 scale-110" : "bg-neutral-50"}`}>
-                  {item.emoji}
-                </div>
-                <div className="text-center w-full">
-                  <h4 className="text-[10px] sm:text-xs font-black truncate max-w-full leading-tight">{item.label}</h4>
-                  <span className={`text-[8px] block mt-0.5 ${active ? "text-emerald-200" : "text-neutral-400 font-semibold"}`}>{item.desc}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
       {/* ── Main Dashboard Container ── */}
       <div className="flex-1 w-full max-w-[1550px] mx-auto px-4 py-6 flex flex-col lg:grid lg:grid-cols-[270px_1fr] gap-6 items-start">
         
